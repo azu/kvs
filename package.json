@@ -38,7 +38,7 @@
     "build": "tsc -p . && tsc --project ./tsconfig.module.json",
     "clean": "rimraf lib/ module/",
     "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,css}\"",
-    "prepublish": "npm run --if-present build",
+    "prepublish": "npm run clean && npm run build",
     "test": "karma start --single-run",
     "watch": "tsc -p . --watch"
   },
