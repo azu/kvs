@@ -1,5 +1,7 @@
 name: test
 on: [push, pull_request]
+# env
+# require "SAUCE_USERNAME" and "SAUCE_ACCESS_KEY" for browser test
 jobs:
   test:
     name: "Test on Node:${{ matrix.node-version }} OS: ${{ matrix.os }}"
@@ -7,7 +9,7 @@ jobs:
     strategy:
       matrix:
         node-version: [12]
-        os: [macos-latest, windows-latest, ubuntu-18.04]
+        os: [ubuntu-18.04]
     steps:
       - name: checkout
         uses: actions/checkout@v2
