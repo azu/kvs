@@ -1,7 +1,5 @@
 name: test
 on: [push, pull_request]
-# env
-# require "SAUCE_USERNAME" and "SAUCE_ACCESS_KEY" for browser test
 jobs:
   test:
     name: "Test on Node:${{ matrix.node-version }} OS: ${{ matrix.os }}"
@@ -23,3 +21,6 @@ jobs:
         run: yarn run build
       - name: Test
         run: yarn test
+        env:
+          SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+          SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
