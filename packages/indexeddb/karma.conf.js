@@ -23,6 +23,11 @@ module.exports = require("@jsdevtools/karma-config")({
             module: {
                 rules: [{ test: /\.ts$/, use: "ts-loader" }]
             }
+        },
+        client: {
+            mocha: {
+                timeout: 10 * 1000 // 30 sec
+            }
         }
     }
 });
