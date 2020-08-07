@@ -1,11 +1,7 @@
 const path = require("path");
 module.exports = require("@jsdevtools/karma-config")({
     tests: ["src/**/*.ts", "test/**/*.test.ts"],
-    browsers: Boolean(process.env.CI)
-        ? {
-              edge: false
-          }
-        : { safari: false },
+    browsers: Boolean(process.env.CI) ? {} : { safari: false },
     config: {
         webpack: {
             resolve: {
