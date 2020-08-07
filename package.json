@@ -1,47 +1,28 @@
 {
-  "name": "kvstrage",
+  "private": true,
+  "name": "kvs",
   "version": "1.0.0",
-  "description": "Key Value storage for Browser(IndexedDB), Node.js, InMemoery.",
-  "keywords": [
-    "browser",
-    "node",
-    "memory",
-    "db",
-    "kvs",
-    "indexeddb",
-    "webworker"
-  ],
-  "homepage": "https://github.com/azu/kvstrage",
+  "description": "Key Value storage for Browser(IndexedDB), Node.js, In-Memory.",
+  "homepage": "https://github.com/azu/kvs",
   "bugs": {
-    "url": "https://github.com/azu/kvstrage/issues"
+    "url": "https://github.com/azu/kvs/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/azu/kvstrage.git"
+    "url": "https://github.com/azu/kvs.git"
   },
   "license": "MIT",
   "author": "azu",
-  "sideEffects": false,
-  "main": "lib/kvstrage.js",
-  "module": "module/kvstrage.js",
-  "types": "lib/kvstrage.d.ts",
-  "directories": {
-    "lib": "lib",
-    "test": "test"
-  },
-  "files": [
-    "bin/",
-    "lib/",
-    "module"
-  ],
   "scripts": {
-    "build": "tsc -p . && tsc --project ./tsconfig.module.json",
-    "clean": "rimraf lib/ module/",
-    "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,css}\"",
     "prepublish": "npm run clean && npm run build",
-    "test": "karma start --single-run",
-    "watch": "tsc -p . --watch"
+    "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,css}\"",
+    "build": "lerna run build",
+    "clean": "lerna run clean",
+    "test": "lerna run test"
   },
+  "workspaces": [
+    "packages/*"
+  ],
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
@@ -53,25 +34,15 @@
     ]
   },
   "prettier": {
-    "printWidth": 120,
     "singleQuote": false,
+    "printWidth": 120,
     "tabWidth": 4,
     "trailingComma": "none"
   },
   "devDependencies": {
-    "@jsdevtools/karma-config": "^3.1.7",
-    "@types/mocha": "^8.0.1",
-    "@types/node": "^14.0.27",
     "husky": "^4.2.5",
-    "karma": "^5.1.1",
-    "karma-cli": "^2.0.0",
+    "lerna": "^3.22.1",
     "lint-staged": "^10.2.11",
-    "mocha": "^8.1.1",
-    "prettier": "^2.0.5",
-    "rimraf": "^3.0.2",
-    "ts-loader": "^8.0.2",
-    "ts-node": "^8.10.2",
-    "ts-node-test-register": "^8.0.1",
-    "typescript": "^3.9.7"
+    "prettier": "^2.0.5"
   }
 }

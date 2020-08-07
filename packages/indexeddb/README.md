@@ -1,30 +1,32 @@
-# kvs
+# @kvs/indexeddb
 
-Key Value storage for Browser(IndexedDB), Node.js, InMemoery.
+IndexedDB for KVS
 
-It is a monorepo for kvs.
+## Install
 
-## Packages
+Install with [npm](https://www.npmjs.com/):
+
+    npm install @kvs/indexeddb
+
+## Usage
+
+- [ ] Write usage instructions
 
 ## Changelog
 
-See [Releases page](https://github.com/azu/kv/releases).
-
-
-## Development
-
-    yarn install
-    yarn run build
+See [Releases page](https://github.com/azu/kvs/releases).
 
 ## Running tests
 
-    yarn test
+Install devDependencies and Run `npm test`:
+
+    npm test
 
 ## Contributing
 
 Pull requests and stars are always welcome.
 
-For bugs and feature requests, [please create an issue](https://github.com/azu/kv/issues).
+For bugs and feature requests, [please create an issue](https://github.com/azu/kvs/issues).
 
 1. Fork it!
 2. Create your feature branch: `git checkout -b my-new-feature`

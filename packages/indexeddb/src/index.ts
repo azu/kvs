@@ -1,3 +1,3 @@
-export const kvstrage = () => {
+export const kv = () => {
     return window.indexedDB.open("toDoList", 1);
 };
