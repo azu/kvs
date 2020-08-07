@@ -5,6 +5,9 @@ import { KVS } from "@kvs/types";
 let kvs: KVS<any, any>;
 const databaseName = "kvs-test";
 const forceDeleteDB = async () => {
+    if (!("databases" in indexedDB)) {
+        return;
+    }
     // @ts-ignore
     const dbs = await window.indexedDB.databases();
     const deleteDB = (name: string) => {
