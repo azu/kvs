@@ -1,15 +1,16 @@
 import assert from "assert";
-import { kvsIndexedDB } from "../src";
-import { KVS } from "@kvs/types";
+import { KVSIndexedDB, kvsIndexedDB } from "../src";
 
-let kvs: KVS<any, any>;
+let kvs: KVSIndexedDB<any, any>;
 const databaseName = "kvs-test";
 const deleteAllDB = async () => {
     if (!kvs) {
         return;
     }
-    return kvs.clear();
+    await kvs.clear();
+    await kvs.dropDB();
 };
+
 describe("@kvs/indexedDB", () => {
     before(deleteAllDB);
     afterEach(deleteAllDB);
@@ -145,5 +146,56 @@ describe("@kvs/indexedDB", () => {
             ["key1", "value1"],
             ["key2", "value2"]
         ]);
+    });
+    it("upgrade when on upgrade version", async () => {
+        kvs = await kvsIndexedDB({
+            name: databaseName,
+            version: 1
+        });
+        await kvs.set("key1", "value1");
+        // close
+        kvs.__debug__database__.close();
+        // re-open and upgrade
+        kvs = await kvsIndexedDB({
+            name: databaseName,
+            version: 2,
+            async upgrade({ kvs, oldVersion }) {
+                switch (oldVersion) {
+                    // 1 → 2
+                    case 1: {
+                        await kvs.set("key1", "old-value1");
+                    }
+                }
+                return;
+            }
+        });
+        // key1 is changed
+        assert.strictEqual(await kvs.get("key1"), "old-value1");
+    });
+    it("multiple upgrade: 1 → 3", async () => {
+        kvs = await kvsIndexedDB({
+            name: databaseName,
+            version: 1
+        });
+        await kvs.set("key1", "value1");
+        // close
+        kvs.__debug__database__.close();
+        // re-open and upgrade
+        kvs = await kvsIndexedDB({
+            name: databaseName,
+            version: 2,
+            async upgrade({ kvs, oldVersion }) {
+                if (oldVersion <= 1) {
+                    await kvs.set("v1", "v1-migrated-value");
+                }
+                if (oldVersion <= 2) {
+                    await kvs.set("v2", "v2-migrated-value");
+                }
+                return;
+            }
+        });
+        assert.strictEqual(await kvs.get("key1"), "value1");
+        assert.strictEqual(await kvs.get("v1"), "v1-migrated-value");
+        assert.strictEqual(await kvs.get("v2"), "v2-migrated-value");
     });
 });

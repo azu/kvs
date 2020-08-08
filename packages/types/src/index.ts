@@ -8,6 +8,6 @@ export type KVS<K, V> = {
 export type KVSOptions<K, V> = {
     name: string;
     version: number;
-    upgrade?(kvs: KVS<K, V>, oldVersion: number): Promise<void>;
+    upgrade?({ kvs, oldVersion, newVersion }: { kvs: KVS<K, V>; oldVersion: number; newVersion: number }): Promise<any>;
 };
 export type KVSConstructor<K, V> = (options: KVSOptions<K, V>) => Promise<KVS<K, V>>;

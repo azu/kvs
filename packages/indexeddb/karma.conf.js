@@ -26,7 +26,7 @@ module.exports = require("@jsdevtools/karma-config")({
         },
         client: {
             mocha: {
-                timeout: 10 * 1000 // 30 sec
+                timeout: 5 * 1000 // 5 sec
             }
         }
     }

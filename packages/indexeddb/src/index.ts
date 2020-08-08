@@ -1,6 +1,7 @@
-import type { KVS, KVSConstructor, KVSOptions } from "@kvs/types";
+import type { KVS, KVSOptions } from "@kvs/types";
 
 type IndexedDBKey = string;
+
 const openDB = ({
     name,
     version,
@@ -10,23 +11,42 @@ const openDB = ({
     name: string;
     version: number;
     tableName: string;
-    onUpgrade: ({ oldVersion, database }: { oldVersion: number; database: IDBDatabase }) => any;
+    onUpgrade: ({
+        oldVersion,
+        newVersion,
+        database
+    }: {
+        oldVersion: number;
+        newVersion: number;
+        database: IDBDatabase;
+    }) => any;
 }): Promise<IDBDatabase> => {
     return new Promise((resolve, reject) => {
         const openRequest = indexedDB.open(name, version);
         openRequest.onupgradeneeded = function (event) {
             const oldVersion = event.oldVersion;
+            const newVersion = event.newVersion ?? version;
             const database = openRequest.result;
             try {
-                database.createObjectStore(tableName);
+                // create table at first time
+                if (!newVersion || newVersion <= 1) {
+                    database.createObjectStore(tableName);
+                }
             } catch (e) {
                 reject(e);
             }
+            // for drop instance
+            // https://github.com/w3c/IndexedDB/issues/78
+            // https://www.w3.org/TR/IndexedDB/#introduction
+            database.onversionchange = () => {
+                database.close();
+            };
             // @ts-ignore
             event.target.transaction.oncomplete = () => {
                 Promise.resolve(
                     onUpgrade({
                         oldVersion,
+                        newVersion,
                         database
                     })
                 ).then(() => {
@@ -46,6 +66,27 @@ const openDB = ({
         };
     });
 };
+
+const dropDB = (database: IDBDatabase, databaseName: string): Promise<void> => {
+    return new Promise((resolve, reject) => {
+        database.close();
+        const request = indexedDB.deleteDatabase(databaseName);
+        request.addEventListener("upgradeneeded", (event) => {
+            event.preventDefault();
+            resolve();
+        });
+        request.addEventListener("blocked", () => {
+            reject(request.error);
+        });
+        request.onerror = function () {
+            reject(request.error);
+        };
+        request.onsuccess = function () {
+            resolve();
+        };
+    });
+};
+
 const getItem = <K extends IndexedDBKey, V>(database: IDBDatabase, tableName: string, key: K): Promise<V> => {
     return new Promise((resolve, reject) => {
         const transaction = database.transaction(tableName, "readonly");
@@ -169,8 +210,23 @@ const iterator = <K extends IndexedDBKey, V>(database: IDBDatabase, tableName: s
 type IndexedDBOptions = {
     tableName?: string;
 };
-const createStore = <K extends IndexedDBKey, V>(database: IDBDatabase, tableName: string): KVS<K, V> => {
-    const store: KVS<K, V> = {
+type IndexedDBResults = {
+    dropDB(): Promise<void>;
+    __debug__database__: IDBDatabase;
+};
+
+interface StoreOptions {
+    database: IDBDatabase;
+    databaseName: string;
+    tableName: string;
+}
+
+const createStore = <K extends IndexedDBKey, V>({
+    database,
+    databaseName,
+    tableName
+}: StoreOptions): KVSIndexedDB<K, V> => {
+    const store: KVSIndexedDB<K, V> = {
         delete(key: K): Promise<boolean> {
             return deleteItem(database, tableName, key).then(() => true);
         },
@@ -186,27 +242,37 @@ const createStore = <K extends IndexedDBKey, V>(database: IDBDatabase, tableName
         clear(): Promise<void> {
             return clearItems(database, tableName);
         },
+        dropDB(): Promise<void> {
+            return dropDB(database, databaseName);
+        },
         [Symbol.asyncIterator]() {
             return iterator(database, tableName);
-        }
+        },
+        __debug__database__: database
     };
     return store;
 };
-export const kvsIndexedDB: KVSConstructor<any, any> = async <K extends IndexedDBKey, V>(
+
+export type KVSIndexedDB<K extends IndexedDBKey, V> = KVS<K, V> & IndexedDBResults;
+export const kvsIndexedDB = async <K extends IndexedDBKey, V>(
     options: KVSOptions<K, V> & IndexedDBOptions
-): Promise<KVS<K, V>> => {
+): Promise<KVSIndexedDB<K, V>> => {
     const { name, version, upgrade, ...indexDBOptions } = options;
     const tableName = indexDBOptions.tableName ?? "kvs";
     const database = await openDB({
         name,
         version,
         tableName,
-        onUpgrade: ({ oldVersion, database }) => {
+        onUpgrade: ({ oldVersion, newVersion, database }) => {
             if (!upgrade) {
                 return;
             }
-            return upgrade(createStore(database, tableName), oldVersion);
+            return upgrade({
+                kvs: createStore({ database: database, tableName: tableName, databaseName: name }),
+                oldVersion,
+                newVersion
+            });
         }
     });
-    return createStore(database, tableName);
+    return createStore({ database: database, tableName: tableName, databaseName: name });
 };
