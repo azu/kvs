@@ -15,6 +15,8 @@ It is a monorepo for kvs.
     - [@kvs/node-localstorage](./packages/node-localstorage): Use [node-localstorage](https://github.com/lmaccherone/node-localstorage)
         - For Node.js
 - In-Memory
+    - [@kvs/memorystorage](./packages/memorystorage): In-Memory Storage
+        - For debug
 
 If you want to custom implementation, please test with [@kvs/common-test-case](./packages/common-test-case).
 
