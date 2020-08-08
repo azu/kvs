@@ -1,38 +1,79 @@
-export type KVS<K, V> = {
+export type StorageSchema = {
+    [index: string]: any;
+};
+// https://stackoverflow.com/questions/51465182/typescript-remove-index-signature-using-mapped-types
+export type KnownKeys<T> = {
+    [K in keyof T]: string extends K ? never : number extends K ? never : K;
+} extends { [_ in keyof T]: infer U }
+    ? U
+    : never;
+/**
+ * Extract known object store names from the DB schema type.
+ *
+ * @template DBTypes DB schema type, or unknown if the DB isn't typed.
+ */
+export type StoreNames<DBTypes extends StorageSchema | unknown> = DBTypes extends StorageSchema
+    ? KnownKeys<DBTypes>
+    : string;
+/**
+ * Extract database value types from the DB schema type.
+ *
+ * @template DBTypes DB schema type, or unknown if the DB isn't typed.
+ * @template StoreName Names of the object stores to get the types of.
+ */
+export type StoreValue<
+    DBTypes extends StorageSchema | unknown,
+    StoreName extends StoreNames<DBTypes>
+> = DBTypes extends StorageSchema ? DBTypes[StoreName] : any;
+
+export type KVS<Schema extends StorageSchema> = {
     clear(): Promise<void>;
-    delete(key: K): Promise<boolean>;
-    get(key: K): Promise<V | undefined>;
-    has(key: K): Promise<boolean>;
-    set(key: K, value: V | undefined): Promise<KVS<K, V>>;
+    delete(key: StoreNames<Schema>): Promise<boolean>;
+    get<K extends StoreNames<Schema>>(key: K): Promise<StoreValue<Schema, K> | undefined>;
+    has(key: StoreNames<Schema>): Promise<boolean>;
+    set<K extends StoreNames<Schema>>(key: K, value: StoreValue<Schema, K> | undefined): Promise<KVS<Schema>>;
     /*
      * Close the KVS connection
      * DB-like KVS close the connection via this method
      * Of course, localStorage-like KVS implement do nothing. It is just noop function
      */
     close(): Promise<void>;
-} & AsyncIterable<[K, V]>;
-export type KVSOptions<K, V> = {
+} & AsyncIterable<[StoreNames<Schema>, StoreValue<Schema, StoreNames<Schema>>]>;
+export type KVSOptions<Schema extends StorageSchema> = {
     name: string;
     version: number;
-    upgrade?({ kvs, oldVersion, newVersion }: { kvs: KVS<K, V>; oldVersion: number; newVersion: number }): Promise<any>;
+    upgrade?({
+        kvs,
+        oldVersion,
+        newVersion
+    }: {
+        kvs: KVS<Schema>;
+        oldVersion: number;
+        newVersion: number;
+    }): Promise<any>;
 } & {
     // options will be extended
     [index: string]: any;
 };
-export type KVSConstructor<K, V> = (options: KVSOptions<K, V>) => Promise<KVS<K, V>>;
+export type KVSConstructor<Schema extends StorageSchema> = (options: KVSOptions<Schema>) => Promise<KVS<Schema>>;
 /**
  * Sync Version
  */
-export type KVSSync<K, V> = {
-    clear(): void;
-    delete(key: K): boolean;
-    get(key: K): V | undefined;
-    has(key: K): boolean;
-    set(key: K, value: V | undefined): KVSSync<K, V>;
-    close(): void;
-} & Iterable<[K, V]>;
-export type KVSSyncOptions<K, V> = {
-    name: string;
-    version: number;
-    upgrade?({ kvs, oldVersion, newVersion }: { kvs: KVS<K, V>; oldVersion: number; newVersion: number }): any;
-};
+// export type KVSSync<Schema extends StorageSchema> = {
+//     clear(): void;
+//     delete(key: KeyOf<Schema>): boolean;
+//     get<T extends KeyOf<Schema>>(key: keyof T): Schema[T] | undefined;
+//     has(key: KeyOf<Schema>): boolean;
+//     set<T extends KeyOf<Schema>>(key: T, value: Schema[T] | undefined): Schema;
+//     /*
+//      * Close the KVS connection
+//      * DB-like KVS close the connection via this method
+//      * Of course, localStorage-like KVS implement do nothing. It is just noop function
+//      */
+//     close(): void;
+// } & Iterable<[KeyOf<Schema>, ValueOf<Schema>]>;
+// export type KVSSyncOptions<Schema extends StorageSchema> = {
+//     name: string;
+//     version: number;
+//     upgrade?({ kvs, oldVersion, newVersion }: { kvs: KVS<Schema>; oldVersion: number; newVersion: number }): any;
+// };

@@ -1,50 +1,51 @@
-import type { KVS, KVSOptions } from "@kvs/types";
+import type { KVS, KVSOptions, StoreNames, StoreValue } from "@kvs/types";
 import { JsonValue } from "./JSONValue";
 
 export type KVSStorageKey = string;
-export const getItem = <K extends KVSStorageKey>(storage: Storage, key: K) => {
-    const item = storage.getItem(key);
+export const getItem = <Schema extends StorageSchema>(storage: Storage, key: StoreNames<Schema>) => {
+    const item = storage.getItem(String(key));
     return item !== null ? JSON.parse(item) : undefined;
 };
-export const hasItem = <K extends KVSStorageKey>(storage: Storage, key: K) => {
-    return storage.getItem(key) !== null;
+export const hasItem = <Schema extends StorageSchema>(storage: Storage, key: StoreNames<Schema>) => {
+    return storage.getItem(String(key)) !== null;
 };
-export const setItem = <K extends KVSStorageKey, V extends JsonValue | undefined>(
+export const setItem = <Schema extends StorageSchema>(
     storage: Storage,
-    key: K,
-    value: V
+    key: StoreNames<Schema>,
+    value: StoreValue<Schema, StoreNames<Schema>> | undefined
 ) => {
     // It is difference with IndexedDB implementation.
     // This behavior compatible with localStorage.
     if (value === undefined) {
         return deleteItem(storage, key);
     }
-    return storage.setItem(key, JSON.stringify(value));
+    return storage.setItem(String(key), JSON.stringify(value));
 };
 export const clearItem = (storage: Storage, kvsVersionKey: string) => {
-    const currentVersion: number | undefined = getItem(storage, kvsVersionKey);
+    // TODO: kvsVersionKey is special type
+    const currentVersion: number | undefined = getItem<any>(storage, kvsVersionKey);
     // clear all
     storage.clear();
     // set kvs version again
     if (currentVersion !== undefined) {
-        setItem(storage, kvsVersionKey, currentVersion);
+        setItem<any>(storage, kvsVersionKey, currentVersion);
     }
 };
-export const deleteItem = <K extends KVSStorageKey>(storage: Storage, key: K) => {
+export const deleteItem = <Schema extends StorageSchema>(storage: Storage, key: StoreNames<Schema>): boolean => {
     try {
-        storage.removeItem(key);
+        storage.removeItem(String(key));
         return true;
     } catch {
         return false;
     }
 };
 
-export function* createIterator<K extends KVSStorageKey, V extends JsonValue>(
+export function* createIterator<Schema extends StorageSchema>(
     storage: Storage,
     kvsVersionKey: string
-): Iterator<[K, V]> {
+): Iterator<[StoreNames<Schema>, StoreValue<Schema, StoreNames<Schema>>]> {
     for (let i = 0; i < storage.length; i++) {
-        const key = storage.key(i);
+        const key = storage.key(i) as StoreNames<Schema> | undefined;
         if (!key) {
             continue;
         }
@@ -53,7 +54,7 @@ export function* createIterator<K extends KVSStorageKey, V extends JsonValue>(
             continue;
         }
         const value = getItem(storage, key);
-        yield [key, value] as [K, V];
+        yield [key, value];
     }
 }
 
@@ -77,9 +78,10 @@ const openStorage = async ({
         storage: Storage;
     }) => any;
 }) => {
-    const oldVersion = getItem(storage, kvsVersionKey);
+    // kvsVersionKey is special type
+    const oldVersion = getItem<any>(storage, kvsVersionKey);
     if (oldVersion === undefined) {
-        setItem(storage, kvsVersionKey, DEFAULT_KVS_VERSION);
+        setItem<any>(storage, kvsVersionKey, DEFAULT_KVS_VERSION);
     }
     // if user set newVersion, upgrade it
     if (oldVersion !== version) {
@@ -95,28 +97,28 @@ const openStorage = async ({
     }
     return storage;
 };
-const createStore = <K extends KVSStorageKey, V extends JsonValue>({
+const createStore = <Schema extends StorageSchema>({
     storage,
     kvsVersionKey
 }: {
     storage: Storage;
     kvsVersionKey: string;
 }) => {
-    const store = {
-        get(key: K): Promise<V | undefined> {
+    const store: KvsStorage<Schema> = {
+        get<K extends StoreNames<Schema>>(key: K): Promise<StoreValue<Schema, K> | undefined> {
             return Promise.resolve().then(() => {
-                return getItem(storage, key);
+                return getItem<Schema>(storage, key);
             });
         },
-        has(key: K): Promise<boolean> {
+        has(key: StoreNames<Schema>): Promise<boolean> {
             return Promise.resolve().then(() => {
-                return hasItem(storage, key);
+                return hasItem<Schema>(storage, key);
             });
         },
-        set(key: K, value: V | undefined): Promise<KVS<K, V>> {
+        set<K extends StoreNames<Schema>>(key: K, value: StoreValue<Schema, K> | undefined) {
             return Promise.resolve()
                 .then(() => {
-                    return setItem(storage, key, value);
+                    return setItem<Schema>(storage, key, value);
                 })
                 .then(() => {
                     return store;
@@ -127,17 +129,17 @@ const createStore = <K extends KVSStorageKey, V extends JsonValue>({
                 return clearItem(storage, kvsVersionKey);
             });
         },
-        delete(key: K): Promise<boolean> {
+        delete(key: StoreNames<Schema>): Promise<boolean> {
             return Promise.resolve().then(() => {
-                return deleteItem(storage, key);
+                return deleteItem<Schema>(storage, key);
             });
         },
         close(): Promise<void> {
             // Noop function
             return Promise.resolve();
         },
-        [Symbol.asyncIterator](): AsyncIterator<[K, V]> {
-            const iterator = createIterator<K, V>(storage, kvsVersionKey);
+        [Symbol.asyncIterator](): AsyncIterator<[StoreNames<Schema>, StoreValue<Schema, StoreNames<Schema>>]> {
+            const iterator = createIterator<Schema>(storage, kvsVersionKey);
             return {
                 next() {
                     return Promise.resolve().then(() => {
@@ -149,14 +151,17 @@ const createStore = <K extends KVSStorageKey, V extends JsonValue>({
     };
     return store;
 };
-export type KvsStorage<K extends KVSStorageKey, V extends JsonValue> = KVS<K, V>;
-export type KvsStorageOptions<K extends KVSStorageKey, V extends JsonValue> = KVSOptions<K, V> & {
+export type StorageSchema = {
+    [index: string]: JsonValue;
+};
+export type KvsStorage<Schema extends StorageSchema> = KVS<Schema>;
+export type KvsStorageOptions<Schema extends StorageSchema> = KVSOptions<Schema> & {
     kvsVersionKey?: string;
     storage: Storage;
 };
-export const kvsStorage = async <K extends KVSStorageKey, V extends JsonValue>(
-    options: KvsStorageOptions<K, V>
-): Promise<KvsStorage<K, V>> => {
+export const kvsStorage = async <Schema extends StorageSchema>(
+    options: KvsStorageOptions<Schema>
+): Promise<KvsStorage<Schema>> => {
     const { name, version, upgrade, ...kvStorageOptions } = options;
     const kvsVersionKey = kvStorageOptions.kvsVersionKey ?? "__kvs_version__";
     const storage = await openStorage({
