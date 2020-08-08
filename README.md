@@ -109,7 +109,7 @@ import { KVSIndexedDB, kvsIndexedDB } from "@kvs/env";
             return;
         }
     });
-    assert.strictEqual(await kvs.get("v1"), "v1-migrated-value");
+    assert.strictEqual(await storage.get("v1"), "v1-migrated-value");
 })();
 ```
 
