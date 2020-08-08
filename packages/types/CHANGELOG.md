@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/azu/kvs/compare/v0.1.0...v0.2.0) (2020-08-08)
+
+
+### Features
+
+* **storage:** use Schema interface ([2560aae](https://github.com/azu/kvs/commit/2560aae28d642c8f2e8ee5920dc1cc15f7c8c3f6))
+
+
+
+
+
 # 0.1.0 (2020-08-08)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/azu/kvs/compare/v0.1.0...v0.2.0) (2020-08-08)
+
+
+### Features
+
+* **@kvs/localstorage:** migrate to Schema type ([0c84640](https://github.com/azu/kvs/commit/0c84640c1c1d28955c60ca83d8a01bdce936d9ef))
+
+
+
+
+
 # 0.1.0 (2020-08-08)
 
 
