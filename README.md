@@ -46,6 +46,77 @@ KVS libraries provide following common features.
 
 If you want to custom implementation, please see [@kvs/storage](./packages/storage] and test it with [@kvs/common-test-case](./packages/common-test-case).
 
+## Usage
+
+[@kvs/env](./packages/env) support Browser and Node.js.
+Internally, browser use [@kvs/indexeddb](./packages/indexeddb) and Node.js use [@kvs/node-localstorage](./packages/node-localstorage).
+
+```js
+import { KVSIndexedDB, kvsIndexedDB } from "@kvs/env";
+(async () => {
+    const storage = await kvsEnvStorage<StorageSchema>({
+        name: databaseName,
+        version: 1
+    });
+    await storage.set("a1", "string"); 
+    const a1 = await storage.get("a1");
+    console.log(a1); // => "string"
+})();
+```
+
+### Migration
+
+KVS support migration feature.
+You can define `upgrade` and use it as migration function. 
+
+```ts
+import { KVSIndexedDB, kvsIndexedDB } from "@kvs/env";
+(async () => {
+    // Defaut version 1 
+    // when version 1 → 2, call upgrace function
+    const storage = await kvsStorageConstructor({
+        version: 2,
+        async upgrade({ kvs, oldVersion }) {
+            if (oldVersion < 2) {
+                await kvs.set("v1", "v1-migrated-value"); // modify storage as migration
+            }
+            return;
+        }
+    });
+    assert.strictEqual(await kvs.get("v1"), "v1-migrated-value");
+})();
+```
+
+### TypeScript
+
+KVS packages support `Schema` type.
+It helps you to define a schema of the storage. 
+
+```ts
+import { KVSIndexedDB, kvsIndexedDB } from "@kvs/env";
+(async () => {
+    type StorageSchema = {
+        a1: string;
+        b2: number;
+        c3: boolean;
+    };
+    const storage = await kvsEnvStorage<StorageSchema>({
+        name: databaseName,
+        version: 1,
+        storage: localStorage
+    });
+    await storage.set("a1", "string"); // type check
+    await storage.set("b2", 42);
+    await storage.set("c3", false);
+    const a1 = await storage.get("a1"); // a1 will be string type
+    const b2 = await storage.get("b2");
+    const c3 = await storage.get("c3");
+    assert.strictEqual(a1, "string");
+    assert.strictEqual(b2, 42);
+    assert.strictEqual(c3, false);
+})();
+```
+
 ## Related
 
 - [azu/localstorage-ponyfill: Universal LocalStorage for browser and Node.js.](https://github.com/azu/localstorage-ponyfill)
