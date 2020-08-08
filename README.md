@@ -13,6 +13,16 @@ However, [Window.localStorage](https://developer.mozilla.org/docs/Web/API/Window
 
 `@kvs/*` packages provide async storage API and resolve this issue.
 
+## Common Features
+
+KVS libraries provide following common features.
+
+- Key-Value Storage
+- Async Read, and Write API
+    - provide `get`, `set`, `has`, `delete`, and `clear` API
+- Version migration API
+    - Upgrade date via `version`
+
 ## Packages
 
 - Universal
