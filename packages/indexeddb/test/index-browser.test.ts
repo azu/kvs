@@ -7,8 +7,12 @@ const deleteAllDB = async () => {
     if (!kvs) {
         return;
     }
-    await kvs.clear();
-    await kvs.dropDB();
+    try {
+        await kvs.clear();
+        await kvs.dropDB();
+    } catch (error) {
+        console.error("deleteAllDB", error);
+    }
 };
 
 describe("@kvs/indexedDB", () => {

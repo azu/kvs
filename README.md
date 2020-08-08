@@ -1,8 +1,16 @@
-# kvs
+# kvs 
 
-Key Value storage for Browser(IndexedDB), Node.js, InMemoery.
+Key Value storage for Browser(IndexedDB), Node.js, In-Memory.
 
 It is a monorepo for kvs.
+
+## Support
+
+- Browser
+    - IndexedDB
+- Node.js
+    - fs
+- In-Memory
 
 ## Packages
 
