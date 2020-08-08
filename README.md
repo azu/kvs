@@ -15,6 +15,9 @@ However, [Window.localStorage](https://developer.mozilla.org/docs/Web/API/Window
 
 ## Packages
 
+- Universal
+    - [@kvs/env](./packages/env): Use suitable storage for platform
+    - Use IndexedDB for Browser, and Use node-localstorage for Node.js
 - Browser
     - [@kvs/indexeddb](./packages/indexeddb): Use IndexedDB
         - For WebWorker and ServiceWorker
