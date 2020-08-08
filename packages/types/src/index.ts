@@ -3,7 +3,7 @@ export type KVS<K, V> = {
     delete(key: K): Promise<boolean>;
     get(key: K): Promise<V | undefined>;
     has(key: K): Promise<boolean>;
-    set(key: K, value: V): Promise<KVS<K, V>>;
+    set(key: K, value: V | undefined): Promise<KVS<K, V>>;
 } & AsyncIterable<[K, V]>;
 export type KVSOptions<K, V> = {
     name: string;
