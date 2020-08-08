@@ -196,7 +196,7 @@ describe("@kvs/localstorage", () => {
         // re-open and upgrade
         kvs = await kvsStorage({
             ...commonOptions,
-            version: 2,
+            version: 3,
             async upgrade({ kvs, oldVersion }) {
                 if (oldVersion <= 1) {
                     await kvs.set("v1", "v1-migrated-value");
