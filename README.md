@@ -46,7 +46,7 @@ KVS libraries provide following common features.
     - [@kvs/memorystorage](./packages/memorystorage): In-Memory Storage
         - For debug
 
-If you want to custom implementation, please see [@kvs/storage](./packages/storage] and test it with [@kvs/common-test-case](./packages/common-test-case).
+If you want to custom implementation, please see [@kvs/storage](./packages/storage) and test it with [@kvs/common-test-case](./packages/common-test-case).
 
 ## Usage
 

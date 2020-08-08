@@ -45,7 +45,7 @@ const deleteAllDB = async () => {
         console.error("deleteAllDB", error);
     }
 };
-describe("@kvs/localstorage", () => {
+describe("@kvs/env", () => {
     before(deleteAllDB);
     afterEach(deleteAllDB);
     kvsTestCase.run();
