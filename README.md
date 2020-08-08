@@ -25,7 +25,7 @@ KVS libraries provide following common features.
 - Version migration API
     - Upgrade date via `version`
 - Tiny packages
-    - Almost package size is 1kb(gzip)
+    - Almost package size is **1kb**(gzip)
 - TypeScript
     - All packaged is written by TypeScript
 
