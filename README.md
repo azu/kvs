@@ -4,7 +4,7 @@ Key Value storage for Browser(IndexedDB), Node.js, In-Memory.
 
 It is a monorepo for kvs.
 
-## Support
+## Packages
 
 - Browser
     - [@kvs/indexeddb](./packages/indexeddb): Use IndexedDB
@@ -14,8 +14,6 @@ It is a monorepo for kvs.
 - In-Memory
 
 If you want to custom implementation, please test with [@kvs/common-test-case](./packages/common-test-case).
-
-## Packages
 
 ## Changelog
 
