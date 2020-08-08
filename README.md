@@ -66,6 +66,29 @@ import { KVSIndexedDB, kvsIndexedDB } from "@kvs/env";
 })();
 ```
 
+### API
+
+[@kvs/types](./packages/types) define common interface.
+
+Each constructor function like `kvsEnvStorage` return `KVS` object that has following methods.
+Also, `KVS` object define [Symbol.asyncIterator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/asyncIterator), and you can iterate the storage by [for await...of](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for-await...of).
+
+```ts
+export type KVS<Schema extends StorageSchema> = {
+    clear(): Promise<void>;
+    delete(key: StoreNames<Schema>): Promise<boolean>;
+    get<K extends StoreNames<Schema>>(key: K): Promise<StoreValue<Schema, K> | undefined>;
+    has(key: StoreNames<Schema>): Promise<boolean>;
+    set<K extends StoreNames<Schema>>(key: K, value: StoreValue<Schema, K> | undefined): Promise<KVS<Schema>>;
+    /*
+     * Close the KVS connection
+     * DB-like KVS close the connection via this method
+     * Of course, localStorage-like KVS implement do nothing. It is just noop function
+     */
+    close(): Promise<void>;
+} & AsyncIterable<[StoreNames<Schema>, StoreValue<Schema, StoreNames<Schema>>]>;
+```
+
 ### Migration
 
 KVS support migration feature.
