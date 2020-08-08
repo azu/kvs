@@ -42,3 +42,9 @@ For bugs and feature requests, [please create an issue](https://github.com/azu/k
 ## License
 
 MIT © azu
+
+## Related
+
+- https://github.com/tkdalic/indexed-kv
+- https://github.com/GoogleChromeLabs/kv-storage-polyfill
+- https://github.com/localForage/localForage/blob/master/src/drivers/indexeddb.js

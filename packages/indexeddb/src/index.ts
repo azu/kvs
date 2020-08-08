@@ -35,11 +35,9 @@ const openDB = ({
             };
         };
         openRequest.addEventListener("blocked", () => {
-            console.log("blocked");
             reject(openRequest.error);
         });
         openRequest.onerror = function () {
-            console.log("blocked");
             reject(openRequest.error);
         };
         openRequest.onsuccess = function () {
@@ -54,7 +52,7 @@ const getItem = <K extends IndexedDBKey, V>(database: IDBDatabase, tableName: st
         const objectStore = transaction.objectStore(tableName);
         const request = objectStore.get(key);
         request.onsuccess = () => {
-            resolve(request.result ? request.result : null);
+            resolve(request.result);
         };
         request.onerror = () => {
             reject(request.error);
@@ -62,8 +60,17 @@ const getItem = <K extends IndexedDBKey, V>(database: IDBDatabase, tableName: st
     });
 };
 const hasItem = async <K extends IndexedDBKey>(database: IDBDatabase, tableName: string, key: K): Promise<boolean> => {
-    const value = await getItem(database, tableName, key);
-    return value !== undefined;
+    return new Promise((resolve, reject) => {
+        const transaction = database.transaction(tableName, "readonly");
+        const objectStore = transaction.objectStore(tableName);
+        const request = objectStore.count(key);
+        request.onsuccess = () => {
+            resolve(request.result !== 0);
+        };
+        request.onerror = () => {
+            reject(request.error);
+        };
+    });
 };
 const setItem = <K extends IndexedDBKey, V>(
     database: IDBDatabase,
@@ -122,11 +129,48 @@ const clearItems = async (database: IDBDatabase, tableName: string): Promise<voi
         };
     });
 };
+const iterator = <K extends IndexedDBKey, V>(database: IDBDatabase, tableName: string): AsyncIterator<[K, V]> => {
+    const handleCursor = <T>(request: IDBRequest<T | null>): Promise<{ done: boolean; value?: T }> => {
+        return new Promise((resolve, reject) => {
+            request.onsuccess = () => {
+                const cursor = request.result;
+                if (!cursor) {
+                    return resolve({
+                        done: true
+                    });
+                }
+                return resolve({
+                    done: false,
+                    value: cursor
+                });
+            };
+            request.onerror = () => {
+                reject(request.error);
+            };
+        });
+    };
+    const transaction = database.transaction(tableName, "readonly");
+    const objectStore = transaction.objectStore(tableName);
+    const request = objectStore.openCursor();
+    return {
+        async next() {
+            const { done, value } = await handleCursor(request);
+            if (!done) {
+                const storageKey = value?.key as K;
+                const storageValue = value?.value as V;
+                // next iterate
+                value?.continue();
+                return { done: false, value: [storageKey, storageValue] };
+            }
+            return { done: true, value: undefined };
+        }
+    };
+};
 type IndexedDBOptions = {
     tableName?: string;
 };
-const createStore = <K extends IndexedDBKey, V>(database: IDBDatabase, tableName: string) => {
-    const store = {
+const createStore = <K extends IndexedDBKey, V>(database: IDBDatabase, tableName: string): KVS<K, V> => {
+    const store: KVS<K, V> = {
         delete(key: K): Promise<boolean> {
             return deleteItem(database, tableName, key).then(() => true);
         },
@@ -142,7 +186,9 @@ const createStore = <K extends IndexedDBKey, V>(database: IDBDatabase, tableName
         clear(): Promise<void> {
             return clearItems(database, tableName);
         },
-        __debug__database__: database
+        [Symbol.asyncIterator]() {
+            return iterator(database, tableName);
+        }
     };
     return store;
 };
