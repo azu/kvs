@@ -1,7 +1,7 @@
 {
-  "name": "@kvs/localstorage",
+  "name": "@kvs/storage",
   "version": "1.0.0",
-  "description": "localstorage for KVS.",
+  "description": "Storage(localStorage, sessionStorage) helper for KVS.",
   "keywords": [
     "kvs",
     "browser",
@@ -43,9 +43,6 @@
     "singleQuote": false,
     "tabWidth": 4,
     "trailingComma": "none"
-  },
-  "dependencies": {
-    "@kvs/storage": "^1.0.0"
   },
   "devDependencies": {
     "@jsdevtools/karma-config": "^3.1.7",

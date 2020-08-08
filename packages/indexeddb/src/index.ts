@@ -255,6 +255,11 @@ const createStore = <K extends IndexedDBKey, V>({
         dropInstance(): Promise<void> {
             return dropInstance(database, databaseName);
         },
+        close() {
+            return Promise.resolve().then(() => {
+                database.close();
+            });
+        },
         [Symbol.asyncIterator]() {
             return iterator(database, tableName);
         },

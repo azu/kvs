@@ -1,11 +1,12 @@
 import assert from "assert";
-import { KVSIndexedDB, kvsIndexedDB } from "../src";
+import { JsonValue, kvsStorage, KvsStorage } from "../src";
 
-let kvs: KVSIndexedDB<any, any>;
+let kvs: KvsStorage<any, JsonValue>;
 const databaseName = "kvs-test";
 const commonOptions = {
     name: databaseName,
-    debug: true
+    debug: true,
+    storage: window.localStorage
 };
 const deleteAllDB = async () => {
     if (!kvs) {
@@ -13,13 +14,13 @@ const deleteAllDB = async () => {
     }
     try {
         await kvs.clear();
-        await kvs.dropInstance();
+        // await kvs.dropInstance();
     } catch (error) {
         console.error("deleteAllDB", error);
     }
 };
 
-describe("@kvs/indexedDB", () => {
+describe("@kvs/localstorage", () => {
     before(deleteAllDB);
     afterEach(deleteAllDB);
     describe("set", () => {
@@ -36,11 +37,12 @@ describe("@kvs/indexedDB", () => {
                 name: "boolean",
                 value: false
             },
-            {
-                name: "date",
-                value: new Date(),
-                type: "object"
-            },
+            // Date is not JSON
+            // {
+            //     name: "date",
+            //     value: new Date(),
+            //     type: "object"
+            // },
             {
                 name: "object",
                 value: {
@@ -48,17 +50,10 @@ describe("@kvs/indexedDB", () => {
                 },
                 type: "object"
             }
-            // Edge, old-Safari does not support Blob
-            // https://github.com/jakearchibald/idb/issues/58
-            // {
-            //     name: "blob",
-            //     value: new Blob(["Hello, world!"], { type: "text/plain" }),
-            //     type: "object"
-            // }
         ];
         testDateList.forEach((item) => {
             it(`${item.name}`, async () => {
-                kvs = await kvsIndexedDB({
+                kvs = await kvsStorage({
                     ...commonOptions,
                     version: 1
                 });
@@ -72,7 +67,7 @@ describe("@kvs/indexedDB", () => {
         });
     });
     it("set → get", async () => {
-        kvs = await kvsIndexedDB({
+        kvs = await kvsStorage({
             ...commonOptions,
             version: 1
         });
@@ -80,7 +75,7 @@ describe("@kvs/indexedDB", () => {
         assert.strictEqual(await kvs.get("key"), "value");
     });
     describe("set", async () => {
-        kvs = await kvsIndexedDB({
+        kvs = await kvsStorage({
             ...commonOptions,
             version: 1
         });
@@ -88,7 +83,7 @@ describe("@kvs/indexedDB", () => {
         assert.strictEqual(await kvs.get("key"), "value");
     });
     it("update with set", async () => {
-        kvs = await kvsIndexedDB({
+        kvs = await kvsStorage({
             ...commonOptions,
             version: 1
         });
@@ -97,7 +92,7 @@ describe("@kvs/indexedDB", () => {
         assert.strictEqual(await kvs.get("key"), "value2");
     });
     it("test multiple set-get key-value", async () => {
-        kvs = await kvsIndexedDB({
+        kvs = await kvsStorage({
             ...commonOptions,
             version: 1
         });
@@ -107,7 +102,7 @@ describe("@kvs/indexedDB", () => {
         assert.strictEqual(await kvs.get("key2"), "value2");
     });
     it("delete with key", async () => {
-        kvs = await kvsIndexedDB({
+        kvs = await kvsStorage({
             ...commonOptions,
             version: 1
         });
@@ -117,17 +112,21 @@ describe("@kvs/indexedDB", () => {
         assert.ok((await kvs.has("key1")) === false);
     });
     it("set empty value and has return true", async () => {
-        kvs = await kvsIndexedDB({
+        kvs = await kvsStorage({
             ...commonOptions,
             version: 1
         });
         await kvs.set("key", "value");
         assert.ok(await kvs.get("key"));
         await kvs.set("key", undefined);
-        assert.ok(await kvs.has("key"), "should have key that is undefined");
+        assert.strictEqual(
+            await kvs.has("key"),
+            false,
+            "localstorage delete it by set undefined. It respect localStorage"
+        );
     });
     it("clear all data", async () => {
-        kvs = await kvsIndexedDB({
+        kvs = await kvsStorage({
             ...commonOptions,
             version: 1
         });
@@ -140,7 +139,7 @@ describe("@kvs/indexedDB", () => {
         assert.strictEqual(await kvs.has("key2"), false, "key 2 should be deleted");
     });
     it("[Symbol.asyncIterator]", async () => {
-        kvs = await kvsIndexedDB({
+        kvs = await kvsStorage({
             ...commonOptions,
             version: 1
         });
@@ -148,7 +147,7 @@ describe("@kvs/indexedDB", () => {
         await kvs.set("key2", "value2");
         assert.ok(await kvs.has("key1"));
         assert.ok(await kvs.has("key2"));
-        const results: [string, string][] = [];
+        const results: [string, JsonValue][] = [];
         for await (const [key, value] of kvs) {
             results.push([key, value]);
         }
@@ -161,15 +160,15 @@ describe("@kvs/indexedDB", () => {
         );
     });
     it("upgrade when on upgrade version", async () => {
-        kvs = await kvsIndexedDB({
+        kvs = await kvsStorage({
             ...commonOptions,
             version: 1
         });
         await kvs.set("key1", "value1");
         // close
-        await kvs.close();
+        kvs.close();
         // re-open and upgrade
-        kvs = await kvsIndexedDB({
+        kvs = await kvsStorage({
             ...commonOptions,
             version: 2,
             async upgrade({ kvs, oldVersion }) {
@@ -186,15 +185,15 @@ describe("@kvs/indexedDB", () => {
         assert.strictEqual(await kvs.get("key1"), "old-value1");
     });
     it("multiple upgrade: 1 → 3", async () => {
-        kvs = await kvsIndexedDB({
+        kvs = await kvsStorage({
             ...commonOptions,
             version: 1
         });
         await kvs.set("key1", "value1");
         // close
-        await kvs.close();
+        // kvs.close();
         // re-open and upgrade
-        kvs = await kvsIndexedDB({
+        kvs = await kvsStorage({
             ...commonOptions,
             version: 3,
             async upgrade({ kvs, oldVersion }) {
