@@ -13,6 +13,7 @@ Install with [npm](https://www.npmjs.com/):
 ## Usage
 
 ```ts
+import assert from "assert";
 import { kvsStorage } from "@kvs/storage";
 (async () => {
     type StorageSchema = {
@@ -34,7 +35,7 @@ import { kvsStorage } from "@kvs/storage";
     assert.strictEqual(a1, "string");
     assert.strictEqual(b2, 42);
     assert.strictEqual(c3, false);
-})()
+})();
 ```
 
 ## Changelog

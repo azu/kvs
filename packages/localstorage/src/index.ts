@@ -1,13 +1,16 @@
-import { JsonValue, KvsStorage, kvsStorage, KVSStorageKey } from "@kvs/storage";
+import { JsonValue, KvsStorage, kvsStorage } from "@kvs/storage";
 import { KVS, KVSOptions } from "@kvs/types";
 
-export type KvsLocalStorage<K extends KVSStorageKey, V extends JsonValue> = KVS<K, V>;
-export type KvsLocalStorageOptions<K extends KVSStorageKey, V extends JsonValue> = KVSOptions<K, V> & {
+export type KvsLocalStorageSchema = {
+    [index: string]: JsonValue;
+};
+export type KvsLocalStorage<Schema extends KvsLocalStorageSchema> = KVS<Schema>;
+export type KvsLocalStorageOptions<Schema extends KvsLocalStorageSchema> = KVSOptions<Schema> & {
     kvsVersionKey?: string;
 };
-export const kvsLocalStorage = async <K extends KVSStorageKey, V extends JsonValue>(
-    options: KvsLocalStorageOptions<K, V>
-): Promise<KvsStorage<K, V>> => {
+export const kvsLocalStorage = async <Schema extends KvsLocalStorageSchema>(
+    options: KvsLocalStorageOptions<Schema>
+): Promise<KvsStorage<Schema>> => {
     return kvsStorage({
         ...options,
         storage: window.localStorage
