@@ -5,21 +5,21 @@ export type KVSTestCaseOptions = {
     setTestDataList: { name: string; value: any; type?: "object" }[];
 };
 export type KVSTestCaseRef = {
-    current: KVS<any, any> | null;
-    updateRef(ref: KVS<any, any>): void;
+    current: KVS<any> | null;
+    updateRef(ref: KVS<any>): void;
 };
 // version always be defined
 export const createKVSTestCase = (
-    kvsStorageConstructor: (options: Partial<KVSOptions<any, any>> & { version: number }) => Promise<KVS<any, any>>,
+    kvsStorageConstructor: (options: Partial<KVSOptions<any>> & { version: number }) => Promise<KVS<any>>,
     options: KVSTestCaseOptions
 ) => {
     const ref: KVSTestCaseRef = {
         current: null,
-        updateRef(target: KVS<any, any>) {
+        updateRef(target: KVS<any>) {
             ref.current = target;
         }
     };
-    let kvs: KVS<any, any>;
+    let kvs: KVS<any>;
     return {
         ref,
         run: () => {

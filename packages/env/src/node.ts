@@ -1,9 +1,9 @@
-import { JsonValue, KvsStorage } from "@kvs/storage";
-import { kvsLocalStorage } from "@kvs/node-localstorage";
+import { kvsLocalStorage, KvsLocalStorage, KvsLocalStorageOptions } from "@kvs/node-localstorage";
 import { KvsEnvStorageOptions } from "./share";
+import { KVSIndexedSchema } from "@kvs/indexeddb/lib";
 
-export const kvsEnvStorage = async <K extends string, V extends JsonValue>(
-    options: KvsEnvStorageOptions<K, V>
-): Promise<KvsStorage<K, V>> => {
+export const kvsEnvStorage = async <Schema extends KVSIndexedSchema>(
+    options: KvsEnvStorageOptions<Schema> & KvsLocalStorageOptions<Schema>
+): Promise<KvsLocalStorage<Schema>> => {
     return kvsLocalStorage(options);
 };

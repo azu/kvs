@@ -1,4 +1,5 @@
 import type { KVS, KVSOptions, StoreNames, StoreValue } from "@kvs/types";
+import { JsonValue } from "@kvs/storage";
 
 const debug = {
     enabled: false,
@@ -285,7 +286,7 @@ const createStore = <Schema extends KVSIndexedSchema>({
 };
 
 export type KVSIndexedSchema = {
-    [index: string]: any;
+    [index: string]: JsonValue;
 };
 export type KVSIndexedDB<Schema extends KVSIndexedSchema> = KVS<Schema> & IndexedDBResults;
 export type KvsIndexedDBOptions<Schema extends KVSIndexedSchema> = KVSOptions<Schema> & IndexedDBOptions;
