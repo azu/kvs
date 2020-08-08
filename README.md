@@ -27,7 +27,7 @@ KVS libraries provide following common features.
 - Tiny packages
     - Almost package size is **1kb**(gzip)
 - TypeScript
-    - All packaged is written by TypeScript
+    - All packages are written by TypeScript
 
 ## Packages
 
