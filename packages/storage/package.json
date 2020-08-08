@@ -44,6 +44,9 @@
     "tabWidth": 4,
     "trailingComma": "none"
   },
+  "dependencies": {
+    "@kvs/types": "^1.0.0"
+  },
   "devDependencies": {
     "@jsdevtools/karma-config": "^3.1.7",
     "@types/mocha": "^8.0.1",

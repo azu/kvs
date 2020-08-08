@@ -8,9 +8,12 @@ It is a monorepo for kvs.
 
 - Browser
     - [@kvs/indexeddb](./packages/indexeddb): Use IndexedDB
+        - For WebWorker and ServiceWorker
     - [@kvs/localstorage](./packages/localstorage): Use LocalStorage
+        - For Browser
 - Node.js
     - [@kvs/node-localstorage](./packages/node-localstorage): Use [node-localstorage](https://github.com/lmaccherone/node-localstorage)
+        - For Node.js
 - In-Memory
 
 If you want to custom implementation, please test with [@kvs/common-test-case](./packages/common-test-case).
