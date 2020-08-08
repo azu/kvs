@@ -30,7 +30,7 @@
     "clean": "rimraf lib/ module/",
     "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,css}\"",
     "prepublish": "npm run clean && npm run build",
-    "test": "mocha \"test/**/*.ts\"",
+    "test": "npm run build",
     "watch": "tsc -p . --watch"
   },
   "prettier": {
