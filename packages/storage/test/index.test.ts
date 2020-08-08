@@ -59,7 +59,7 @@ describe("@kvs/storage", () => {
         };
         const storage = await kvsStorage<StorageSchema>({
             name: databaseName,
-            version: 2,
+            version: 1,
             storage: localStorage
         });
         await storage.set("a1", "string");

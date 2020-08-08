@@ -1,6 +1,5 @@
-import type { KVS, KVSOptions } from "@kvs/types";
+import type { KVS, KVSOptions, StoreNames, StoreValue } from "@kvs/types";
 
-type IndexedDBKey = string;
 const debug = {
     enabled: false,
     log(...args: any[]) {
@@ -97,11 +96,15 @@ const dropInstance = (database: IDBDatabase, databaseName: string): Promise<void
     });
 };
 
-const getItem = <K extends IndexedDBKey, V>(database: IDBDatabase, tableName: string, key: K): Promise<V> => {
+const getItem = <Schema extends KVSIndexedSchema>(
+    database: IDBDatabase,
+    tableName: string,
+    key: StoreNames<Schema>
+): Promise<StoreValue<Schema, StoreNames<Schema>>> => {
     return new Promise((resolve, reject) => {
         const transaction = database.transaction(tableName, "readonly");
         const objectStore = transaction.objectStore(tableName);
-        const request = objectStore.get(key);
+        const request = objectStore.get(String(key));
         request.onsuccess = () => {
             resolve(request.result);
         };
@@ -110,11 +113,15 @@ const getItem = <K extends IndexedDBKey, V>(database: IDBDatabase, tableName: st
         };
     });
 };
-const hasItem = async <K extends IndexedDBKey>(database: IDBDatabase, tableName: string, key: K): Promise<boolean> => {
+const hasItem = async <Schema extends KVSIndexedSchema>(
+    database: IDBDatabase,
+    tableName: string,
+    key: StoreNames<Schema>
+): Promise<boolean> => {
     return new Promise((resolve, reject) => {
         const transaction = database.transaction(tableName, "readonly");
         const objectStore = transaction.objectStore(tableName);
-        const request = objectStore.count(key);
+        const request = objectStore.count(String(key));
         request.onsuccess = () => {
             resolve(request.result !== 0);
         };
@@ -123,22 +130,22 @@ const hasItem = async <K extends IndexedDBKey>(database: IDBDatabase, tableName:
         };
     });
 };
-const setItem = async <K extends IndexedDBKey, V>(
+const setItem = async <Schema extends KVSIndexedSchema>(
     database: IDBDatabase,
     tableName: string,
-    key: K,
-    value: V
+    key: StoreNames<Schema>,
+    value: StoreValue<Schema, StoreNames<Schema>> | undefined
 ): Promise<void> => {
     // If the value is undefined, delete the key
     // This behavior aim to align localStorage implementation
     if (value === undefined) {
-        await deleteItem(database, tableName, key);
+        await deleteItem<Schema>(database, tableName, key);
         return;
     }
     return new Promise((resolve, reject) => {
         const transaction = database.transaction(tableName, "readwrite");
         const objectStore = transaction.objectStore(tableName);
-        const request = objectStore.put(value, key);
+        const request = objectStore.put(value, String(key));
         transaction.oncomplete = () => {
             resolve();
         };
@@ -150,15 +157,15 @@ const setItem = async <K extends IndexedDBKey, V>(
         };
     });
 };
-const deleteItem = async <K extends IndexedDBKey>(
+const deleteItem = async <Schema extends KVSIndexedSchema>(
     database: IDBDatabase,
     tableName: string,
-    key: K
+    key: StoreNames<Schema>
 ): Promise<boolean> => {
     return new Promise((resolve, reject) => {
         const transaction = database.transaction(tableName, "readwrite");
         const objectStore = transaction.objectStore(tableName);
-        const request = objectStore.delete(key);
+        const request = objectStore.delete(String(key));
         transaction.oncomplete = () => {
             resolve();
         };
@@ -186,7 +193,10 @@ const clearItems = async (database: IDBDatabase, tableName: string): Promise<voi
         };
     });
 };
-const iterator = <K extends IndexedDBKey, V>(database: IDBDatabase, tableName: string): AsyncIterator<[K, V]> => {
+const iterator = <Schema extends KVSIndexedSchema, K extends StoreNames<Schema>, V extends StoreValue<Schema, K>>(
+    database: IDBDatabase,
+    tableName: string
+): AsyncIterator<[K, V]> => {
     const handleCursor = <T>(request: IDBRequest<T | null>): Promise<{ done: boolean; value?: T }> => {
         return new Promise((resolve, reject) => {
             request.onsuccess = () => {
@@ -237,23 +247,23 @@ interface StoreOptions {
     tableName: string;
 }
 
-const createStore = <K extends IndexedDBKey, V>({
+const createStore = <Schema extends KVSIndexedSchema>({
     database,
     databaseName,
     tableName
-}: StoreOptions): KVSIndexedDB<K, V> => {
-    const store: KVSIndexedDB<K, V> = {
-        delete(key: K): Promise<boolean> {
-            return deleteItem(database, tableName, key).then(() => true);
+}: StoreOptions): KVSIndexedDB<Schema> => {
+    const store: KVSIndexedDB<Schema> = {
+        delete(key: StoreNames<Schema>): Promise<boolean> {
+            return deleteItem<Schema>(database, tableName, key).then(() => true);
         },
-        get(key: K): Promise<V | undefined> {
-            return getItem(database, tableName, key);
+        get<K extends StoreNames<Schema>>(key: K): Promise<StoreValue<Schema, K> | undefined> {
+            return getItem<Schema>(database, tableName, key);
         },
-        has(key: K): Promise<boolean> {
+        has(key: StoreNames<Schema>): Promise<boolean> {
             return hasItem(database, tableName, key);
         },
-        set(key: K, value: V) {
-            return setItem(database, tableName, key, value).then(() => store);
+        set<K extends StoreNames<Schema>>(key: K, value: StoreValue<Schema, K>) {
+            return setItem<Schema>(database, tableName, key, value).then(() => store);
         },
         clear(): Promise<void> {
             return clearItems(database, tableName);
@@ -274,11 +284,14 @@ const createStore = <K extends IndexedDBKey, V>({
     return store;
 };
 
-export type KVSIndexedDB<K extends IndexedDBKey, V> = KVS<K, V> & IndexedDBResults;
-export type KvsIndexedDBOptions<K extends IndexedDBKey, V> = KVSOptions<K, V> & IndexedDBOptions;
-export const kvsIndexedDB = async <K extends IndexedDBKey, V>(
-    options: KvsIndexedDBOptions<K, V>
-): Promise<KVSIndexedDB<K, V>> => {
+export type KVSIndexedSchema = {
+    [index: string]: any;
+};
+export type KVSIndexedDB<Schema extends KVSIndexedSchema> = KVS<Schema> & IndexedDBResults;
+export type KvsIndexedDBOptions<Schema extends KVSIndexedSchema> = KVSOptions<Schema> & IndexedDBOptions;
+export const kvsIndexedDB = async <Schema extends KVSIndexedSchema>(
+    options: KvsIndexedDBOptions<Schema>
+): Promise<KVSIndexedDB<Schema>> => {
     const { name, version, upgrade, ...indexDBOptions } = options;
     if (indexDBOptions.debug) {
         debug.enabled = indexDBOptions.debug;
