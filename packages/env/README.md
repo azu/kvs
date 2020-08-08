@@ -21,13 +21,13 @@ import { KVSIndexedDB, kvsIndexedDB } from "@kvs/env";
         c3: boolean;
     };
     const storage = await kvsEnvStorage<StorageSchema>({
-        name: databaseName,
+        name: "database-name",
         version: 1
     });
-    await storage.set("a1", "string");
+    await storage.set("a1", "string"); // type check
     await storage.set("b2", 42);
     await storage.set("c3", false);
-    const a1 = await storage.get("a1");
+    const a1 = await storage.get("a1"); // a1 will be string type
     const b2 = await storage.get("b2");
     const c3 = await storage.get("c3");
     assert.strictEqual(a1, "string");
