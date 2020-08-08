@@ -1,6 +1,8 @@
-import { JsonValue, KVSStorageKey } from "@kvs/storage";
-import { KVS } from "@kvs/types";
-import { KvsLocalStorageOptions } from "@kvs/node-localstorage";
+import { JsonValue } from "@kvs/storage";
+import { KVS, KVSOptions } from "@kvs/types";
 
-export type KvsEnvStorage<K extends KVSStorageKey, V extends JsonValue> = KVS<K, V>;
-export type KvsEnvStorageOptions<K extends KVSStorageKey, V extends JsonValue> = KvsLocalStorageOptions<K, V>;
+export type KvsEnvStorageSchema = {
+    [index: string]: JsonValue;
+};
+export type KvsEnvStorage<Schema extends KvsEnvStorageSchema> = KVS<Schema>;
+export type KvsEnvStorageOptions<Schema extends KvsEnvStorageSchema> = KVSOptions<Schema>;

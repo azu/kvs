@@ -10,8 +10,30 @@ Install with [npm](https://www.npmjs.com/):
 
 ## Usage
 
-- [ ] Write usage instructions
-
+```ts
+import assert from "assert";
+import { kvsLocalStorage } from "@kvs/localstorage";
+(async () => {
+    type StorageSchema = {
+        a1: string;
+        b2: number;
+        c3: boolean;
+    };
+    const storage = await kvsLocalStorage<StorageSchema>({
+        name: "test",
+        version: 1
+    });
+    await storage.set("a1", "string");
+    await storage.set("b2", 42);
+    await storage.set("c3", false);
+    const a1 = await storage.get("a1");
+    const b2 = await storage.get("b2");
+    const c3 = await storage.get("c3");
+    assert.strictEqual(a1, "string");
+    assert.strictEqual(b2, 42);
+    assert.strictEqual(c3, false);
+})();
+```
 ## Changelog
 
 See [Releases page](https://github.com/azu/kvs/releases).

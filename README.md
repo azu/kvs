@@ -22,6 +22,8 @@ KVS libraries provide following common features.
     - provide `get`, `set`, `has`, `delete`, and `clear` API
 - Version migration API
     - Upgrade date via `version`
+- Tiny package
+    - Almost package size is 1kb(gzip)
 
 ## Packages
 
