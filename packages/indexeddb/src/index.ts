@@ -1,7 +1,15 @@
 import type { KVS, KVSOptions } from "@kvs/types";
 
 type IndexedDBKey = string;
-
+const debug = {
+    enabled: false,
+    log(...args: any[]) {
+        if (!debug.enabled) {
+            return;
+        }
+        console.log(...args);
+    }
+};
 const openDB = ({
     name,
     version,
@@ -67,22 +75,20 @@ const openDB = ({
     });
 };
 
-const dropDB = (database: IDBDatabase, databaseName: string): Promise<void> => {
+const dropInstance = (database: IDBDatabase, databaseName: string): Promise<void> => {
     return new Promise((resolve, reject) => {
-        console.log("WILL CLOS");
         database.close();
-        console.log("WILL FATER");
         const request = indexedDB.deleteDatabase(databaseName);
         request.addEventListener("upgradeneeded", (event) => {
             event.preventDefault();
             resolve();
         });
         request.addEventListener("blocked", () => {
-            console.log("blocked");
+            debug.log("dropInstance:blocked", request);
             reject(request.error);
         });
         request.onerror = function () {
-            console.log("onerror");
+            debug.log("dropInstance:error", request);
             reject(request.error);
         };
         request.onsuccess = function () {
@@ -203,7 +209,6 @@ const iterator = <K extends IndexedDBKey, V>(database: IDBDatabase, tableName: s
             if (!done) {
                 const storageKey = value?.key as K;
                 const storageValue = value?.value as V;
-                // next iterate
                 value?.continue();
                 return { done: false, value: [storageKey, storageValue] };
             }
@@ -213,9 +218,10 @@ const iterator = <K extends IndexedDBKey, V>(database: IDBDatabase, tableName: s
 };
 type IndexedDBOptions = {
     tableName?: string;
+    debug?: boolean;
 };
 type IndexedDBResults = {
-    dropDB(): Promise<void>;
+    dropInstance(): Promise<void>;
     __debug__database__: IDBDatabase;
 };
 
@@ -246,8 +252,8 @@ const createStore = <K extends IndexedDBKey, V>({
         clear(): Promise<void> {
             return clearItems(database, tableName);
         },
-        dropDB(): Promise<void> {
-            return dropDB(database, databaseName);
+        dropInstance(): Promise<void> {
+            return dropInstance(database, databaseName);
         },
         [Symbol.asyncIterator]() {
             return iterator(database, tableName);
@@ -258,10 +264,14 @@ const createStore = <K extends IndexedDBKey, V>({
 };
 
 export type KVSIndexedDB<K extends IndexedDBKey, V> = KVS<K, V> & IndexedDBResults;
+export type KvsIndexedDBOptions<K extends IndexedDBKey, V> = KVSOptions<K, V> & IndexedDBOptions;
 export const kvsIndexedDB = async <K extends IndexedDBKey, V>(
-    options: KVSOptions<K, V> & IndexedDBOptions
+    options: KvsIndexedDBOptions<K, V>
 ): Promise<KVSIndexedDB<K, V>> => {
     const { name, version, upgrade, ...indexDBOptions } = options;
+    if (indexDBOptions.debug) {
+        debug.enabled = indexDBOptions.debug;
+    }
     const tableName = indexDBOptions.tableName ?? "kvs";
     const database = await openDB({
         name,

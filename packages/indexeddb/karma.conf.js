@@ -4,8 +4,9 @@ module.exports = require("@jsdevtools/karma-config")({
         ? {
               firefox: true,
               chrome: true,
-              edge: true,
               safari: true
+              // MSEdge does not work correctly
+              // edge: false,
           }
         : {
               // manually attach to test bed

@@ -3,13 +3,17 @@ import { KVSIndexedDB, kvsIndexedDB } from "../src";
 
 let kvs: KVSIndexedDB<any, any>;
 const databaseName = "kvs-test";
+const commonOptions = {
+    name: databaseName,
+    debug: true
+};
 const deleteAllDB = async () => {
     if (!kvs) {
         return;
     }
     try {
         await kvs.clear();
-        await kvs.dropDB();
+        await kvs.dropInstance();
     } catch (error) {
         console.error("deleteAllDB", error);
     }
@@ -55,7 +59,7 @@ describe("@kvs/indexedDB", () => {
         testDateList.forEach((item) => {
             it(`${item.name}`, async () => {
                 kvs = await kvsIndexedDB({
-                    name: databaseName,
+                    ...commonOptions,
                     version: 1
                 });
                 await kvs.set(item.name, item.value);
@@ -69,7 +73,7 @@ describe("@kvs/indexedDB", () => {
     });
     it("set → get", async () => {
         kvs = await kvsIndexedDB({
-            name: databaseName,
+            ...commonOptions,
             version: 1
         });
         await kvs.set("key", "value");
@@ -77,7 +81,7 @@ describe("@kvs/indexedDB", () => {
     });
     describe("set", async () => {
         kvs = await kvsIndexedDB({
-            name: databaseName,
+            ...commonOptions,
             version: 1
         });
         await kvs.set("key", "value");
@@ -85,7 +89,7 @@ describe("@kvs/indexedDB", () => {
     });
     it("update with set", async () => {
         kvs = await kvsIndexedDB({
-            name: databaseName,
+            ...commonOptions,
             version: 1
         });
         await kvs.set("key", "value1");
@@ -94,7 +98,7 @@ describe("@kvs/indexedDB", () => {
     });
     it("test multiple set-get key-value", async () => {
         kvs = await kvsIndexedDB({
-            name: databaseName,
+            ...commonOptions,
             version: 1
         });
         await kvs.set("key1", "value1");
@@ -104,7 +108,7 @@ describe("@kvs/indexedDB", () => {
     });
     it("delete with key", async () => {
         kvs = await kvsIndexedDB({
-            name: databaseName,
+            ...commonOptions,
             version: 1
         });
         await kvs.set("key", "value");
@@ -114,7 +118,7 @@ describe("@kvs/indexedDB", () => {
     });
     it("set empty value and has return true", async () => {
         kvs = await kvsIndexedDB({
-            name: databaseName,
+            ...commonOptions,
             version: 1
         });
         await kvs.set("key", "value");
@@ -124,7 +128,7 @@ describe("@kvs/indexedDB", () => {
     });
     it("clear all data", async () => {
         kvs = await kvsIndexedDB({
-            name: databaseName,
+            ...commonOptions,
             version: 1
         });
         await kvs.set("key1", "value1");
@@ -137,7 +141,7 @@ describe("@kvs/indexedDB", () => {
     });
     it("[Symbol.asyncIterator]", async () => {
         kvs = await kvsIndexedDB({
-            name: databaseName,
+            ...commonOptions,
             version: 1
         });
         await kvs.set("key1", "value1");
@@ -155,7 +159,7 @@ describe("@kvs/indexedDB", () => {
     });
     it("upgrade when on upgrade version", async () => {
         kvs = await kvsIndexedDB({
-            name: databaseName,
+            ...commonOptions,
             version: 1
         });
         await kvs.set("key1", "value1");
@@ -163,7 +167,7 @@ describe("@kvs/indexedDB", () => {
         kvs.__debug__database__.close();
         // re-open and upgrade
         kvs = await kvsIndexedDB({
-            name: databaseName,
+            ...commonOptions,
             version: 2,
             async upgrade({ kvs, oldVersion }) {
                 switch (oldVersion) {
@@ -180,7 +184,7 @@ describe("@kvs/indexedDB", () => {
     });
     it("multiple upgrade: 1 → 3", async () => {
         kvs = await kvsIndexedDB({
-            name: databaseName,
+            ...commonOptions,
             version: 1
         });
         await kvs.set("key1", "value1");
@@ -188,7 +192,7 @@ describe("@kvs/indexedDB", () => {
         kvs.__debug__database__.close();
         // re-open and upgrade
         kvs = await kvsIndexedDB({
-            name: databaseName,
+            ...commonOptions,
             version: 2,
             async upgrade({ kvs, oldVersion }) {
                 if (oldVersion <= 1) {
