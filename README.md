@@ -56,8 +56,8 @@ Internally, browser use [@kvs/indexeddb](./packages/indexeddb) and Node.js use [
 ```js
 import { KVSIndexedDB, kvsIndexedDB } from "@kvs/env";
 (async () => {
-    const storage = await kvsEnvStorage<StorageSchema>({
-        name: databaseName,
+    const storage = await kvsEnvStorage({
+        name: "database-name",
         version: 1
     });
     await storage.set("a1", "string"); 
@@ -76,7 +76,8 @@ import { KVSIndexedDB, kvsIndexedDB } from "@kvs/env";
 (async () => {
     // Defaut version 1 
     // when version 1 → 2, call upgrace function
-    const storage = await kvsStorageConstructor({
+    const storage = await kvsEnvStorage({
+        name: "database-name",
         version: 2,
         async upgrade({ kvs, oldVersion }) {
             if (oldVersion < 2) {
@@ -103,9 +104,8 @@ import { KVSIndexedDB, kvsIndexedDB } from "@kvs/env";
         c3: boolean;
     };
     const storage = await kvsEnvStorage<StorageSchema>({
-        name: databaseName,
-        version: 1,
-        storage: localStorage
+        name: "database-name",
+        version: 1
     });
     await storage.set("a1", "string"); // type check
     await storage.set("b2", 42);
