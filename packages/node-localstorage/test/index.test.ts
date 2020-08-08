@@ -1,14 +1,13 @@
-import { kvsStorage } from "../src";
+import { kvsLocalStorage } from "../src";
 import { createKVSTestCase } from "@kvs/common-test-case";
 
 const databaseName = "kvs-test";
 const kvsTestCase = createKVSTestCase(
     (options) =>
-        kvsStorage({
+        kvsLocalStorage({
             ...options,
             name: databaseName,
-            debug: true,
-            storage: window.localStorage
+            debug: true
         }),
     {
         setTestDataList: [
@@ -31,6 +30,13 @@ const kvsTestCase = createKVSTestCase(
                 },
                 type: "object"
             }
+            // Edge, old-Safari does not support Blob
+            // https://github.com/jakearchibald/idb/issues/58
+            // {
+            //     name: "blob",
+            //     value: new Blob(["Hello, world!"], { type: "text/plain" }),
+            //     type: "object"
+            // }
         ]
     }
 );
@@ -45,7 +51,7 @@ const deleteAllDB = async () => {
         console.error("deleteAllDB", error);
     }
 };
-describe("@kvs/storage", () => {
+describe("@kvs/node-localstorage", () => {
     before(deleteAllDB);
     afterEach(deleteAllDB);
     kvsTestCase.run();

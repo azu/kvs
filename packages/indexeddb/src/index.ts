@@ -123,12 +123,18 @@ const hasItem = async <K extends IndexedDBKey>(database: IDBDatabase, tableName:
         };
     });
 };
-const setItem = <K extends IndexedDBKey, V>(
+const setItem = async <K extends IndexedDBKey, V>(
     database: IDBDatabase,
     tableName: string,
     key: K,
     value: V
 ): Promise<void> => {
+    // If the value is undefined, delete the key
+    // This behavior aim to align localStorage implementation
+    if (value === undefined) {
+        await deleteItem(database, tableName, key);
+        return;
+    }
     return new Promise((resolve, reject) => {
         const transaction = database.transaction(tableName, "readwrite");
         const objectStore = transaction.objectStore(tableName);

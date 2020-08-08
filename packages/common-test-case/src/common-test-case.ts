@@ -4,13 +4,20 @@ import { KVS, KVSOptions } from "@kvs/types";
 export type KVSTestCaseOptions = {
     setTestDataList: { name: string; value: any; type?: "object" }[];
 };
+export type KVSTestCaseRef = {
+    current: KVS<any, any> | null;
+    updateRef(ref: KVS<any, any>): void;
+};
 // version always be defined
 export const createKVSTestCase = (
     kvsStorageConstructor: (options: Partial<KVSOptions<any, any>> & { version: number }) => Promise<KVS<any, any>>,
     options: KVSTestCaseOptions
 ) => {
-    const ref: { current: KVS<any, any> | null } = {
-        current: null
+    const ref: KVSTestCaseRef = {
+        current: null,
+        updateRef(target: KVS<any, any>) {
+            ref.current = target;
+        }
     };
     let kvs: KVS<any, any>;
     return {
@@ -70,15 +77,6 @@ export const createKVSTestCase = (
                 assert.ok(await kvs.get("key"));
                 await kvs.delete("key");
                 assert.ok((await kvs.has("key1")) === false);
-            });
-            it("set empty value and has return true", async () => {
-                kvs = ref.current = await kvsStorageConstructor({
-                    version: 1
-                });
-                await kvs.set("key", "value");
-                assert.ok(await kvs.get("key"));
-                await kvs.set("key", undefined);
-                assert.ok(await kvs.has("key"), "should have key that is undefined");
             });
             it("clear all data", async () => {
                 kvs = ref.current = await kvsStorageConstructor({
