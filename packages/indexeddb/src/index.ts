@@ -69,16 +69,20 @@ const openDB = ({
 
 const dropDB = (database: IDBDatabase, databaseName: string): Promise<void> => {
     return new Promise((resolve, reject) => {
+        console.log("WILL CLOS");
         database.close();
+        console.log("WILL FATER");
         const request = indexedDB.deleteDatabase(databaseName);
         request.addEventListener("upgradeneeded", (event) => {
             event.preventDefault();
             resolve();
         });
         request.addEventListener("blocked", () => {
+            console.log("blocked");
             reject(request.error);
         });
         request.onerror = function () {
+            console.log("onerror");
             reject(request.error);
         };
         request.onsuccess = function () {
