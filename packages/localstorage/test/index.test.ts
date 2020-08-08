@@ -1,6 +1,5 @@
 import { kvsLocalStorage } from "../src";
 import { createKVSTestCase } from "@kvs/common-test-case";
-import assert from "assert";
 
 const databaseName = "kvs-test";
 const kvsTestCase = createKVSTestCase(
