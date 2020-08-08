@@ -4,6 +4,8 @@ Key Value storage for Browser, Node.js, In-Memory.
 
 It is a monorepo for key-value storage.
 
+**Status:** Experimental. Welcome to feedback!
+
 ## Motivation
 
 I want to get universal storage library that works on Browser, Node.js, etc.
