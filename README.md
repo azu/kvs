@@ -30,7 +30,7 @@ However, [Window.localStorage](https://developer.mozilla.org/docs/Web/API/Window
     - [@kvs/memorystorage](./packages/memorystorage): In-Memory Storage
         - For debug
 
-If you want to custom implementation, please test with [@kvs/common-test-case](./packages/common-test-case).
+If you want to custom implementation, please see [@kvs/storage](./packages/storage] and test it with [@kvs/common-test-case](./packages/common-test-case).
 
 ## Related
 
