@@ -24,13 +24,20 @@ If you want to custom implementation, please test with [@kvs/common-test-case](.
 
 See [Releases page](https://github.com/azu/kv/releases).
 
-
 ## Development
 
+This repository use [Yarn](https://classic.yarnpkg.com/).
+You need to build before editing each packages.
+
+    # install and link
     yarn install
+    # build all package
     yarn run build
 
 ## Running tests
+
+Running test via `yarn tesst` command.
+
 
     yarn test
 
