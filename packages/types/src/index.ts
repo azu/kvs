@@ -15,6 +15,9 @@ export type KVSOptions<K, V> = {
     name: string;
     version: number;
     upgrade?({ kvs, oldVersion, newVersion }: { kvs: KVS<K, V>; oldVersion: number; newVersion: number }): Promise<any>;
+} & {
+    // options will be extended
+    [index: string]: any;
 };
 export type KVSConstructor<K, V> = (options: KVSOptions<K, V>) => Promise<KVS<K, V>>;
 /**

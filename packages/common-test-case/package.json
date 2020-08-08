@@ -1,14 +1,8 @@
 {
-  "name": "@kvs/indexeddb",
+  "name": "@kvs/common-test-case",
   "version": "1.0.0",
-  "description": "IndexedDB for KVS",
-  "keywords": [
-    "kvs",
-    "indexed",
-    "storage",
-    "key-value"
-  ],
-  "homepage": "https://github.com/azu/kvs/tree/master/packages/indexeddb/",
+  "description": "Common Test Case for KVS",
+  "homepage": "https://github.com/azu/kvs/tree/master/packages/common-test-case/",
   "bugs": {
     "url": "https://github.com/azu/kvs/issues"
   },
@@ -19,9 +13,9 @@
   "license": "MIT",
   "author": "azu",
   "sideEffects": false,
-  "main": "lib/index.js",
-  "module": "module/index.js",
-  "types": "lib/index.d.ts",
+  "main": "lib/common-test-case.js",
+  "module": "module/common-test-case.js",
+  "types": "lib/common-test-case.d.ts",
   "directories": {
     "lib": "lib",
     "test": "test"
@@ -36,7 +30,8 @@
     "clean": "rimraf lib/ module/",
     "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,css}\"",
     "prepublish": "npm run clean && npm run build",
-    "test": "karma start --single-run"
+    "test": "mocha \"test/**/*.ts\"",
+    "watch": "tsc -p . --watch"
   },
   "prettier": {
     "printWidth": 120,
@@ -48,17 +43,13 @@
     "@kvs/types": "^1.0.0"
   },
   "devDependencies": {
-    "@jsdevtools/karma-config": "^3.1.7",
-    "@kvs/common-test-case": "^1.0.0",
     "@types/mocha": "^8.0.1",
     "@types/node": "^14.0.27",
-    "karma": "^5.1.1",
-    "karma-cli": "^2.0.0",
-    "lerna": "^3.22.1",
     "mocha": "^8.1.1",
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
-    "ts-loader": "^8.0.2",
+    "ts-node": "^8.10.2",
+    "ts-node-test-register": "^8.0.1",
     "typescript": "^3.9.7"
   },
   "publishConfig": {
