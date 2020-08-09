@@ -157,6 +157,21 @@ export const createKVSTestCase = (
                 assert.strictEqual(await kvs.get("v1"), "v1-migrated-value");
                 assert.strictEqual(await kvs.get("v2"), "v2-migrated-value");
             });
+            it("asyncIterator", async () => {
+                kvs = ref.current = await kvsStorageConstructor({
+                    version: 1
+                });
+                await kvs.set("key1", "value1");
+                await kvs.set("key2", "value2");
+                const results: [string, string][] = [];
+                for await (const [key, value] of kvs) {
+                    results.push([key, value]);
+                }
+                assert.deepStrictEqual(results, [
+                    ["key1", "value1"],
+                    ["key2", "value2"]
+                ]);
+            });
         }
     };
 };
