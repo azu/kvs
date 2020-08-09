@@ -167,10 +167,13 @@ export const createKVSTestCase = (
                 for await (const [key, value] of kvs) {
                     results.push([key, value]);
                 }
-                assert.deepStrictEqual(results, [
-                    ["key1", "value1"],
-                    ["key2", "value2"]
-                ]);
+                assert.deepStrictEqual(
+                    results.sort(),
+                    [
+                        ["key1", "value1"],
+                        ["key2", "value2"]
+                    ].sort()
+                );
             });
         }
     };
