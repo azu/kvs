@@ -1,5 +1,5 @@
 name: test
-on: [push, pull_request]
+on: [pull_request]
 env:
   SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
   SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
