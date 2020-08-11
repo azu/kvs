@@ -27,10 +27,30 @@ export type StoreValue<
 > = DBTypes extends StorageSchema ? DBTypes[StoreName] : any;
 
 export type KVS<Schema extends StorageSchema> = {
+    /**
+     * Removes all key-value pairs from the storage
+     */
     clear(): Promise<void>;
+    /**
+     * Returns true if an element in the storage object existed and has been removed, or false if the element does not exist.
+     * @param key
+     */
     delete(key: StoreNames<Schema>): Promise<boolean>;
+    /**
+     * Returns the value associated to the key, or undefined if there is none.
+     * @param key
+     */
     get<K extends StoreNames<Schema>>(key: K): Promise<StoreValue<Schema, K> | undefined>;
+    /**
+     * Returns a boolean asserting whether a value has been associated to the key in the storage object or not.
+     * @param key
+     */
     has(key: StoreNames<Schema>): Promise<boolean>;
+    /**
+     * Sets the value for the key in the storage object. Returns the storage object.
+     * @param key
+     * @param value
+     */
     set<K extends StoreNames<Schema>>(key: K, value: StoreValue<Schema, K> | undefined): Promise<KVS<Schema>>;
     /*
      * Close the KVS connection
