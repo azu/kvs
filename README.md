@@ -29,6 +29,11 @@ KVS libraries provide following common features.
 - TypeScript
     - All packages are written by TypeScript
 
+## Support Browsers
+
+- A browser that support [AsyncIterator](https://caniuse.com/#feat=mdn-javascript_builtins_symbol_asynciterator)
+- Chrome, Firefox, macOS Safari
+
 ## Packages
 
 - Universal
