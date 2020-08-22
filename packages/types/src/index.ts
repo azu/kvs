@@ -83,21 +83,46 @@ export type KVSConstructor<Schema extends StorageSchema> = (options: KVSOptions<
 /**
  * Sync Version
  */
-// export type KVSSync<Schema extends StorageSchema> = {
-//     clear(): void;
-//     delete(key: KeyOf<Schema>): boolean;
-//     get<T extends KeyOf<Schema>>(key: keyof T): Schema[T] | undefined;
-//     has(key: KeyOf<Schema>): boolean;
-//     set<T extends KeyOf<Schema>>(key: T, value: Schema[T] | undefined): Schema;
-//     /*
-//      * Close the KVS connection
-//      * DB-like KVS close the connection via this method
-//      * Of course, localStorage-like KVS implement do nothing. It is just noop function
-//      */
-//     close(): void;
-// } & Iterable<[KeyOf<Schema>, ValueOf<Schema>]>;
-// export type KVSSyncOptions<Schema extends StorageSchema> = {
-//     name: string;
-//     version: number;
-//     upgrade?({ kvs, oldVersion, newVersion }: { kvs: KVS<Schema>; oldVersion: number; newVersion: number }): any;
-// };
+export type KVSSync<Schema extends StorageSchema> = {
+    /**
+     * Returns the value associated to the key.
+     * If the key does not exist, returns `undefined`.
+     */
+    get<K extends StoreNames<Schema>>(key: K): StoreValue<Schema, K> | undefined;
+    /**
+     * Sets the value for the key in the storage. Returns the storage.
+     */
+    set<K extends StoreNames<Schema>>(key: K, value: StoreValue<Schema, K> | undefined): KVSSync<Schema>;
+    /**
+     * Returns a boolean asserting whether a value has been associated to the key in the storage.
+     */
+    has(key: StoreNames<Schema>): boolean;
+    /**
+     * Returns true if an key in the storage existed and has been removed.
+     * Returns false if the key does not exist.
+     */
+    delete(key: StoreNames<Schema>): boolean;
+    /**
+     * Removes all key-value pairs from the storage.
+     * Note: clear method does not delete the storage.
+     * In other words, after clear(), the storage still has internal metadata like version.
+     */
+    clear(): void;
+    /**
+     * Drop the storage.
+     * It delete all data that includes metadata completely.
+     */
+    dropInstance(): void;
+    /*
+     * Close the KVS connection
+     * DB-like KVS close the connection via this method
+     * Of course, localStorage-like KVS implement do nothing. It is just noop function
+     */
+    close(): void;
+} & Iterable<[StoreNames<Schema>, StoreValue<Schema, StoreNames<Schema>>]>;
+
+export type KVSSyncOptions<Schema extends StorageSchema> = {
+    name: string;
+    version: number;
+    upgrade?({ kvs, oldVersion, newVersion }: { kvs: KVSSync<Schema>; oldVersion: number; newVersion: number }): any;
+};
