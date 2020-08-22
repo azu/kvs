@@ -36,18 +36,18 @@ KVS libraries provide following common features.
 
 - Universal
     - [@kvs/env](./packages/env): Use suitable storage for platform
-    - Use IndexedDB for Browser, and Use node-localstorage for Node.js
+        - Use IndexedDB for Browser, and Use node-localstorage for Node.js
 - Browser
     - [@kvs/indexeddb](./packages/indexeddb): Use [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API)
-    - For WebWorker and ServiceWorker
+        - For WebWorker and ServiceWorker
     - [@kvs/localstorage](./packages/localstorage): Use [localStorage](https://developer.mozilla.org/docs/Web/API/Window/localStorage)
-    - For Browser
+        - For Browser
 - Node.js
     - [@kvs/node-localstorage](./packages/node-localstorage): Use [node-localstorage](https://github.com/lmaccherone/node-localstorage)
-    - For Node.js
+        - For Node.js
 - In-Memory
     - [@kvs/memorystorage](./packages/memorystorage): In-Memory Storage
-    - For debug and testing
+        - For debug and testing
 - Sync Version
     - [@kvs/storage-sync](./packages/storage-sync): Sync version of [@kvs/localstorage](./packages/localstorage)
 
