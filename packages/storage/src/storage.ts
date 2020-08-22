@@ -91,7 +91,6 @@ const openStorage = async ({
         // https://github.com/azu/kvs/issues/8
         oldVersion = 0;
     }
-    console.log(oldVersion, "→", version);
     // if user set newVersion, upgrade it
     if (oldVersion !== version) {
         return Promise.resolve(
