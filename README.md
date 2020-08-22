@@ -50,6 +50,8 @@ KVS libraries provide following common features.
 - In-Memory
     - [@kvs/memorystorage](./packages/memorystorage): In-Memory Storage
         - For debug
+- Sync Version
+    - [@kvs/storage-sync](./packages/storage-sync): Sync version of [@kvs/localstorage](./packages/localstorage)
 
 If you want to custom implementation, please see [@kvs/storage](./packages/storage) and test it with [@kvs/common-test-case](./packages/common-test-case).
 
