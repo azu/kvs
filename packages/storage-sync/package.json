@@ -7,7 +7,7 @@
     "browser",
     "localstorage"
   ],
-  "homepage": "https://github.com/azu/kvs/tree/master/packages/localstorage/",
+  "homepage": "https://github.com/azu/kvs/tree/master/packages/storage-sync/",
   "bugs": {
     "url": "https://github.com/azu/kvs/issues"
   },
