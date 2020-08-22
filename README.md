@@ -13,7 +13,7 @@ I want to get universal storage library that works on Browser and Node.js.
 Previously, I've created [localstorage-ponyfill](https://github.com/azu/localstorage-ponyfill) for this purpose.
 However, [Window.localStorage](https://developer.mozilla.org/docs/Web/API/Window/localStorage) does not work on [Web Workers](https://developer.mozilla.org/docs/Web/API/Web_Workers_API) or [Service Worker](https://developer.mozilla.org/docs/Web/API/Service_Worker_API)
 
-`@kvs/*` packages provide async storage API using IndexedDB etc and resolve this issue.
+`@kvs/*` packages provide async storage API using [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API) etc and resolve this issue.
 
 ## Common Features
 
@@ -40,9 +40,9 @@ KVS libraries provide following common features.
     - [@kvs/env](./packages/env): Use suitable storage for platform
     - Use IndexedDB for Browser, and Use node-localstorage for Node.js
 - Browser
-    - [@kvs/indexeddb](./packages/indexeddb): Use IndexedDB
+    - [@kvs/indexeddb](./packages/indexeddb): Use [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API)
         - For WebWorker and ServiceWorker
-    - [@kvs/localstorage](./packages/localstorage): Use LocalStorage
+    - [@kvs/localstorage](./packages/localstorage): Use [localStorage](https://developer.mozilla.org/docs/Web/API/Window/localStorage)
         - For Browser
 - Node.js
     - [@kvs/node-localstorage](./packages/node-localstorage): Use [node-localstorage](https://github.com/lmaccherone/node-localstorage)
