@@ -1,8 +1,9 @@
 name: test
 on: [pull_request]
-env:
-  SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
-  SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+# disable saucelabs
+#env:
+#  SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+#  SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
 jobs:
   test:
     name: "Test on Node:${{ matrix.node-version }} OS: ${{ matrix.os }}"
