@@ -1,6 +1,6 @@
 {
   "name": "@kvs/node-localstorage",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "description": "Node.js localstorage for KVS.",
   "keywords": [
     "kvs",
@@ -45,14 +45,14 @@
     "trailingComma": "none"
   },
   "dependencies": {
-    "@kvs/storage": "^0.3.0",
+    "@kvs/storage": "^1.0.0",
     "app-root-path": "^3.0.0",
     "mkdirp": "^1.0.4",
     "node-localstorage": "^2.1.6"
   },
   "devDependencies": {
     "@jsdevtools/karma-config": "^3.1.7",
-    "@kvs/common-test-case": "^0.3.0",
+    "@kvs/common-test-case": "^1.0.0",
     "@types/mocha": "^8.0.1",
     "@types/node": "^14.0.27",
     "lerna": "^3.22.1",
