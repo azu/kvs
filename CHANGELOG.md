@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/azu/kvs/compare/v0.2.1...v0.3.0) (2020-08-22)
+
+
+### Features
+
+* **storage-sync:** add storage-sync package ([#11](https://github.com/azu/kvs/issues/11)) ([5748776](https://github.com/azu/kvs/commit/574877624202660c0427cd050d30e807d7bbbd26))
+
+
+
+
+
 ## [0.2.1](https://github.com/azu/kvs/compare/v0.2.0...v0.2.1) (2020-08-22)
 
 **Note:** Version bump only for package kvs
