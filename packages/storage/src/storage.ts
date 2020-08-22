@@ -79,9 +79,13 @@ const openStorage = async ({
     }) => any;
 }) => {
     // kvsVersionKey is special type
-    const oldVersion = getItem<any>(storage, kvsVersionKey);
+    // first `oldVersion` is `0`
+    let oldVersion = getItem<any>(storage, kvsVersionKey);
     if (oldVersion === undefined) {
         setItem<any>(storage, kvsVersionKey, DEFAULT_KVS_VERSION);
+        // first `oldVersion` is `0`
+        // https://github.com/azu/kvs/issues/8
+        oldVersion = 0;
     }
     // if user set newVersion, upgrade it
     if (oldVersion !== version) {
