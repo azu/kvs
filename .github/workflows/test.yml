@@ -1,5 +1,5 @@
 name: test
-on: [pull_request]
+on: [push, pull_request]
 # disable saucelabs
 #env:
 #  SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
