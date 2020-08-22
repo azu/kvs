@@ -118,13 +118,53 @@ export type KVS<Schema extends StorageSchema> = {
 } & AsyncIterable<[StoreNames<Schema>, StoreValue<Schema, StoreNames<Schema>>]>;
 ```
 
+### Basic Usage
+
+```ts
+import assert from "assert";
+import { kvsEnvStorage } from "@kvs/env";
+(async () => {
+    type StorageSchema = {
+        a1: string;
+        b2: number;
+        c3: boolean;
+    };
+    const storage = await kvsEnvStorage<StorageSchema>({
+        name: "database-name",
+        version: 1
+    });
+    // set
+    await storage.set("a1", "string"); // type check
+    await storage.set("b2", 42);
+    await storage.set("c3", false);
+    // has
+    console.log(await storage.has("a1")); // => true
+    // get
+    const a1 = await storage.get("a1"); // a1 will be string type
+    const b2 = await storage.get("b2");
+    const c3 = await storage.get("c3");
+    assert.strictEqual(a1, "string");
+    assert.strictEqual(b2, 42);
+    assert.strictEqual(c3, false);
+    // iterate
+    for await (const [key, value] of storage) {
+        console.log([key, value]);
+    }
+    // delete
+    await storage.delete("a1");
+    // clear all data
+    await storage.clear();
+})();
+```
+
+
 ### Migration
 
 KVS support migration feature.
 You can define `upgrade` and use it as migration function. 
 
 ```ts
-import { KVSIndexedDB, kvsIndexedDB } from "@kvs/env";
+import { kvsEnvStorage } from "@kvs/env";
 (async () => {
     // Defaut version: 1 
     // when update version 1 → 2, call upgrace function

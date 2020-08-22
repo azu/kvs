@@ -13,7 +13,7 @@ Install with [npm](https://www.npmjs.com/):
 ## Usage
 
 ```ts
-import { KVSIndexedDB, kvsIndexedDB } from "@kvs/env";
+import { kvsEnvStorage } from "@kvs/env";
 (async () => {
     type StorageSchema = {
         a1: string;
