@@ -22,7 +22,7 @@ KVS libraries provide following common features.
 - Key-Value Storage
 - Async Read, and Write API
     - provide `get`, `set`, `has`, `delete`, and `clear` API
-- Version migration API
+- Migration API
     - Upgrade storage data via `version` and `upgrade` method
 - Tiny packages
     - Almost package size is **1kb**(gzip)
