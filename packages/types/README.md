@@ -10,7 +10,9 @@ Install with [npm](https://www.npmjs.com/):
 
 ## Usage
 
-- [ ] Write usage instructions
+```ts
+import type { KVS } from "@kvs/types";
+```
 
 ## Changelog
 
