@@ -1,4 +1,4 @@
-# kvs [![Actions Status: test](https://github.com/azu/kvs/workflows/test/badge.svg)](https://github.com/azu/kvs/actions?query=workflow%3A"test")
+# KVS [![Actions Status: test](https://github.com/azu/kvs/workflows/test/badge.svg)](https://github.com/azu/kvs/actions?query=workflow%3A"test")
 
 Key Value storage for Browser, Node.js, and In-Memory.
 
