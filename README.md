@@ -8,12 +8,12 @@ It is a monorepo for key-value storage.
 
 ## Motivation
 
-I want to get universal storage library that works on Browser, Node.js, etc.
-Previously, I've created [localstorage-ponyfill](https://github.com/azu/localstorage-ponyfill) for this purpose.
+I want to get universal storage library that works on Browser and Node.js.
 
+Previously, I've created [localstorage-ponyfill](https://github.com/azu/localstorage-ponyfill) for this purpose.
 However, [Window.localStorage](https://developer.mozilla.org/docs/Web/API/Window/localStorage) does not work on [Web Workers](https://developer.mozilla.org/docs/Web/API/Web_Workers_API) or [Service Worker](https://developer.mozilla.org/docs/Web/API/Service_Worker_API)
 
-`@kvs/*` packages provide async storage API and resolve this issue.
+`@kvs/*` packages provide async storage API using IndexedDB etc and resolve this issue.
 
 ## Common Features
 
