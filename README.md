@@ -81,30 +81,34 @@ Also, `KVS` object define [Symbol.asyncIterator](https://developer.mozilla.org/e
 ```ts
 export type KVS<Schema extends StorageSchema> = {
     /**
-     * Removes all key-value pairs from the storage
-     */
-    clear(): Promise<void>;
-    /**
-     * Returns true if an element in the storage object existed and has been removed, or false if the element does not exist.
-     * @param key
-     */
-    delete(key: StoreNames<Schema>): Promise<boolean>;
-    /**
-     * Returns the value associated to the key, or undefined if there is none.
-     * @param key
+     * Returns the value associated to the key.
+     * If the key does not exist, returns `undefined`.
      */
     get<K extends StoreNames<Schema>>(key: K): Promise<StoreValue<Schema, K> | undefined>;
     /**
-     * Returns a boolean asserting whether a value has been associated to the key in the storage object or not.
-     * @param key
+     * Sets the value for the key in the storage. Returns the storage.
+     */
+    set<K extends StoreNames<Schema>>(key: K, value: StoreValue<Schema, K> | undefined): Promise<KVS<Schema>>;
+    /**
+     * Returns a boolean asserting whether a value has been associated to the key in the storage.
      */
     has(key: StoreNames<Schema>): Promise<boolean>;
     /**
-     * Sets the value for the key in the storage object. Returns the storage object.
-     * @param key
-     * @param value
+     * Returns true if an key in the storage existed and has been removed.
+     * Returns false if the key does not exist.
      */
-    set<K extends StoreNames<Schema>>(key: K, value: StoreValue<Schema, K> | undefined): Promise<KVS<Schema>>;
+    delete(key: StoreNames<Schema>): Promise<boolean>;
+    /**
+     * Removes all key-value pairs from the storage.
+     * Note: clear method does not delete the storage.
+     * In other words, after clear(), the storage still has internal metadata like version.
+     */
+    clear(): Promise<void>;
+    /**
+     * Drop the storage.
+     * It delete all data that includes metadata completely.
+     */
+    dropInstance(): Promise<void>;
     /*
      * Close the KVS connection
      * DB-like KVS close the connection via this method
