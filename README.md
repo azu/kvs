@@ -58,7 +58,7 @@ If you want to custom implementation, please see [@kvs/storage](./packages/stora
 ## Usage
 
 [@kvs/env](./packages/env) support Browser and Node.js.
-Internally, browser use [@kvs/indexeddb](./packages/indexeddb) and Node.js use [@kvs/node-localstorage](./packages/node-localstorage).
+In fact, browser use [@kvs/indexeddb](./packages/indexeddb) and Node.js use [@kvs/node-localstorage](./packages/node-localstorage).
 
 ```js
 import { KVSIndexedDB, kvsIndexedDB } from "@kvs/env";
