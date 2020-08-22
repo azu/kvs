@@ -62,9 +62,9 @@ const openDB = ({
                 });
             };
         };
-        openRequest.addEventListener("blocked", () => {
+        openRequest.onblocked = () => {
             reject(openRequest.error);
-        });
+        };
         openRequest.onerror = function () {
             reject(openRequest.error);
         };
@@ -79,14 +79,14 @@ const dropInstance = (database: IDBDatabase, databaseName: string): Promise<void
     return new Promise((resolve, reject) => {
         database.close();
         const request = indexedDB.deleteDatabase(databaseName);
-        request.addEventListener("upgradeneeded", (event) => {
+        request.onupgradeneeded = (event) => {
             event.preventDefault();
             resolve();
-        });
-        request.addEventListener("blocked", () => {
+        };
+        request.onblocked = () => {
             debug.log("dropInstance:blocked", request);
             reject(request.error);
-        });
+        };
         request.onerror = function () {
             debug.log("dropInstance:error", request);
             reject(request.error);
@@ -233,6 +233,7 @@ const iterator = <Schema extends KVSIndexedSchema, K extends StoreNames<Schema>,
         }
     };
 };
+
 type IndexedDBOptions = {
     tableName?: string;
     debug?: boolean;
