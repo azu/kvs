@@ -4,7 +4,7 @@ module.exports = require("@jsdevtools/karma-config")({
         ? {
               firefox: true,
               chrome: true,
-              safari: true
+              safari: false
               // MSEdge does not work correctly
               // edge: false,
           }

@@ -102,8 +102,8 @@ You can define `upgrade` and use it as migration function.
 ```ts
 import { KVSIndexedDB, kvsIndexedDB } from "@kvs/env";
 (async () => {
-    // Defaut version 1 
-    // when version 1 → 2, call upgrace function
+    // Defaut version: 1 
+    // when update version 1 → 2, call upgrace function
     const storage = await kvsEnvStorage({
         name: "database-name",
         version: 2,
@@ -115,6 +115,22 @@ import { KVSIndexedDB, kvsIndexedDB } from "@kvs/env";
         }
     });
     assert.strictEqual(await storage.get("v1"), "v1-migrated-value");
+})();
+```
+
+:memo: When open database at first time, this library also call `upgrade` function with `{ oldVersion: 0, newVersion: 1 }`.
+
+```ts
+import { KVSIndexedDB, kvsIndexedDB } from "@kvs/env";
+(async () => {
+    const storage = await kvsEnvStorage({
+        name: "database-name",
+        version: 1,
+        async upgrade({ kvs, oldVersion, newVersion }) {
+            console.log(oldVersion); // => 0
+            console.log(newVersion); // => 1
+        }
+    });
 })();
 ```
 

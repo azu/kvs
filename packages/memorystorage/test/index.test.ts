@@ -46,7 +46,7 @@ const deleteAllDB = async () => {
     }
     try {
         await kvsTestCase.ref.current.clear();
-        // await kvs.dropInstance();
+        await kvsTestCase.ref.current.dropInstance();
     } catch (error) {
         console.error("deleteAllDB", error);
     }

@@ -110,6 +110,19 @@ export const createKVSTestCase = (
                     ].sort()
                 );
             });
+            it("upgrade 0 → 1 when open database at first time", async () => {
+                let isUpgradeCalled = false;
+                kvs = ref.current = await kvsStorageConstructor({
+                    version: 1,
+                    async upgrade({ oldVersion, newVersion }) {
+                        assert.strictEqual(oldVersion, 0);
+                        assert.strictEqual(newVersion, 1);
+                        isUpgradeCalled = true;
+                    }
+                });
+                await kvs.set("key1", "value1");
+                assert.strictEqual(isUpgradeCalled, true, "should call upgrade at first time");
+            });
             it("upgrade when on upgrade version", async () => {
                 kvs = ref.current = await kvsStorageConstructor({
                     version: 1

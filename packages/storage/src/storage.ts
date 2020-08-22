@@ -21,11 +21,15 @@ export const setItem = <Schema extends StorageSchema>(
     }
     return storage.setItem(String(key), JSON.stringify(value));
 };
-export const clearItem = (storage: Storage, kvsVersionKey: string) => {
+export const clearItem = (storage: Storage, kvsVersionKey: string, options: { force: boolean }) => {
     // TODO: kvsVersionKey is special type
     const currentVersion: number | undefined = getItem<any>(storage, kvsVersionKey);
     // clear all
     storage.clear();
+    // if option.force is true, does not restore metadata.
+    if (options.force) {
+        return;
+    }
     // set kvs version again
     if (currentVersion !== undefined) {
         setItem<any>(storage, kvsVersionKey, currentVersion);
@@ -79,9 +83,13 @@ const openStorage = async ({
     }) => any;
 }) => {
     // kvsVersionKey is special type
-    const oldVersion = getItem<any>(storage, kvsVersionKey);
+    // first `oldVersion` is `0`
+    let oldVersion = getItem<any>(storage, kvsVersionKey);
     if (oldVersion === undefined) {
         setItem<any>(storage, kvsVersionKey, DEFAULT_KVS_VERSION);
+        // first `oldVersion` is `0`
+        // https://github.com/azu/kvs/issues/8
+        oldVersion = 0;
     }
     // if user set newVersion, upgrade it
     if (oldVersion !== version) {
@@ -126,12 +134,17 @@ const createStore = <Schema extends StorageSchema>({
         },
         clear(): Promise<void> {
             return Promise.resolve().then(() => {
-                return clearItem(storage, kvsVersionKey);
+                return clearItem(storage, kvsVersionKey, { force: false });
             });
         },
         delete(key: StoreNames<Schema>): Promise<boolean> {
             return Promise.resolve().then(() => {
                 return deleteItem<Schema>(storage, key);
+            });
+        },
+        dropInstance(): Promise<void> {
+            return Promise.resolve().then(() => {
+                return clearItem(storage, kvsVersionKey, { force: true });
             });
         },
         close(): Promise<void> {
@@ -173,8 +186,8 @@ export const kvsStorage = async <Schema extends StorageSchema>(
             }
             return options.upgrade({
                 kvs: createStore({ storage, kvsVersionKey }),
-                newVersion,
-                oldVersion
+                oldVersion,
+                newVersion
             });
         },
         kvsVersionKey
