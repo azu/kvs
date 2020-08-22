@@ -129,6 +129,7 @@ import { kvsEnvStorage } from "@kvs/env";
         b2: number;
         c3: boolean;
     };
+    // open database and initialize it
     const storage = await kvsEnvStorage<StorageSchema>({
         name: "database-name",
         version: 1
