@@ -228,6 +228,33 @@ import { KVSIndexedDB, kvsIndexedDB } from "@kvs/env";
 })();
 ```
 
+### Tips: Initial Data
+
+You can also set up initial data using `upgrade` function.
+This approach help you to improve `Scheme` typing.
+
+```ts
+(async () => {
+    type UnixTimeStamp = number;
+    type Scheme = {
+        timeStamp: UnixTimeStamp
+    };
+    const storage = await kvsEnvStorage<Scheme>({
+        name: "test-data",
+        version: 1,
+        async upgrade({ kvs, oldVersion, newVersion }) {
+            // Initialize data
+            // oldVersion is 0 and newVersion is 1 at first time
+            if (oldVersion < 1) {
+                await kvs.set("timeStamp", Date.now());
+            }
+        }
+    });
+    const timeStamp = await storage.get("timeStamp");
+    console.log(timeStamp); // => timestamp
+})()
+```
+
 ## Related
 
 - [azu/localstorage-ponyfill: Universal LocalStorage for browser and Node.js.](https://github.com/azu/localstorage-ponyfill)
