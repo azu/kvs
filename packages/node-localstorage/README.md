@@ -1,6 +1,6 @@
 # @kvs/node-localstorage
 
-Node.js localstorage for KVS.
+Node.js localstorage for [KVS](https://github.com/azu/kvs).
 
 ## Dependencies
 
@@ -14,7 +14,7 @@ Install with [npm](https://www.npmjs.com/):
 
 ## Usage
 
-- [ ] Write usage instructions
+See <https://github.com/azu/kvs#api>
 
 ## Changelog
 
