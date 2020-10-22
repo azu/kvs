@@ -14,7 +14,7 @@ Install with [npm](https://www.npmjs.com/):
 
 ## Usage
 
-See <https://github.com/azu/kvs#api>
+See <https://github.com/azu/kvs#usage>
 
 ## Changelog
 
