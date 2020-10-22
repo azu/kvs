@@ -264,7 +264,7 @@ This approach help you to improve `Scheme` typing.
     - It provides storage API based on localStorage API
 - [KV Storage](https://github.com/WICG/kv-storage)
     - This proposal aims to create "async local storage", but it is suspended
-    - @kvs project aims to similar one
+    - @kvs project aims to be similar one
 - [localForage](https://github.com/localForage/localForage)
     - It has same concept and similar API.
     - However, [localForage](https://github.com/localForage/localForage) size is large `~8.8kB`(gzipped)
