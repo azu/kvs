@@ -1,8 +1,8 @@
 # @kvs/memorystorage
 
-In-Memory storage for KVS.
+In-Memory storage for [KVS](https://github.com/azu/kvs).
 
-:memo: It has not persisted storage.
+:memo: It is not persisted storage.
 
 ## Dependencies
 
@@ -16,7 +16,7 @@ Install with [npm](https://www.npmjs.com/):
 
 ## Usage
 
-- [ ] Write usage instructions
+See <https://github.com/azu/kvs#api>
 
 ## Changelog
 
