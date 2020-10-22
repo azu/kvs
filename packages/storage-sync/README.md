@@ -4,7 +4,7 @@ Storage-like for KVS.
 
 You can inject Storage object like localStorage, sessionStorage to this storage.
 
-[@kvs/storage] is async version, but [@kvs/storage-sync] is sync version.
+[@kvs/storage](https://github.com/azu/kvs/tree/master/packages/storage) is async version, but `@kvs/storage-sync` is sync version.
 
 ## Feature
 
