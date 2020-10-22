@@ -183,7 +183,10 @@ import { kvsEnvStorage } from "@kvs/env";
 })();
 ```
 
-:memo: When open database at first time, this library also call `upgrade` function with `{ oldVersion: 0, newVersion: 1 }`.
+:memo: Initializing
+
+When open database at first time, this library also call `upgrade` function with `{ oldVersion: 0, newVersion: 1 }`.
+So, You can implement `0` to `1` migration as initializing datadabse.
 
 ```ts
 import { KVSIndexedDB, kvsIndexedDB } from "@kvs/env";
