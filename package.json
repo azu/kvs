@@ -27,6 +27,7 @@
     "release": "lerna publish from-package"
   },
   "workspaces": [
+    "examples/*",
     "packages/*"
   ],
   "husky": {

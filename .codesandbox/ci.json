@@ -1,0 +1,11 @@
+{
+  "packages": [
+    "packages/*",
+    "packages/react-dom"
+  ],
+  "sandboxes": [
+    "new",
+    "vanilla"
+  ]
+}
+
