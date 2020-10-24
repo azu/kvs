@@ -4,8 +4,7 @@
     "examples/*"
   ],
   "sandboxes": [
-    "new",
-    "vanilla"
+    "examples/basic"
   ]
 }
 
