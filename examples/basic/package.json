@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "example-basic",
+  "name": "kvs-example-basic",
   "version": "1.0.0",
   "description": "basic usage",
   "main": "index.js",
