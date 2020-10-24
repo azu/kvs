@@ -12,7 +12,8 @@
     "@kvs/env": "^1.0.0"
   },
   "devDependencies": {
-    "parcel": "^1.12.4"
+    "parcel": "^1.12.4",
+    "typescript": "^4.0.3"
   },
   "keywords": [],
   "author": "azu",
