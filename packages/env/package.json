@@ -5,7 +5,9 @@
   "keywords": [
     "kvs",
     "browser",
-    "env"
+    "env",
+    "indexeddb",
+    "localstorage"
   ],
   "homepage": "https://github.com/azu/kvs/tree/master/packages/env/",
   "bugs": {
