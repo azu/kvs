@@ -1,7 +1,7 @@
 {
   "name": "@kvs/env",
   "version": "1.0.0",
-  "description": "Universal Storage for KVS.",
+  "description": "Universal Storage for Browser and Node.js.",
   "keywords": [
     "kvs",
     "browser",

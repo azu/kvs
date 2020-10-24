@@ -1,8 +1,11 @@
 # @kvs/env
 
-Universal library for KVS.
+Universal Storage for Browser and Node.js.
 
 It detects the running platform and use suitable storage engine.
+
+- Browser: [@kvs/indexeddb](https://www.npmjs.com/package/@kvs/indexeddb)
+- Node.js: [@kvs/node-localstorage](https://www.npmjs.com/package/@kvs/node-localstorage)
 
 ## Install
 
