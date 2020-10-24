@@ -1,7 +1,7 @@
 {
   "packages": [
     "packages/*",
-    "packages/react-dom"
+    "examples/*"
   ],
   "sandboxes": [
     "new",
