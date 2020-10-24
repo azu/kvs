@@ -14,7 +14,7 @@
   "license": "MIT",
   "author": "azu",
   "scripts": {
-    "prepublish": "npm run clean && npm run build",
+    "prepublishOnly": "npm run clean && npm run build",
     "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,css}\"",
     "build": "lerna run build",
     "clean": "lerna run clean",
@@ -27,6 +27,7 @@
     "release": "lerna publish from-package"
   },
   "workspaces": [
+    "examples/*",
     "packages/*"
   ],
   "husky": {

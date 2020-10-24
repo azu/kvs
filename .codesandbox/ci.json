@@ -1,0 +1,9 @@
+{
+  "packages": [
+    "packages/*"
+  ],
+  "sandboxes": [
+    "/examples/basic"
+  ]
+}
+

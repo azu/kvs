@@ -157,3 +157,4 @@ fabric.properties
 # Build files
 /lib
 /module
+/examples/*/dist/

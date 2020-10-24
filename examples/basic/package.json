@@ -1,0 +1,26 @@
+{
+  "private": true,
+  "name": "kvs-example-basic",
+  "version": "1.0.0",
+  "description": "basic usage",
+  "main": "index.js",
+  "scripts": {
+    "build": "parcel build index.html",
+    "start": "parcel serve index.html"
+  },
+  "dependencies": {
+    "@kvs/env": "^1.0.0"
+  },
+  "devDependencies": {
+    "parcel": "^1.12.4",
+    "typescript": "^4.0.3"
+  },
+  "keywords": [],
+  "author": "azu",
+  "license": "MIT",
+  "browserslist": [
+    "last 1 Chrome versions",
+    "last 1 Firefox versions",
+    "last 1 Safari versions"
+  ]
+}
