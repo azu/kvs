@@ -1,7 +1,8 @@
 {
-  "name": "basic",
+  "private": true,
+  "name": "example-basic",
   "version": "1.0.0",
-  "description": "",
+  "description": "basic usage",
   "main": "index.js",
   "scripts": {
     "build": "parcel build index.html",
