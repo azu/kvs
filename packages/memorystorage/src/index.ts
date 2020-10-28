@@ -1,7 +1,8 @@
 import { JsonValue, KvsStorage, kvsStorage } from "@kvs/storage";
 import { KVS, KVSOptions } from "@kvs/types";
 // @ts-ignore
-import localstorage from "localstorage-memory";
+// import localstorage from "localstorage-memory";
+import localstorage from "./localstorage-memory";
 
 export type KvsMemoryStorageSchema = {
     [index: string]: JsonValue;
