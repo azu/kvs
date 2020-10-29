@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/azu/kvs/compare/v1.0.0...v1.1.0) (2020-10-29)
+
+
+### Features
+
+* drop localstorage-memory ([#15](https://github.com/azu/kvs/issues/15)) ([75c66a8](https://github.com/azu/kvs/commit/75c66a866260bd337f7a3146557fea0356fda2d2))
+* **examples:** add basic example ([#14](https://github.com/azu/kvs/issues/14)) ([351215d](https://github.com/azu/kvs/commit/351215d6c04158201768036caaa6e792c72717ea))
+
+
+
+
+
 # [1.0.0](https://github.com/azu/kvs/compare/v0.3.1...v1.0.0) (2020-08-22)
 
 **Note:** Version bump only for package @kvs/memorystorage
