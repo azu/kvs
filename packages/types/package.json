@@ -32,8 +32,11 @@
     "clean": "rimraf lib/ module/",
     "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,css}\"",
     "prepublishOnly": "npm run clean && npm run build",
-    "test": "tsd",
+    "test": "tsc -p test",
     "watch": "tsc -p . --watch"
+  },
+  "tsd": {
+    "directory": "test"
   },
   "prettier": {
     "printWidth": 120,

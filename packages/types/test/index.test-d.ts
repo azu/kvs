@@ -27,5 +27,4 @@ expectType<Promise<string | undefined>>(schemaStorage.get("a"));
 declare var mappedStorage: KVS<{
     [index: string]: string;
 }>;
-
 expectType<Promise<string | undefined>>(mappedStorage.get("key"));
