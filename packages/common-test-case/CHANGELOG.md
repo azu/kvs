@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/azu/kvs/compare/v1.1.0...v1.2.0) (2021-04-17)
+
+
+### Features
+
+* **types:** Use Key Remapping in Mapped Types. ([#17](https://github.com/azu/kvs/issues/17)) ([7c099be](https://github.com/azu/kvs/commit/7c099be4ae39adedba78d111574347395e024362))
+
+
+### BREAKING CHANGES
+
+* **types:** require TypeScript 4.1+
+
+It aims to support to following schema:
+
+```ts
+const storage = kvs<{
+    [index: string]: string;
+}>;
+```
+
+
+
+
+
 # [1.1.0](https://github.com/azu/kvs/compare/v1.0.0...v1.1.0) (2020-10-29)
 
 

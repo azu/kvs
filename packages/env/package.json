@@ -1,6 +1,6 @@
 {
   "name": "@kvs/env",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Universal Storage for KVS.",
   "keywords": [
     "kvs",
@@ -46,8 +46,8 @@
     "trailingComma": "none"
   },
   "dependencies": {
-    "@kvs/indexeddb": "^1.1.0",
-    "@kvs/node-localstorage": "^1.1.0"
+    "@kvs/indexeddb": "^1.2.0",
+    "@kvs/node-localstorage": "^1.2.0"
   },
   "devDependencies": {
     "@jsdevtools/karma-config": "^3.1.7",

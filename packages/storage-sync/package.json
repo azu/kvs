@@ -1,6 +1,6 @@
 {
   "name": "@kvs/storage-sync",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Storage(localStorage, sessionStorage) helper for KVS.",
   "keywords": [
     "kvs",
@@ -45,11 +45,11 @@
     "trailingComma": "none"
   },
   "dependencies": {
-    "@kvs/types": "^1.1.0"
+    "@kvs/types": "^1.2.0"
   },
   "devDependencies": {
     "@jsdevtools/karma-config": "^3.1.7",
-    "@kvs/common-test-case": "^1.1.0",
+    "@kvs/common-test-case": "^1.2.0",
     "@types/mocha": "^8.0.1",
     "@types/node": "^14.0.27",
     "karma": "^5.1.1",
