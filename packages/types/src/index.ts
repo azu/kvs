@@ -1,15 +1,16 @@
 export type StorageSchema = {
     [index: string]: any;
 };
+// https://twitter.com/rithmety/status/1383300592580186113
+type HasIndexSignature<T> = T extends Record<infer K, any> ? K : never
 // Require TS 4.1+
 // https://stackoverflow.com/questions/51465182/typescript-remove-index-signature-using-mapped-types
 // https://devblogs.microsoft.com/typescript/announcing-typescript-4-1/#key-remapping-mapped-types
 export type RemoveIndex<T> = {
-    [K in keyof T as string extends K
-        ? never
-        : number extends K
-            ? never
-            : K]: T[K];
+    [K in keyof T as symbol extends K
+        ? never : string extends K
+            ? never : number extends K
+                ? never : K]: T[K];
 }
 export type KnownKeys<T> = keyof RemoveIndex<T>;
 /**
@@ -17,9 +18,13 @@ export type KnownKeys<T> = keyof RemoveIndex<T>;
  *
  * @template DBTypes DB schema type, or unknown if the DB isn't typed.
  */
-export type StoreNames<DBTypes extends StorageSchema | unknown> = DBTypes extends StorageSchema
-    ? KnownKeys<DBTypes>
-    : string;
+export type StoreNames<DBTypes extends StorageSchema | unknown> =
+    DBTypes extends StorageSchema ? // schema-like object ?
+        string extends HasIndexSignature<DBTypes> // has index signature
+            ? string // does not remove index signature
+            : KnownKeys<DBTypes> // if has not index signature, infer all keys
+        : string;
+
 /**
  * Extract database value types from the DB schema type.
  *
