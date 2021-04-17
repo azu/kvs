@@ -1,4 +1,4 @@
-# @kvs/indexeddb
+# @kvs/indexeddb ![](https://badgen.net/bundlephobia/minzip/@kvs/indexeddb)
 
 IndexedDB for KVS
 

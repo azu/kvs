@@ -1,4 +1,4 @@
-# @kvs/localstorage
+# @kvs/localstorage ![](https://badgen.net/bundlephobia/minzip/@kvs/localstorage)
 
 localstorage for KVS.
 

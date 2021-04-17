@@ -1,4 +1,4 @@
-# @kvs/memorystorage
+# @kvs/memorystorage ![](https://badgen.net/bundlephobia/minzip/@kvs/memorystorage)
 
 In-Memory storage for [KVS](https://github.com/azu/kvs).
 

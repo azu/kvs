@@ -47,7 +47,7 @@ KVS libraries provide following common features.
         - For Node.js
 - In-Memory
     - [@kvs/memorystorage](./packages/memorystorage): In-Memory Storage
-        - For debug and testing
+        - For debugging and testing
 - Sync Version
     - [@kvs/storage-sync](./packages/storage-sync): Sync version of [@kvs/localstorage](./packages/localstorage)
 

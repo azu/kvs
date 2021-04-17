@@ -1,4 +1,4 @@
-# @kvs/env
+# @kvs/env ![](https://badgen.net/bundlephobia/minzip/@kvs/env)
 
 Universal library for KVS.
 
