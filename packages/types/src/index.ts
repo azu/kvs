@@ -1,10 +1,17 @@
 export type StorageSchema = {
-    [index: string]: unknown;
+    [index: string]: any;
 };
+// Require TS 4.1+
 // https://stackoverflow.com/questions/51465182/typescript-remove-index-signature-using-mapped-types
-export type KnownKeys<T> = {
-    [K in keyof T as string extends K ? never : number extends K ? never : K]: K;
+// https://devblogs.microsoft.com/typescript/announcing-typescript-4-1/#key-remapping-mapped-types
+export type RemoveIndex<T> = {
+    [K in keyof T as string extends K
+        ? never
+        : number extends K
+            ? never
+            : K]: T[K];
 }
+export type KnownKeys<T> = keyof RemoveIndex<T>;
 /**
  * Extract known object store names from the DB schema type.
  *
@@ -20,7 +27,9 @@ export type StoreNames<DBTypes extends StorageSchema | unknown> = DBTypes extend
  * @template StoreName Names of the object stores to get the types of.
  */
 export type StoreValue<DBTypes extends StorageSchema | unknown,
-    StoreName extends StoreNames<DBTypes>> = DBTypes extends StorageSchema ? DBTypes[StoreName] : any;
+    StoreName extends StoreNames<DBTypes>> = DBTypes extends StorageSchema
+    ? DBTypes[StoreName]
+    : any;
 
 export type KVS<Schema extends StorageSchema> = {
     /**
