@@ -1,30 +1,40 @@
 export type StorageSchema = {
     [index: string]: any;
 };
+// https://twitter.com/rithmety/status/1383300592580186113
+type HasIndexSignature<T> = T extends Record<infer K, any> ? K : never
+// Require TS 4.1+
 // https://stackoverflow.com/questions/51465182/typescript-remove-index-signature-using-mapped-types
-export type KnownKeys<T> = {
-    [K in keyof T]: string extends K ? never : number extends K ? never : K;
-} extends { [_ in keyof T]: infer U }
-    ? U
-    : never;
+// https://devblogs.microsoft.com/typescript/announcing-typescript-4-1/#key-remapping-mapped-types
+export type RemoveIndex<T> = {
+    [K in keyof T as symbol extends K
+        ? never : string extends K
+            ? never : number extends K
+                ? never : K]: T[K];
+}
+export type KnownKeys<T> = keyof RemoveIndex<T>;
 /**
  * Extract known object store names from the DB schema type.
  *
  * @template DBTypes DB schema type, or unknown if the DB isn't typed.
  */
-export type StoreNames<DBTypes extends StorageSchema | unknown> = DBTypes extends StorageSchema
-    ? KnownKeys<DBTypes>
-    : string;
+export type StoreNames<DBTypes extends StorageSchema | unknown> =
+    DBTypes extends StorageSchema ? // schema-like object ?
+        string extends HasIndexSignature<DBTypes> // has index signature
+            ? string // does not remove index signature
+            : KnownKeys<DBTypes> // if has not index signature, infer all keys
+        : string;
+
 /**
  * Extract database value types from the DB schema type.
  *
  * @template DBTypes DB schema type, or unknown if the DB isn't typed.
  * @template StoreName Names of the object stores to get the types of.
  */
-export type StoreValue<
-    DBTypes extends StorageSchema | unknown,
-    StoreName extends StoreNames<DBTypes>
-> = DBTypes extends StorageSchema ? DBTypes[StoreName] : any;
+export type StoreValue<DBTypes extends StorageSchema | unknown,
+    StoreName extends StoreNames<DBTypes>> = DBTypes extends StorageSchema
+    ? DBTypes[StoreName]
+    : any;
 
 export type KVS<Schema extends StorageSchema> = {
     /**
@@ -67,10 +77,10 @@ export type KVSOptions<Schema extends StorageSchema> = {
     name: string;
     version: number;
     upgrade?({
-        kvs,
-        oldVersion,
-        newVersion
-    }: {
+                 kvs,
+                 oldVersion,
+                 newVersion
+             }: {
         kvs: KVS<Schema>;
         oldVersion: number;
         newVersion: number;

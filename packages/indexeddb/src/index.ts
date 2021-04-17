@@ -162,8 +162,8 @@ const deleteItem = async <Schema extends KVSIndexedSchema>(
     database: IDBDatabase,
     tableName: string,
     key: StoreNames<Schema>
-): Promise<boolean> => {
-    return new Promise((resolve, reject) => {
+): Promise<void> => {
+    return new Promise<void>((resolve, reject) => {
         const transaction = database.transaction(tableName, "readwrite");
         const objectStore = transaction.objectStore(tableName);
         const request = objectStore.delete(String(key));
