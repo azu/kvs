@@ -1,5 +1,5 @@
 import type { KVS, KVSOptions, StoreNames, StoreValue } from "@kvs/types";
-import { JsonValue } from "@kvs/storage";
+import type { JsonValue } from "@kvs/storage";
 
 const debug = {
     enabled: false,
