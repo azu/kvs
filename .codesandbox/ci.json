@@ -4,6 +4,7 @@
   ],
   "sandboxes": [
     "/examples/basic"
-  ]
+  ],
+  "node": "14"
 }
 
