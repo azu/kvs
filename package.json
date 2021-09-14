@@ -15,7 +15,6 @@
   "author": "azu",
   "scripts": {
     "prepublishOnly": "npm run clean && npm run build",
-    "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,css}\"",
     "build": "lerna run build",
     "clean": "lerna run clean",
     "test": "lerna run test",
@@ -24,7 +23,9 @@
     "versionup:patch": "lerna version patch --conventional-commits",
     "versionup:minor": "lerna version minor --conventional-commits",
     "versionup:major": "lerna version major --conventional-commits",
-    "release": "lerna publish from-package"
+    "release": "lerna publish from-package",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css}\"",
+    "prepare": "git config --local core.hooksPath .githooks"
   },
   "workspaces": [
     "examples/*",
@@ -47,9 +48,9 @@
     "trailingComma": "none"
   },
   "devDependencies": {
-    "husky": "^4.2.5",
-    "lerna": "^3.22.1",
-    "lint-staged": "^10.2.11",
-    "prettier": "^2.0.5"
+    "husky": "^7.0.2",
+    "lerna": "^4.0.0",
+    "lint-staged": "^11.1.2",
+    "prettier": "^2.4.0"
   }
 }
