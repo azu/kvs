@@ -22,7 +22,7 @@ module.exports = require("@jsdevtools/karma-config")({
             },
             mode: "development",
             module: {
-                rules: [{ test: /\.ts$/, use: "ts-loader" }]
+                rules: [{ test: /\.ts$/, loader: "ts-loader" }]
             }
         },
         client: {
