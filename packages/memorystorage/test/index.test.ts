@@ -5,8 +5,8 @@ const databaseName = "kvs-test";
 const kvsTestCase = createKVSTestCase(
     (options) =>
         kvsMemoryStorage({
-            ...options,
             name: databaseName,
+            ...options,
             debug: true
         }),
     {

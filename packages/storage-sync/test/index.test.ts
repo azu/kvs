@@ -7,8 +7,8 @@ const kvsTestCase = createKVSTestCase(
     (options: any) => {
         return Promise.resolve(
             kvsStorageSync({
-                ...options,
                 name: databaseName,
+                ...options,
                 storage: window.localStorage
             } as any)
         ) as any;
