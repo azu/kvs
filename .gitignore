@@ -160,4 +160,3 @@ fabric.properties
 /lib
 /module
 /examples/*/dist/
-!/examples/basic/.cache/
