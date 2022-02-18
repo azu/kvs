@@ -59,13 +59,13 @@ export function* createIterator<Schema extends StorageSchema>(
     tableName: string,
     kvsVersionKey: string
 ): Iterator<[StoreNames<Schema>, StoreValue<Schema, StoreNames<Schema>>]> {
+    const tableKeyPrefix = `${tableName}${TABLE_KEY_MARKER}`;
     for (let i = 0; i < storage.length; i++) {
         const key = storage.key(i) as StoreNames<Schema> | undefined;
         if (!key) {
             continue;
         }
         // skip another storage
-        const tableKeyPrefix = `${tableName}${TABLE_KEY_MARKER}`;
         if (!key.startsWith(tableKeyPrefix)) {
             continue;
         }

@@ -96,8 +96,8 @@ export const createKVSTestCase = (
                 });
                 await kvs.set("key1", "value1");
                 await kvs.set("key2", "value2");
-                assert.ok(await kvs.has("key1"));
-                assert.ok(await kvs.has("key2"));
+                assert.ok(await kvs.has("key1"), "should have key1");
+                assert.ok(await kvs.has("key2"), "should have key2");
                 const results: [string, string][] = [];
                 for await (const [key, value] of kvs) {
                     results.push([key, value]);

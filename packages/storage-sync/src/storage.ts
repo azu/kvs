@@ -2,28 +2,33 @@ import type { KVSSync, KVSSyncOptions, StoreNames, StoreValue } from "@kvs/types
 import { JsonValue } from "./JSONValue";
 
 export type KVSStorageKey = string;
-export const getItem = <Schema extends StorageSchema>(storage: Storage, key: StoreNames<Schema>) => {
-    const item = storage.getItem(String(key));
+const TABLE_KEY_MARKER = ".__.";
+export const getItem = <Schema extends StorageSchema>(storage: Storage, tableName: string, key: StoreNames<Schema>) => {
+    const storageKey = `${tableName}${TABLE_KEY_MARKER}${String(key)}`;
+    const item = storage.getItem(storageKey);
     return item !== null ? JSON.parse(item) : undefined;
 };
-export const hasItem = <Schema extends StorageSchema>(storage: Storage, key: StoreNames<Schema>) => {
-    return storage.getItem(String(key)) !== null;
+export const hasItem = <Schema extends StorageSchema>(storage: Storage, tableName: string, key: StoreNames<Schema>) => {
+    const storageKey = `${tableName}${TABLE_KEY_MARKER}${String(key)}`;
+    return storage.getItem(storageKey) !== null;
 };
 export const setItem = <Schema extends StorageSchema>(
     storage: Storage,
+    tableName: string,
     key: StoreNames<Schema>,
     value: StoreValue<Schema, StoreNames<Schema>> | undefined
 ) => {
     // It is difference with IndexedDB implementation.
     // This behavior compatible with localStorage.
     if (value === undefined) {
-        return deleteItem(storage, key);
+        return deleteItem(storage, tableName, key);
     }
-    return storage.setItem(String(key), JSON.stringify(value));
+    const storageKey = `${tableName}${TABLE_KEY_MARKER}${String(key)}`;
+    return storage.setItem(storageKey, JSON.stringify(value));
 };
-export const clearItem = (storage: Storage, kvsVersionKey: string, options: { force: boolean }) => {
+export const clearItem = (storage: Storage, tableName: string, kvsVersionKey: string, options: { force: boolean }) => {
     // TODO: kvsVersionKey is special type
-    const currentVersion: number | undefined = getItem<any>(storage, kvsVersionKey);
+    const currentVersion: number | undefined = getItem<any>(storage, tableName, kvsVersionKey);
     // clear all
     storage.clear();
     // if option.force is true, does not restore metadata.
@@ -32,12 +37,17 @@ export const clearItem = (storage: Storage, kvsVersionKey: string, options: { fo
     }
     // set kvs version again
     if (currentVersion !== undefined) {
-        setItem<any>(storage, kvsVersionKey, currentVersion);
+        setItem<any>(storage, tableName, kvsVersionKey, currentVersion);
     }
 };
-export const deleteItem = <Schema extends StorageSchema>(storage: Storage, key: StoreNames<Schema>): boolean => {
+export const deleteItem = <Schema extends StorageSchema>(
+    storage: Storage,
+    tableName: string,
+    key: StoreNames<Schema>
+): boolean => {
     try {
-        storage.removeItem(String(key));
+        const storageKey = `${tableName}${TABLE_KEY_MARKER}${String(key)}`;
+        storage.removeItem(storageKey);
         return true;
     } catch {
         return false;
@@ -46,30 +56,39 @@ export const deleteItem = <Schema extends StorageSchema>(storage: Storage, key: 
 
 export function* createIterator<Schema extends StorageSchema>(
     storage: Storage,
+    tableName: string,
     kvsVersionKey: string
 ): Iterator<[StoreNames<Schema>, StoreValue<Schema, StoreNames<Schema>>]> {
+    const tableKeyPrefix = `${tableName}${TABLE_KEY_MARKER}`;
     for (let i = 0; i < storage.length; i++) {
         const key = storage.key(i) as StoreNames<Schema> | undefined;
         if (!key) {
             continue;
         }
-        // skip meta key
-        if (key === kvsVersionKey) {
+        // skip another storage
+        if (!key.startsWith(tableKeyPrefix)) {
             continue;
         }
-        const value = getItem(storage, key);
-        yield [key, value];
+        // skip meta key
+        const keyWithoutPrefix = key.replace(tableKeyPrefix, "");
+        if (keyWithoutPrefix === kvsVersionKey) {
+            continue;
+        }
+        const value = getItem(storage, tableName, keyWithoutPrefix);
+        yield [keyWithoutPrefix as StoreNames<Schema>, value];
     }
 }
 
 const DEFAULT_KVS_VERSION = 1;
 const openStorage = ({
     storage,
+    tableName,
     version,
     kvsVersionKey,
     onUpgrade
 }: {
     storage: Storage;
+    tableName: string;
     version: number;
     kvsVersionKey: string;
     onUpgrade: ({
@@ -84,9 +103,9 @@ const openStorage = ({
 }) => {
     // kvsVersionKey is special type
     // first `oldVersion` is `0`
-    let oldVersion = getItem<any>(storage, kvsVersionKey);
+    let oldVersion = getItem<any>(storage, tableName, kvsVersionKey);
     if (oldVersion === undefined) {
-        setItem<any>(storage, kvsVersionKey, DEFAULT_KVS_VERSION);
+        setItem<any>(storage, tableName, kvsVersionKey, DEFAULT_KVS_VERSION);
         // first `oldVersion` is `0`
         // https://github.com/azu/kvs/issues/8
         oldVersion = 0;
@@ -105,37 +124,39 @@ const openStorage = ({
 
 const createStore = <Schema extends StorageSchema>({
     storage,
+    tableName,
     kvsVersionKey
 }: {
     storage: Storage;
+    tableName: string;
     kvsVersionKey: string;
 }): KvsStorageSync<Schema> => {
     const store: KvsStorageSync<Schema> = {
         get<K extends StoreNames<Schema>>(key: K): StoreValue<Schema, K> | undefined {
-            return getItem<Schema>(storage, key);
+            return getItem<Schema>(storage, tableName, key);
         },
         has(key: StoreNames<Schema>): boolean {
-            return hasItem<Schema>(storage, key);
+            return hasItem<Schema>(storage, tableName, key);
         },
         set<K extends StoreNames<Schema>>(key: K, value: StoreValue<Schema, K> | undefined) {
-            setItem<Schema>(storage, key, value);
+            setItem<Schema>(storage, tableName, key, value);
             return store;
         },
         clear(): void {
-            return clearItem(storage, kvsVersionKey, { force: false });
+            return clearItem(storage, tableName, kvsVersionKey, { force: false });
         },
         delete(key: StoreNames<Schema>): boolean {
-            return deleteItem<Schema>(storage, key);
+            return deleteItem<Schema>(storage, tableName, key);
         },
         dropInstance(): void {
-            return clearItem(storage, kvsVersionKey, { force: true });
+            return clearItem(storage, tableName, kvsVersionKey, { force: true });
         },
         close(): void {
             // Noop function
             return;
         },
         [Symbol.iterator](): Iterator<[StoreNames<Schema>, StoreValue<Schema, StoreNames<Schema>>]> {
-            const iterator = createIterator<Schema>(storage, kvsVersionKey);
+            const iterator = createIterator<Schema>(storage, tableName, kvsVersionKey);
             return {
                 next() {
                     return iterator.next();
@@ -159,6 +180,7 @@ export const kvsStorageSync = <Schema extends StorageSchema>(
     const { name, version, upgrade, ...kvStorageOptions } = options;
     const kvsVersionKey = kvStorageOptions.kvsVersionKey ?? "__kvs_version__";
     const storage = openStorage({
+        tableName: name,
         storage: options.storage,
         version: options.version,
         onUpgrade: ({ oldVersion, newVersion, storage }) => {
@@ -166,12 +188,12 @@ export const kvsStorageSync = <Schema extends StorageSchema>(
                 return;
             }
             return options.upgrade({
-                kvs: createStore({ storage, kvsVersionKey }),
+                kvs: createStore({ storage, tableName: name, kvsVersionKey }),
                 oldVersion,
                 newVersion
             });
         },
         kvsVersionKey
     });
-    return createStore({ storage, kvsVersionKey });
+    return createStore({ storage, tableName: name, kvsVersionKey });
 };
