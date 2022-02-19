@@ -185,6 +185,18 @@ const createStore = <Schema extends StorageSchema>({
     };
     return store;
 };
+const assertStorageName = (name: string) => {
+    if (typeof name !== "string") {
+        throw new Error("name should be string");
+    }
+    if (name.length === 0) {
+        throw new Error("name should not be empty");
+    }
+    if (name.includes(TABLE_KEY_MARKER)) {
+        throw new Error(`name can not include ${TABLE_KEY_MARKER}. It is reserved in kvs.`);
+    }
+    return;
+};
 export type StorageSchema = {
     [index: string]: JsonValue;
 };
@@ -197,6 +209,7 @@ export const kvsStorage = async <Schema extends StorageSchema>(
     options: KvsStorageOptions<Schema>
 ): Promise<KvsStorage<Schema>> => {
     const { name, version, upgrade, ...kvStorageOptions } = options;
+    assertStorageName(name);
     const kvsVersionKey = kvStorageOptions.kvsVersionKey ?? "__kvs_version__";
     const storage = await openStorage({
         storage: options.storage,
