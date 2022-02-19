@@ -1,6 +1,13 @@
 import type { KVS, KVSOptions, StoreNames, StoreValue } from "@kvs/types";
 import { JsonValue } from "./JSONValue";
 
+function invariant(condition: any, message: string): asserts condition {
+    if (condition) {
+        return;
+    }
+    throw new Error(message);
+}
+
 const TABLE_KEY_MARKER = ".__.";
 export type KVSStorageKey = string;
 export const getItem = <Schema extends StorageSchema>(storage: Storage, tableName: string, key: StoreNames<Schema>) => {
@@ -185,18 +192,6 @@ const createStore = <Schema extends StorageSchema>({
     };
     return store;
 };
-const assertStorageName = (name: string) => {
-    if (typeof name !== "string") {
-        throw new Error("name should be string");
-    }
-    if (name.length === 0) {
-        throw new Error("name should not be empty");
-    }
-    if (name.includes(TABLE_KEY_MARKER)) {
-        throw new Error(`name can not include ${TABLE_KEY_MARKER}. It is reserved in kvs.`);
-    }
-    return;
-};
 export type StorageSchema = {
     [index: string]: JsonValue;
 };
@@ -209,7 +204,10 @@ export const kvsStorage = async <Schema extends StorageSchema>(
     options: KvsStorageOptions<Schema>
 ): Promise<KvsStorage<Schema>> => {
     const { name, version, upgrade, ...kvStorageOptions } = options;
-    assertStorageName(name);
+    invariant(typeof name === "string", "name should be string");
+    invariant(name.length > 0, "name should not be empty");
+    invariant(!name.includes(TABLE_KEY_MARKER), `name can not include ${TABLE_KEY_MARKER}. It is reserved in kvs.`);
+    invariant(typeof version === "number", `version should be number`);
     const kvsVersionKey = kvStorageOptions.kvsVersionKey ?? "__kvs_version__";
     const storage = await openStorage({
         storage: options.storage,

@@ -1,6 +1,13 @@
 import type { KVS, KVSOptions, StoreNames, StoreValue } from "@kvs/types";
 import type { JsonValue } from "@kvs/storage";
 
+function invariant(condition: any, message: string): asserts condition {
+    if (condition) {
+        return;
+    }
+    throw new Error(message);
+}
+
 const debug = {
     enabled: false,
     log(...args: any[]) {
@@ -295,6 +302,8 @@ export const kvsIndexedDB = async <Schema extends KVSIndexedSchema>(
     options: KvsIndexedDBOptions<Schema>
 ): Promise<KVSIndexedDB<Schema>> => {
     const { name, version, upgrade, ...indexDBOptions } = options;
+    invariant(typeof name === "string", "name should be string");
+    invariant(typeof version === "number", "version should be number");
     if (indexDBOptions.debug) {
         debug.enabled = indexDBOptions.debug;
     }
