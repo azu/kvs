@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/azu/kvs/compare/v1.2.0...v2.0.0) (2022-02-19)
+
+
+### Bug Fixes
+
+* **storage:** use name as namespace ([#21](https://github.com/azu/kvs/issues/21)) ([2a8d783](https://github.com/azu/kvs/commit/2a8d7831bed970c94ae4fdad84639f5f373a8b6b))
+
+
+### BREAKING CHANGES
+
+* **storage:** storage package sperate storags by `name` option
+
+## Affected Packages
+
+- `@kvs/env` in Node.js
+  - 📝 Browser is not affected because it uses IndexedDB
+- `@kvs/storage`
+- `@kvs/localstorage`
+- `@kvs/memorystorage`
+- `@kvs/node-localstorage`
+- `@kvs/storage-sync`
+
+
+
+
+
 # [1.2.0](https://github.com/azu/kvs/compare/v1.1.0...v1.2.0) (2021-04-17)
 
 

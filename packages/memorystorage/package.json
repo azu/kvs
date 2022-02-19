@@ -1,6 +1,6 @@
 {
     "name": "@kvs/memorystorage",
-    "version": "1.2.0",
+    "version": "2.0.0",
     "description": "Node.js localstorage for KVS.",
     "keywords": [
         "kvs",
@@ -46,7 +46,7 @@
     },
     "devDependencies": {
         "@jsdevtools/karma-config": "^3.1.7",
-        "@kvs/common-test-case": "^1.2.0",
+        "@kvs/common-test-case": "^2.0.0",
         "@types/mocha": "^9.0.0",
         "@types/node": "^16.9.1",
         "mocha": "^9.1.1",
