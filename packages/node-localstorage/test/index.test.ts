@@ -52,7 +52,7 @@ const deleteAllDB = async () => {
     }
 };
 describe("@kvs/node-localstorage", () => {
-    before(deleteAllDB);
+    beforeEach(deleteAllDB);
     kvsTestCase.run();
     it("test", async () => {
         const str = await kvsLocalStorage({
