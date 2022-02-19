@@ -54,12 +54,4 @@ const deleteAllDB = async () => {
 describe("@kvs/node-localstorage", () => {
     beforeEach(deleteAllDB);
     kvsTestCase.run();
-    it("test", async () => {
-        const str = await kvsLocalStorage({
-            name: "test",
-            version: 1,
-            debug: true
-        });
-        await str.set("test", "value");
-    });
 });
