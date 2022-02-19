@@ -1,14 +1,15 @@
 import assert from "assert";
 import { kvsStorageSync } from "../src";
 import { createKVSTestCase } from "@kvs/common-test-case";
+import { KVSSync } from "@kvs/types";
 
 const databaseName = "kvs-test";
 const kvsTestCase = createKVSTestCase(
     (options: any) => {
         return Promise.resolve(
             kvsStorageSync({
-                ...options,
                 name: databaseName,
+                ...options,
                 storage: window.localStorage
             } as any)
         ) as any;
@@ -100,5 +101,41 @@ describe("@kvs/storage-sync", () => {
         assert.strictEqual(a1, "string");
         assert.strictEqual(b2, 42);
         assert.strictEqual(c3, false);
+    });
+    it("[workaround] migrate from v1 to v2", async () => {
+        type StorageSchema = {
+            a1: string;
+            b2: number;
+            c3: boolean;
+        };
+        localStorage.setItem("a1", JSON.stringify("a1 value"));
+        localStorage.setItem("b2", JSON.stringify(42));
+        localStorage.setItem("c3", JSON.stringify(true));
+        const storage = kvsStorageSync<StorageSchema>({
+            name: databaseName,
+            version: 2,
+            storage: localStorage,
+            upgrade({ oldVersion }: { kvs: KVSSync<StorageSchema>; oldVersion: number; newVersion: number }): any {
+                console.log("oldVersion", oldVersion);
+                if (oldVersion < 2) {
+                    // manually migration
+                    ["a1", "b2", "c3"].forEach((key) => {
+                        const item = localStorage.getItem(key);
+                        if (item) {
+                            localStorage.setItem(`${databaseName}.__.${key}`, item);
+                        }
+                    });
+                }
+            }
+        });
+        const array = Array.from(storage);
+        assert.deepStrictEqual(
+            array.sort(),
+            [
+                ["a1", "a1 value"],
+                ["b2", 42],
+                ["c3", true]
+            ].sort()
+        );
     });
 });

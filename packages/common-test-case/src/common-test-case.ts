@@ -96,8 +96,8 @@ export const createKVSTestCase = (
                 });
                 await kvs.set("key1", "value1");
                 await kvs.set("key2", "value2");
-                assert.ok(await kvs.has("key1"));
-                assert.ok(await kvs.has("key2"));
+                assert.ok(await kvs.has("key1"), "should have key1");
+                assert.ok(await kvs.has("key2"), "should have key2");
                 const results: [string, string][] = [];
                 for await (const [key, value] of kvs) {
                     results.push([key, value]);
@@ -187,6 +187,32 @@ export const createKVSTestCase = (
                         ["key2", "value2"]
                     ].sort()
                 );
+            });
+            it("asyncIterator should iterate per storage", async () => {
+                const aStorage = await kvsStorageConstructor({
+                    name: "a_col",
+                    version: 1
+                });
+                const bStorage = await kvsStorageConstructor({
+                    name: "b_col",
+                    version: 1
+                });
+                // write a and b
+                await aStorage.set("key1", "value1");
+                await bStorage.set("key2", "value2");
+                const resultsA: [string, string][] = [];
+                const resultsB: [string, string][] = [];
+                // iterate
+                for await (const [key, value] of aStorage) {
+                    resultsA.push([key, value]);
+                }
+                for await (const [key, value] of bStorage) {
+                    resultsB.push([key, value]);
+                }
+                assert.deepStrictEqual(resultsA.sort(), [["key1", "value1"]].sort());
+                assert.deepStrictEqual(resultsB.sort(), [["key2", "value2"]].sort());
+                await bStorage.clear();
+                await aStorage.clear();
             });
         }
     };

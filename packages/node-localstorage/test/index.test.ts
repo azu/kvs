@@ -5,8 +5,8 @@ const databaseName = "kvs-test";
 const kvsTestCase = createKVSTestCase(
     (options) =>
         kvsLocalStorage({
-            ...options,
             name: databaseName,
+            ...options,
             debug: true
         }),
     {
@@ -52,7 +52,6 @@ const deleteAllDB = async () => {
     }
 };
 describe("@kvs/node-localstorage", () => {
-    before(deleteAllDB);
-    afterEach(deleteAllDB);
+    beforeEach(deleteAllDB);
     kvsTestCase.run();
 });

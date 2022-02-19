@@ -2,12 +2,20 @@ import assert from "assert";
 import { kvsStorage } from "../src";
 import { createKVSTestCase } from "@kvs/common-test-case";
 
+const assertRejects = async (fn: () => Promise<any>) => {
+    try {
+        await fn();
+        assert.fail("should not be resolved");
+    } catch (error) {
+        assert.ok(error instanceof Error);
+    }
+};
 const databaseName = "kvs-test";
 const kvsTestCase = createKVSTestCase(
     (options) =>
         kvsStorage({
-            ...options,
             name: databaseName,
+            ...options,
             debug: true,
             storage: window.localStorage
         }),
@@ -71,5 +79,34 @@ describe("@kvs/storage", () => {
         assert.strictEqual(a1, "string");
         assert.strictEqual(b2, 42);
         assert.strictEqual(c3, false);
+    });
+    describe("storage name", async () => {
+        it("should not be empty", () => {
+            return assertRejects(() => {
+                // @ts-expect-error: name is missing
+                return kvsStorage({
+                    version: 1,
+                    storage: localStorage
+                });
+            });
+        });
+        it("should not be empty string", () => {
+            return assertRejects(() => {
+                return kvsStorage({
+                    name: "",
+                    version: 1,
+                    storage: localStorage
+                });
+            });
+        });
+        it("should not includes reserved symbol", () => {
+            return assertRejects(() => {
+                return kvsStorage({
+                    name: "test.__.test",
+                    version: 1,
+                    storage: localStorage
+                });
+            });
+        });
     });
 });

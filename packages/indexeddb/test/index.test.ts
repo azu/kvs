@@ -6,8 +6,8 @@ const databaseName = "kvs-test";
 const kvsTestCase = createKVSTestCase(
     (options) =>
         kvsIndexedDB({
-            ...options,
             name: databaseName,
+            ...options,
             debug: true
         }),
     {
