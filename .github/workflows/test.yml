@@ -26,4 +26,4 @@ jobs:
       - name: Build
         run: yarn run build
       - name: Test
-        run: yarn test
+        run: yarn ci
