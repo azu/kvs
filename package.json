@@ -18,7 +18,7 @@
     "build": "lerna run build",
     "clean": "lerna run clean",
     "test": "lerna run test",
-    "ci": "lerna run test --ignore '@kvs/localstorage'",
+    "ci": "lerna run ci",
     "versionup": "lerna version --conventional-commits",
     "versionup:patch": "lerna version patch --conventional-commits",
     "versionup:minor": "lerna version minor --conventional-commits",
