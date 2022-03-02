@@ -6,8 +6,7 @@ const kvsTestCase = createKVSTestCase(
     (options) =>
         kvsLocalStorage({
             name: databaseName,
-            ...options,
-            debug: true
+            ...options
         }),
     {
         setTestDataList: [
