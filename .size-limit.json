@@ -1,0 +1,14 @@
+[
+  {
+    "path": "packages/env/module/browser.js",
+    "limit": "3 KB"
+  },
+  {
+    "path": "packages/indexeddb/module/index.js",
+    "limit": "3 KB"
+  },
+  {
+    "path": "packages/localstorage/module/index.js",
+    "limit": "3 KB"
+  }
+]
