@@ -30,6 +30,7 @@ KVS libraries provide following common features.
 ## Support Browsers
 
 - A browser that support [AsyncIterator](https://caniuse.com/#feat=mdn-javascript_builtins_symbol_asynciterator)
+    - It requires ES2018+ supports
 - Chromium-based(Google Chrome and MSEdge), Firefox, and macOS Safari
 
 ## Packages
