@@ -8,15 +8,6 @@ function invariant(condition: any, message: string): asserts condition {
     throw new Error(message);
 }
 
-const debug = {
-    enabled: false,
-    log(...args: any[]) {
-        if (!debug.enabled) {
-            return;
-        }
-        console.log(...args);
-    }
-};
 const openDB = ({
     name,
     version,
@@ -91,11 +82,9 @@ const dropInstance = (database: IDBDatabase, databaseName: string): Promise<void
             resolve();
         };
         request.onblocked = () => {
-            debug.log("dropInstance:blocked", request);
             reject(request.error);
         };
         request.onerror = function () {
-            debug.log("dropInstance:error", request);
             reject(request.error);
         };
         request.onsuccess = function () {
@@ -243,7 +232,6 @@ const iterator = <Schema extends KVSIndexedSchema, K extends StoreNames<Schema>,
 
 type IndexedDBOptions = {
     tableName?: string;
-    debug?: boolean;
 };
 type IndexedDBResults = {
     dropInstance(): Promise<void>;
@@ -304,9 +292,6 @@ export const kvsIndexedDB = async <Schema extends KVSIndexedSchema>(
     const { name, version, upgrade, ...indexDBOptions } = options;
     invariant(typeof name === "string", "name should be string");
     invariant(typeof version === "number", "version should be number");
-    if (indexDBOptions.debug) {
-        debug.enabled = indexDBOptions.debug;
-    }
     const tableName = indexDBOptions.tableName ?? "kvs";
     const database = await openDB({
         name,

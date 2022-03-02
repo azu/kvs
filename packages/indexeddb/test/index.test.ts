@@ -7,8 +7,7 @@ const kvsTestCase = createKVSTestCase(
     (options) =>
         kvsIndexedDB({
             name: databaseName,
-            ...options,
-            debug: true
+            ...options
         }),
     {
         setTestDataList: [
