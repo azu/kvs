@@ -1,7 +1,6 @@
 {
   "private": true,
-  "name": "kvs",
-  "version": "1.0.0",
+  "name": "root",
   "description": "Key Value storage for Browser(IndexedDB), Node.js, In-Memory.",
   "homepage": "https://github.com/azu/kvs",
   "bugs": {
