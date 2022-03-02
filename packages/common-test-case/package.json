@@ -1,6 +1,6 @@
 {
   "name": "@kvs/common-test-case",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Common Test Case for KVS",
   "homepage": "https://github.com/azu/kvs/tree/master/packages/common-test-case/",
   "bugs": {

@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/azu/kvs/compare/v2.0.0...v2.1.0) (2022-03-02)
+
+
+### Bug Fixes
+
+* **indexeddb:** remove "debug" option ([#25](https://github.com/azu/kvs/issues/25)) ([606b9a2](https://github.com/azu/kvs/commit/606b9a20611583e1105e13d54a6cc11b5459625a))
+
+
+### Performance Improvements
+
+* change `target` to `ES2018` ([#28](https://github.com/azu/kvs/issues/28)) ([cb57cce](https://github.com/azu/kvs/commit/cb57cce1dd709c73ce32dc224fc2f61d97777de4))
+
+
+
+
+
 # [2.0.0](https://github.com/azu/kvs/compare/v1.2.0...v2.0.0) (2022-02-19)
 
 
