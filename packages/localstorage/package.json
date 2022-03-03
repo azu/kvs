@@ -1,6 +1,6 @@
 {
   "name": "@kvs/localstorage",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "localstorage for KVS.",
   "keywords": [
     "kvs",
@@ -45,7 +45,7 @@
     "trailingComma": "none"
   },
   "dependencies": {
-    "@kvs/storage": "^2.0.0"
+    "@kvs/storage": "^2.1.1"
   },
   "devDependencies": {
     "@jsdevtools/karma-config": "^3.1.7",

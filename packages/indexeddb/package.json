@@ -1,6 +1,6 @@
 {
   "name": "@kvs/indexeddb",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "IndexedDB for KVS",
   "keywords": [
     "kvs",
@@ -45,11 +45,11 @@
     "trailingComma": "none"
   },
   "dependencies": {
-    "@kvs/types": "^2.0.0"
+    "@kvs/types": "^2.1.1"
   },
   "devDependencies": {
     "@jsdevtools/karma-config": "^3.1.7",
-    "@kvs/common-test-case": "^2.1.0",
+    "@kvs/common-test-case": "^2.1.1",
     "@types/mocha": "^9.0.0",
     "@types/node": "^16.9.1",
     "karma": "^6.3.4",
