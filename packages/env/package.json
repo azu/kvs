@@ -19,7 +19,7 @@
   "author": "azu",
   "sideEffects": false,
   "main": "lib/node.js",
-  "module": "module/node.js",
+  "module": "module/browser.js",
   "types": "lib/node.d.ts",
   "browser": "lib/browser.js",
   "directories": {
