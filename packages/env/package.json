@@ -1,6 +1,6 @@
 {
   "name": "@kvs/env",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Universal Storage for KVS.",
   "keywords": [
     "kvs",

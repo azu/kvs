@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.2](https://github.com/azu/kvs/compare/v2.1.1...v2.1.2) (2022-08-21)
+
+
+### Bug Fixes
+
+* **kvs/env:** module entry point to browser ([b8529ad](https://github.com/azu/kvs/commit/b8529ad0f89bb28e07ef738245479fb544332fb7))
+
+
+
+
+
 ## [2.1.1](https://github.com/azu/kvs/compare/v2.1.0...v2.1.1) (2022-03-03)
 
 **Note:** Version bump only for package @kvs/env
