@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "description": "basic usage",
   "scripts": {
-    "build": "NODE_OPTIONS=--no-experimental-fetch parcel build index.html",
-    "start": "NODE_OPTIONS=--no-experimental-fetch parcel serve index.html"
+    "build": "parcel build index.html",
+    "start": "parcel serve index.html"
   },
   "dependencies": {
     "@kvs/env": "^2.1.2"
