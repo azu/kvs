@@ -12,7 +12,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [ 14, 16, 18 ]
+        node-version: [ 14, 16 ]
         os: [ ubuntu-latest ]
     steps:
       - name: checkout
@@ -26,10 +26,4 @@ jobs:
       - name: Build
         run: yarn run build
       - name: Test
-        if: ${{ matrix.node == '18' }}
-        run: yarn test
-        env:
-          NODE_OPTIONS: --openssl-legacy-provider
-      - name: Test
-        if: ${{ matrix.node != '18' }}
         run: yarn test
