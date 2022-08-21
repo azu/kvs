@@ -1,5 +1,5 @@
 name: test
-on: [push, pull_request]
+on: [ push, pull_request ]
 # disable saucelabs
 #env:
 #  SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
@@ -12,8 +12,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [12,14,16]
-        os: [ubuntu-latest]
+        node-version: [ 14,16, 18 ]
+        os: [ ubuntu-latest ]
     steps:
       - name: checkout
         uses: actions/checkout@v3
