@@ -35,7 +35,7 @@
     "clean": "rimraf lib/ module/",
     "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,css}\"",
     "prepublishOnly": "npm run clean && npm run build",
-    "test": "karma start --single-run",
+    "test": "NODE_OPTIONS=--openssl-legacy-provider karma start --single-run",
     "watch": "tsc -p . --watch"
   },
   "prettier": {
