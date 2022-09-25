@@ -244,7 +244,6 @@ export const createKVSTestCase = (
                 for await (const [key, value] of bStorage) {
                     resultsB.push([key, value]);
                 }
-                console.log(resultsA);
                 assert.deepStrictEqual(resultsA.sort(), [["key1", "value1"]].sort());
                 assert.deepStrictEqual(resultsB.sort(), [["key2", "value2"]].sort());
                 await bStorage.clear();
