@@ -124,6 +124,8 @@ const openStorage = ({
             newVersion: version,
             storage
         });
+        // save new version if upgrade is success
+        setItem(storage, tableName, kvsVersionKey, version);
         return storage;
     }
     return storage;
