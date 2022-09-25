@@ -126,6 +126,8 @@ const openStorage = async ({
                 storage
             })
         ).then(() => {
+            // save current version if upgrade is success
+            setItem<any>(storage, tableName, kvsVersionKey, version);
             return storage;
         });
     }
