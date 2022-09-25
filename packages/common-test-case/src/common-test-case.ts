@@ -151,8 +151,6 @@ export const createKVSTestCase = (
                     version: 1
                 });
                 await kvs.set("key1", "value1");
-                // close
-                await kvs.close();
                 // re-open and upgrade
                 kvs = ref.current = await kvsStorageConstructor({
                     version: 3,
@@ -175,8 +173,6 @@ export const createKVSTestCase = (
                     version: 1
                 });
                 await kvs.set("key1", "value1");
-                // close
-                await kvs.close();
                 // Upgrade 1 → 2
                 kvs = ref.current = await kvsStorageConstructor({
                     version: 2,
@@ -192,13 +188,6 @@ export const createKVSTestCase = (
                         return;
                     }
                 });
-                // close db
-                try {
-                    await kvs.close();
-                    await kvs.dropInstance();
-                } catch {
-                    // nope
-                }
                 // Upgrade 2 → 3
                 kvs = ref.current = await kvsStorageConstructor({
                     version: 3,
@@ -255,6 +244,7 @@ export const createKVSTestCase = (
                 for await (const [key, value] of bStorage) {
                     resultsB.push([key, value]);
                 }
+                console.log(resultsA);
                 assert.deepStrictEqual(resultsA.sort(), [["key1", "value1"]].sort());
                 assert.deepStrictEqual(resultsB.sort(), [["key2", "value2"]].sort());
                 await bStorage.clear();

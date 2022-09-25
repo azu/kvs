@@ -30,6 +30,7 @@ const openDB = ({
     return new Promise((resolve, reject) => {
         const openRequest = indexedDB.open(name, version);
         openRequest.onupgradeneeded = function (event) {
+            // IndexedDB has oldVersion and newVersion is native properties
             const oldVersion = event.oldVersion;
             const newVersion = event.newVersion ?? version;
             const database = openRequest.result;
