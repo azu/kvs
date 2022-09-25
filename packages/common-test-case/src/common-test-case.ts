@@ -146,7 +146,7 @@ export const createKVSTestCase = (
                 // key1 is changed
                 assert.strictEqual(await kvs.get("key1"), "old-value1");
             });
-            it("multiple upgrade: 1 → 3", async () => {
+            it("skip one upgrade: 1 → 3", async () => {
                 kvs = ref.current = await kvsStorageConstructor({
                     version: 1
                 });
@@ -161,6 +161,46 @@ export const createKVSTestCase = (
                             await kvs.set("v1", "v1-migrated-value");
                         }
                         if (oldVersion <= 2) {
+                            await kvs.set("v2", "v2-migrated-value");
+                        }
+                        return;
+                    }
+                });
+                assert.strictEqual(await kvs.get("key1"), "value1");
+                assert.strictEqual(await kvs.get("v1"), "v1-migrated-value");
+                assert.strictEqual(await kvs.get("v2"), "v2-migrated-value");
+            });
+            it("step upgrades: 1 → 2 → 3", async () => {
+                kvs = ref.current = await kvsStorageConstructor({
+                    version: 1
+                });
+                await kvs.set("key1", "value1");
+                // close
+                await kvs.close();
+                // Upgrade 1 → 2
+                kvs = ref.current = await kvsStorageConstructor({
+                    version: 2,
+                    async upgrade({ kvs, oldVersion }) {
+                        if (oldVersion === 1) {
+                            // execute only 1 → 2
+                            await kvs.set("v1", "v1-migrated-value");
+                        }
+                        if (oldVersion === 2) {
+                            // execute only 2 → 3
+                            await kvs.set("v2", "v2-migrated-value");
+                        }
+                        return;
+                    }
+                });
+                await kvs.close();
+                // Upgrade 2 → 3
+                kvs = ref.current = await kvsStorageConstructor({
+                    version: 3,
+                    async upgrade({ kvs, oldVersion }) {
+                        if (oldVersion === 1) {
+                            await kvs.set("v1", "v1-migrated-value");
+                        }
+                        if (oldVersion === 2) {
                             await kvs.set("v2", "v2-migrated-value");
                         }
                         return;
