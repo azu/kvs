@@ -30,6 +30,7 @@ const openDB = ({
     return new Promise((resolve, reject) => {
         const openRequest = indexedDB.open(name, version);
         openRequest.onupgradeneeded = function (event) {
+            // IndexedDB has oldVersion and newVersion is native properties
             const oldVersion = event.oldVersion;
             const newVersion = event.newVersion ?? version;
             const database = openRequest.result;
@@ -47,17 +48,18 @@ const openDB = ({
             database.onversionchange = () => {
                 database.close();
             };
-            // @ts-ignore
-            event.target.transaction.oncomplete = () => {
-                Promise.resolve(
-                    onUpgrade({
+            // @ts-expect-error: target should be existed
+            event.target.transaction.oncomplete = async () => {
+                try {
+                    await onUpgrade({
                         oldVersion,
                         newVersion,
                         database
-                    })
-                ).then(() => {
+                    });
                     return resolve(database);
-                });
+                } catch (error) {
+                    return reject(error);
+                }
             };
         };
         openRequest.onblocked = () => {

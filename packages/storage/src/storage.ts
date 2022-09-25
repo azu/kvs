@@ -119,15 +119,14 @@ const openStorage = async ({
     }
     // if user set newVersion, upgrade it
     if (oldVersion !== version) {
-        return Promise.resolve(
-            onUpgrade({
-                oldVersion,
-                newVersion: version,
-                storage
-            })
-        ).then(() => {
-            return storage;
+        await onUpgrade({
+            oldVersion,
+            newVersion: version,
+            storage
         });
+        // save current version if upgrade is success
+        setItem<any>(storage, tableName, kvsVersionKey, version);
+        return storage;
     }
     return storage;
 };
