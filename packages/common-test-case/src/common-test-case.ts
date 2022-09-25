@@ -192,7 +192,13 @@ export const createKVSTestCase = (
                         return;
                     }
                 });
-                await kvs.close();
+                // close db
+                try {
+                    await kvs.close();
+                    await kvs.dropInstance();
+                } catch {
+                    // nope
+                }
                 // Upgrade 2 → 3
                 kvs = ref.current = await kvsStorageConstructor({
                     version: 3,
