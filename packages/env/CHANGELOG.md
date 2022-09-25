@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.3](https://github.com/azu/kvs/compare/v2.1.2...v2.1.3) (2022-09-25)
+
+**Note:** Version bump only for package @kvs/env
+
+
+
+
+
 ## [2.1.2](https://github.com/azu/kvs/compare/v2.1.1...v2.1.2) (2022-08-21)
 
 

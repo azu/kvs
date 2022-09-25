@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.3](https://github.com/azu/kvs/compare/v2.1.2...v2.1.3) (2022-09-25)
+
+
+### Bug Fixes
+
+* **storage:** version saving issue ([#32](https://github.com/azu/kvs/issues/32)) ([49a0839](https://github.com/azu/kvs/commit/49a0839cbc59ffcf94f9dc07d1d01e83d44a8e40))
+
+
+
+
+
 ## [2.1.1](https://github.com/azu/kvs/compare/v2.1.0...v2.1.1) (2022-03-03)
 
 **Note:** Version bump only for package @kvs/storage-sync
