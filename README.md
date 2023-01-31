@@ -286,7 +286,7 @@ You need to build before editing each packages.
 
 ## Running tests
 
-Running test via `yarn tesst` command.
+Running test via `yarn test` command.
 
 
     yarn test
