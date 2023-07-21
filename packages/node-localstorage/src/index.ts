@@ -5,8 +5,7 @@ import { KVS, KVSOptions } from "@kvs/types";
 import { LocalStorage } from "node-localstorage";
 // @ts-ignore
 import appRoot from "app-root-path";
-// @ts-ignore
-import mkdirp from "mkdirp";
+import { mkdirp } from "mkdirp";
 
 export type KvsLocalStorageSchema = {
     [index: string]: JsonValue;
