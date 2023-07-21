@@ -45,7 +45,7 @@
     "trailingComma": "none"
   },
   "devDependencies": {
-    "@types/node": "^16.9.1",
+    "@types/node": "^20.4.2",
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
     "tsd": "^0.19.1",

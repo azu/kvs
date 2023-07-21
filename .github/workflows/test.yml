@@ -1,9 +1,5 @@
 name: test
 on: [push, pull_request]
-# disable saucelabs
-#env:
-#  SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
-#  SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
 permissions:
   contents: read
 jobs:
@@ -12,7 +8,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [12,14,16]
+        node-version: [18, 20]
         os: [ubuntu-latest]
     steps:
       - name: checkout
@@ -20,6 +16,7 @@ jobs:
       - name: setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
+          cache: "yarn"
           node-version: ${{ matrix.node-version }}
       - name: Install
         run: yarn install
@@ -27,3 +24,57 @@ jobs:
         run: yarn run build
       - name: Test
         run: yarn test
+
+  test-chrome:
+    name: "Test Chromium browser"
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          cache: "yarn"
+          node-version: 18
+      - name: Install
+        run: yarn install
+      - name: Build
+        run: yarn run build
+      - name: Test
+        run: yarn run test:chrome
+
+  test-firefox:
+    name: "Test Firefox browser"
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          cache: "yarn"
+          node-version: 18
+      - name: Install
+        run: yarn install
+      - name: Build
+        run: yarn run build
+      - name: Test
+        run: yarn run test:firefox
+
+  test-webkit:
+    name: "Test WebKit browser"
+    runs-on: macos-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          cache: "yarn"
+          node-version: 18
+      - name: Install
+        run: yarn install
+      - name: Build
+        run: yarn run build
+      - name: Test
+        run: yarn run test:webkit

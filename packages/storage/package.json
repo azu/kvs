@@ -35,7 +35,11 @@
     "clean": "rimraf lib/ module/",
     "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,css}\"",
     "prepublishOnly": "npm run clean && npm run build",
-    "test": "karma start --single-run",
+    "test": "tsc -p .",
+    "test:browser": "npm run test:chrome && npm run test:firefox && npm run test:webkit",
+    "test:chrome": "playwright-test ./test/index.test.ts --runner=mocha --browser=chromium",
+    "test:firefox": "playwright-test ./test/index.test.ts --runner=mocha --browser=firefox",
+    "test:webkit": "playwright-test ./test/index.test.ts --runner=mocha --browser=webkit",
     "watch": "tsc -p . --watch"
   },
   "prettier": {
@@ -48,12 +52,10 @@
     "@kvs/types": "^2.1.1"
   },
   "devDependencies": {
-    "@jsdevtools/karma-config": "^3.1.7",
-    "@types/mocha": "^9.0.0",
-    "@types/node": "^16.9.1",
-    "karma": "^6.3.4",
-    "karma-cli": "^2.0.0",
-    "mocha": "^9.1.1",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^20.4.2",
+    "mocha": "^10.2.0",
+    "playwright-test": "^12.1.1",
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
     "ts-loader": "^8.2.0",
