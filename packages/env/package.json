@@ -1,6 +1,6 @@
 {
   "name": "@kvs/env",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "description": "Universal Storage for KVS.",
   "keywords": [
     "kvs",
@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "@kvs/indexeddb": "^2.1.4",
-    "@kvs/node-localstorage": "^2.1.4"
+    "@kvs/node-localstorage": "^2.1.5"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.1",
