@@ -1,11 +1,11 @@
 import path from "path";
 import { JsonValue, KvsStorage, kvsStorage } from "@kvs/storage";
 import { KVS, KVSOptions } from "@kvs/types";
+import fs from "node:fs/promises";
 // @ts-ignore
 import { LocalStorage } from "node-localstorage";
 // @ts-ignore
 import appRoot from "app-root-path";
-import { mkdirp } from "mkdirp";
 
 export type KvsLocalStorageSchema = {
     [index: string]: JsonValue;
@@ -20,7 +20,9 @@ export const kvsLocalStorage = async <Schema extends KvsLocalStorageSchema>(
 ): Promise<KvsStorage<Schema>> => {
     const defaultCacheDir = path.join(appRoot.toString(), ".cache");
     if (!options.storeFilePath) {
-        await mkdirp(defaultCacheDir);
+        await fs.mkdir(defaultCacheDir, {
+            recursive: true
+        });
     }
     const saveFilePath = options.storeFilePath
         ? options.storeFilePath
