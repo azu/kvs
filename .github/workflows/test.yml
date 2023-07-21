@@ -27,10 +27,7 @@ jobs:
 
   test-chrome:
     name: "Test Chromium browser"
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
+    runs-on: ubuntu-latest
     steps:
       - name: checkout
         uses: actions/checkout@v3
@@ -48,10 +45,7 @@ jobs:
 
   test-firefox:
     name: "Test Firefox browser"
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
+    runs-on: ubuntu-latest
     steps:
       - name: checkout
         uses: actions/checkout@v3
@@ -69,10 +63,7 @@ jobs:
 
   test-webkit:
     name: "Test WebKit browser"
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [macos-latest]
+    runs-on: macos-latest
     steps:
       - name: checkout
         uses: actions/checkout@v3
