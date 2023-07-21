@@ -276,6 +276,7 @@ This approach help you to improve `Scheme` typing.
 - [idb](https://github.com/jakearchibald/idb)
     - @kvs type interface inspired by idb
     - If you want to use only IndexedDB directly, I recommend to use idb
+    - It has low level API for IndexedDB
 
 ## Changelog
 
