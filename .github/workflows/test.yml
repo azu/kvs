@@ -30,7 +30,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [18]
         os: [ubuntu-latest]
     steps:
       - name: checkout
@@ -39,7 +38,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           cache: "yarn"
-          node-version: ${{ matrix.node-version }}
+          node-version: 18
       - name: Install
         run: yarn install
       - name: Build
@@ -52,7 +51,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [18]
         os: [ubuntu-latest]
     steps:
       - name: checkout
@@ -61,7 +59,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           cache: "yarn"
-          node-version: ${{ matrix.node-version }}
+          node-version: 18
       - name: Install
         run: yarn install
       - name: Build
@@ -70,11 +68,10 @@ jobs:
         run: yarn run test:firefox
 
   test-webkit:
-    name: "Test WebKit browser on macOS"
+    name: "Test WebKit browser"
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [18]
         os: [macos-latest]
     steps:
       - name: checkout
@@ -83,7 +80,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           cache: "yarn"
-          node-version: ${{ matrix.node-version }}
+          node-version: 18
       - name: Install
         run: yarn install
       - name: Build
