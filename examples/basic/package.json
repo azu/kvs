@@ -9,7 +9,7 @@
     "start": "parcel serve index.html"
   },
   "dependencies": {
-    "@kvs/env": "^1.2.0"
+    "@kvs/env": "^2.1.3"
   },
   "devDependencies": {
     "parcel": "^2.3.1",
