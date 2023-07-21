@@ -270,9 +270,12 @@ This approach help you to improve `Scheme` typing.
     - It has same concept and similar API.
     - However, [localForage](https://github.com/localForage/localForage) size is large `~8.8kB`(gzipped)
 - [Unstorage](https://github.com/unjs/unstorage)
-    - Unstorage has various cloud storage support.
+    - Unstorage has various cloud storage support
     - However, Unstorage API is too rich for me
     - IndexedDB is not supported yet - Issue: https://github.com/unjs/unstorage/issues/10
+- [idb](https://github.com/jakearchibald/idb)
+    - @kvs type interface inspired by idb
+    - If you want to use only IndexedDB directly, I recommend to use idb
 
 ## Changelog
 
