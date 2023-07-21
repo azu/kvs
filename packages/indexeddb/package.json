@@ -36,7 +36,8 @@
     "clean": "rimraf lib/ module/",
     "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,css}\"",
     "prepublishOnly": "npm run clean && npm run build",
-    "test": "npm run test:chrome && npm run test:firefox && npm run test:webkit",
+    "test": "tsc -p .",
+    "test:browser": "npm run test:chrome && npm run test:firefox && npm run test:webkit",
     "test:chrome": "playwright-test ./test/index.test.ts --runner=mocha --browser=chromium",
     "test:firefox": "playwright-test ./test/index.test.ts --runner=mocha --browser=firefox",
     "test:webkit": "playwright-test ./test/index.test.ts --runner=mocha --browser=webkit"

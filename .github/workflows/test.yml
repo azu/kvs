@@ -27,3 +27,66 @@ jobs:
         run: yarn run build
       - name: Test
         run: yarn test
+
+  test-chrome:
+    name: "Test Chromium browser"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node-version: 18
+        os: [ubuntu-latest]
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install
+        run: yarn install
+      - name: Build
+        run: yarn run build
+      - name: Test
+        run: yarn run test:chrome
+
+  test-firefox:
+    name: "Test Firefox browser"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node-version: 18
+        os: [ubuntu-latest]
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install
+        run: yarn install
+      - name: Build
+        run: yarn run build
+      - name: Test
+        run: yarn run test:firefox
+
+  test-webkit:
+    name: "Test WebKit browser on macOS"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node-version: 18
+        os: [macos-latest]
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install
+        run: yarn install
+      - name: Build
+        run: yarn run build
+      - name: Test
+        run: yarn run test:webkit
