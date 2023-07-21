@@ -1,6 +1,6 @@
 {
   "name": "@kvs/types",
-  "version": "2.1.1",
+  "version": "2.1.4",
   "description": "A type definition for KVS.",
   "keywords": [
     "types",
