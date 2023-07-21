@@ -17,6 +17,7 @@
     "build": "lerna run build",
     "clean": "lerna run clean",
     "test": "lerna run test && npm run size",
+    "test:browser": "lerna run test:browser",
     "test:chrome": "lerna run test:chrome",
     "test:firefox": "lerna run test:firefox",
     "test:webkit": "lerna run test:webkit",
@@ -48,10 +49,10 @@
     "trailingComma": "none"
   },
   "devDependencies": {
-    "@size-limit/preset-small-lib": "^7.0.8",
-    "lerna": "^4.0.0",
-    "lint-staged": "^11.1.2",
-    "prettier": "^2.4.0",
-    "size-limit": "^7.0.8"
+    "@size-limit/preset-small-lib": "^8.2.6",
+    "lerna": "^7.1.4",
+    "lint-staged": "^13.2.3",
+    "prettier": "^3.0.0",
+    "size-limit": "^8.2.6"
   }
 }

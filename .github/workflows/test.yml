@@ -20,8 +20,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install
         run: yarn install
-      - name: Build
-        run: yarn run build
       - name: Test
         run: yarn test
 
@@ -38,8 +36,6 @@ jobs:
           node-version: 18
       - name: Install
         run: yarn install
-      - name: Build
-        run: yarn run build
       - name: Test
         run: yarn run test:chrome
 
@@ -56,8 +52,6 @@ jobs:
           node-version: 18
       - name: Install
         run: yarn install
-      - name: Build
-        run: yarn run build
       - name: Test
         run: yarn run test:firefox
 
@@ -74,7 +68,5 @@ jobs:
           node-version: 18
       - name: Install
         run: yarn install
-      - name: Build
-        run: yarn run build
       - name: Test
         run: yarn run test:webkit
