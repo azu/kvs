@@ -261,7 +261,7 @@ This approach help you to improve `Scheme` typing.
 
 ## Related
 
-- [azu/localstorage-ponyfill: Universal LocalStorage for browser and Node.js.](https://github.com/azu/localstorage-ponyfill)
+- [azu/localstorage-ponyfill](https://github.com/azu/localstorage-ponyfill)
     - It provides storage API based on localStorage API
 - [KV Storage](https://github.com/WICG/kv-storage)
     - This proposal aims to create "async local storage", but it is suspended
