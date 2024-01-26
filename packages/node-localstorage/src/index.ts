@@ -14,6 +14,7 @@ export type KvsLocalStorage<Schema extends KvsLocalStorageSchema> = KVS<Schema>;
 export type KvsLocalStorageOptions<Schema extends KvsLocalStorageSchema> = KVSOptions<Schema> & {
     kvsVersionKey?: string;
     storeFilePath?: string;
+    storeQuota?: number;
 };
 export const kvsLocalStorage = async <Schema extends KvsLocalStorageSchema>(
     options: KvsLocalStorageOptions<Schema>
@@ -27,8 +28,9 @@ export const kvsLocalStorage = async <Schema extends KvsLocalStorageSchema>(
     const saveFilePath = options.storeFilePath
         ? options.storeFilePath
         : path.join(defaultCacheDir, "kvs-node-localstorage");
+    const storeQuota = options.storeQuota ? options.storeQuota : 5 * 1024 * 1024;
     return kvsStorage({
         ...options,
-        storage: new LocalStorage(saveFilePath)
+        storage: new LocalStorage(saveFilePath, storeQuota)
     });
 };
