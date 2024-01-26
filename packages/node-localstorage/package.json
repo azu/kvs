@@ -1,65 +1,65 @@
 {
-  "name": "@kvs/node-localstorage",
-  "version": "2.1.5",
-  "description": "Node.js localstorage for KVS.",
-  "keywords": [
-    "kvs",
-    "browser",
-    "localstorage"
-  ],
-  "homepage": "https://github.com/azu/kvs/tree/master/packages/node-localstorage/",
-  "bugs": {
-    "url": "https://github.com/azu/kvs/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/azu/kvs.git"
-  },
-  "license": "MIT",
-  "author": "azu",
-  "sideEffects": false,
-  "main": "lib/index.js",
-  "module": "module/index.js",
-  "types": "lib/index.d.ts",
-  "directories": {
-    "lib": "lib",
-    "test": "test"
-  },
-  "files": [
-    "bin/",
-    "lib/",
-    "module"
-  ],
-  "scripts": {
-    "build": "tsc -p . && tsc --project ./tsconfig.module.json",
-    "clean": "rimraf lib/ module/",
-    "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,css}\"",
-    "prepublishOnly": "npm run clean && npm run build",
-    "test": "mocha \"test/**/*.ts\"",
-    "watch": "tsc -p . --watch"
-  },
-  "prettier": {
-    "printWidth": 120,
-    "singleQuote": false,
-    "tabWidth": 4,
-    "trailingComma": "none"
-  },
-  "dependencies": {
-    "@kvs/storage": "^2.1.4",
-    "app-root-path": "^3.1.0",
-    "node-localstorage": "^2.1.6"
-  },
-  "devDependencies": {
-    "@kvs/common-test-case": "^2.1.4",
-    "@types/mocha": "^10.0.1",
-    "@types/node": "^20.4.2",
-    "mocha": "^10.2.0",
-    "prettier": "^3.0.0",
-    "rimraf": "^5.0.1",
-    "ts-loader": "^9.4.4",
-    "typescript": "^5.1.6"
-  },
-  "publishConfig": {
-    "access": "public"
-  }
+    "name": "@kvs/node-localstorage",
+    "version": "2.2.0",
+    "description": "Node.js localstorage for KVS.",
+    "keywords": [
+        "kvs",
+        "browser",
+        "localstorage"
+    ],
+    "homepage": "https://github.com/azu/kvs/tree/master/packages/node-localstorage/",
+    "bugs": {
+        "url": "https://github.com/azu/kvs/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/azu/kvs.git"
+    },
+    "license": "MIT",
+    "author": "azu",
+    "sideEffects": false,
+    "main": "lib/index.js",
+    "module": "module/index.js",
+    "types": "lib/index.d.ts",
+    "directories": {
+        "lib": "lib",
+        "test": "test"
+    },
+    "files": [
+        "bin/",
+        "lib/",
+        "module"
+    ],
+    "scripts": {
+        "build": "tsc -p . && tsc --project ./tsconfig.module.json",
+        "clean": "rimraf lib/ module/",
+        "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,css}\"",
+        "prepublishOnly": "npm run clean && npm run build",
+        "test": "mocha \"test/**/*.ts\"",
+        "watch": "tsc -p . --watch"
+    },
+    "prettier": {
+        "printWidth": 120,
+        "singleQuote": false,
+        "tabWidth": 4,
+        "trailingComma": "none"
+    },
+    "dependencies": {
+        "@kvs/storage": "^2.1.4",
+        "app-root-path": "^3.1.0",
+        "node-localstorage": "^2.1.6"
+    },
+    "devDependencies": {
+        "@kvs/common-test-case": "^2.1.4",
+        "@types/mocha": "^10.0.1",
+        "@types/node": "^20.4.2",
+        "mocha": "^10.2.0",
+        "prettier": "^3.0.0",
+        "rimraf": "^5.0.1",
+        "ts-loader": "^9.4.4",
+        "typescript": "^5.1.6"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
 }
