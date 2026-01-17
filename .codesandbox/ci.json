@@ -5,5 +5,5 @@
   "sandboxes": [
     "/examples/basic"
   ],
-  "node": "22"
+  "node": "18"
 }

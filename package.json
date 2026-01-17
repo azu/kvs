@@ -50,7 +50,7 @@
   },
   "devDependencies": {
     "@size-limit/preset-small-lib": "^8.2.6",
-    "lerna": "^9.0.0",
+    "lerna": "^7.1.4",
     "lint-staged": "^13.2.3",
     "prettier": "^3.0.0",
     "size-limit": "^8.2.6"
