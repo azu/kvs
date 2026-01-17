@@ -98,8 +98,10 @@ const dropInstance = (database: IDBDatabase, databaseName: string): Promise<void
             event.preventDefault();
             resolve();
         };
+        // onblocked means waiting for other connections to close, not a failure
+        // The delete will proceed once all connections are closed
         request.onblocked = () => {
-            reject(getRequestError(request, "Failed to delete database: blocked"));
+            // Do nothing - wait for onsuccess or onerror
         };
         request.onerror = function () {
             reject(getRequestError(request, "Failed to delete database"));
