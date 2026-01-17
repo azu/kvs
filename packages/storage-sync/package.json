@@ -1,6 +1,6 @@
 {
   "name": "@kvs/storage-sync",
-  "version": "2.1.4",
+  "version": "2.2.1",
   "description": "Storage(localStorage, sessionStorage) helper for KVS.",
   "keywords": [
     "kvs",
@@ -49,10 +49,10 @@
     "trailingComma": "none"
   },
   "dependencies": {
-    "@kvs/types": "^2.1.4"
+    "@kvs/types": "^2.2.1"
   },
   "devDependencies": {
-    "@kvs/common-test-case": "^2.1.4",
+    "@kvs/common-test-case": "^2.2.1",
     "@types/mocha": "^10.0.1",
     "@types/node": "^20.4.2",
     "mocha": "^10.2.0",
