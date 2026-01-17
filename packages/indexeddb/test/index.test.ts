@@ -47,6 +47,8 @@ const kvsTestCase = createKVSTestCase(
 );
 const deleteAllDB = async () => {
     const kvs = kvsTestCase.ref.current as KVSIndexedDB<any> | null;
+    // Reset the ref to prevent operating on stale instances
+    kvsTestCase.ref.current = null;
     if (!kvs) {
         return;
     }
@@ -54,7 +56,8 @@ const deleteAllDB = async () => {
         await kvs.clear();
         await kvs.dropInstance();
     } catch (error) {
-        console.error("deleteAllDB", error);
+        // Ignore cleanup errors - database may already be closed/deleted
+        // This is common in WebKit which is strict about database connection state
     }
 };
 
@@ -91,10 +94,10 @@ describe("@kvs/indexedDB", () => {
             key2: number;
         };
         // Delete the database if it exists to ensure a fresh start
-        await new Promise<void>((resolve, reject) => {
+        await new Promise<void>((resolve) => {
             const deleteRequest = indexedDB.deleteDatabase(testDbName);
             deleteRequest.onsuccess = () => resolve();
-            deleteRequest.onerror = () => reject(deleteRequest.error);
+            deleteRequest.onerror = () => resolve(); // Ignore errors - database may not exist
             deleteRequest.onblocked = () => resolve();
         });
         // Create a new database with version 4 (greater than 1)
