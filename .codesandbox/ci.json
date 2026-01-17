@@ -1,3 +1,9 @@
 {
+  "packages": [
+    "packages/*"
+  ],
+  "sandboxes": [
+    "/examples/basic"
+  ],
   "node": "22"
 }
