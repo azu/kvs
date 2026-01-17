@@ -82,4 +82,34 @@ describe("@kvs/indexedDB", () => {
         assert.strictEqual(b2, 42);
         assert.strictEqual(c3, false);
     });
+    it("should create store when initial version > 1", async () => {
+        // Test for https://github.com/azu/kvs/issues/46
+        // When creating a new database with version > 1, the store should be created
+        const testDbName = "kvs-test-initial-version-gt-1";
+        type StorageSchema = {
+            key1: string;
+            key2: number;
+        };
+        // Delete the database if it exists to ensure a fresh start
+        await new Promise<void>((resolve, reject) => {
+            const deleteRequest = indexedDB.deleteDatabase(testDbName);
+            deleteRequest.onsuccess = () => resolve();
+            deleteRequest.onerror = () => reject(deleteRequest.error);
+            deleteRequest.onblocked = () => resolve();
+        });
+        // Create a new database with version 4 (greater than 1)
+        const storage = await kvsIndexedDB<StorageSchema>({
+            name: testDbName,
+            version: 4
+        });
+        // The store should be created and usable
+        await storage.set("key1", "value1");
+        await storage.set("key2", 42);
+        const value1 = await storage.get("key1");
+        const value2 = await storage.get("key2");
+        assert.strictEqual(value1, "value1");
+        assert.strictEqual(value2, 42);
+        // Cleanup
+        await storage.dropInstance();
+    });
 });
