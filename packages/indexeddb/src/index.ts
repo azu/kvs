@@ -12,13 +12,13 @@ function invariant(condition: any, message: string): asserts condition {
  * Safely get error from IDBRequest
  * In WebKit, accessing request.error before readyState is "done" throws InvalidStateError
  * @param request - The IDBRequest to get error from
- * @param fallbackMessage - Optional fallback message if request is not done
+ * @param fallbackMessage - Fallback message describing the operation (used for debugging)
  */
-const getRequestError = (request: IDBRequest, fallbackMessage?: string): DOMException | Error | null => {
+const getRequestError = (request: IDBRequest, fallbackMessage: string): Error => {
     if (request.readyState === "done") {
-        return request.error;
+        return new Error(fallbackMessage, { cause: request.error });
     }
-    return fallbackMessage ? new Error(fallbackMessage) : null;
+    return new Error(fallbackMessage);
 };
 
 const openDB = ({
@@ -65,10 +65,10 @@ const openDB = ({
             };
         };
         openRequest.onblocked = () => {
-            reject(getRequestError(openRequest, "Database open is blocked"));
+            reject(getRequestError(openRequest, "Failed to open database: blocked"));
         };
         openRequest.onerror = function () {
-            reject(getRequestError(openRequest, "Database open failed"));
+            reject(getRequestError(openRequest, "Failed to open database"));
         };
         openRequest.onsuccess = async function () {
             const database = openRequest.result;
@@ -99,10 +99,10 @@ const dropInstance = (database: IDBDatabase, databaseName: string): Promise<void
             resolve();
         };
         request.onblocked = () => {
-            reject(getRequestError(request, "Database deletion is blocked"));
+            reject(getRequestError(request, "Failed to delete database: blocked"));
         };
         request.onerror = function () {
-            reject(getRequestError(request, "Database deletion failed"));
+            reject(getRequestError(request, "Failed to delete database"));
         };
         request.onsuccess = function () {
             resolve();
@@ -123,7 +123,7 @@ const getItem = <Schema extends KVSIndexedSchema>(
             resolve(request.result);
         };
         request.onerror = () => {
-            reject(getRequestError(request, "Get item failed"));
+            reject(getRequestError(request, "Failed to get item"));
         };
     });
 };
@@ -140,7 +140,7 @@ const hasItem = async <Schema extends KVSIndexedSchema>(
             resolve(request.result !== 0);
         };
         request.onerror = () => {
-            reject(getRequestError(request, "Has item check failed"));
+            reject(getRequestError(request, "Failed to check item existence"));
         };
     });
 };
@@ -164,10 +164,10 @@ const setItem = async <Schema extends KVSIndexedSchema>(
             resolve();
         };
         transaction.onabort = () => {
-            reject(getRequestError(request, "Set item aborted") ?? transaction.error);
+            reject(getRequestError(request, "Failed to set item: aborted"));
         };
         transaction.onerror = () => {
-            reject(getRequestError(request, "Set item failed") ?? transaction.error);
+            reject(getRequestError(request, "Failed to set item"));
         };
     });
 };
@@ -184,10 +184,10 @@ const deleteItem = async <Schema extends KVSIndexedSchema>(
             resolve();
         };
         transaction.onabort = () => {
-            reject(getRequestError(request, "Delete item aborted") ?? transaction.error);
+            reject(getRequestError(request, "Failed to delete item: aborted"));
         };
         transaction.onerror = () => {
-            reject(getRequestError(request, "Delete item failed") ?? transaction.error);
+            reject(getRequestError(request, "Failed to delete item"));
         };
     });
 };
@@ -200,10 +200,10 @@ const clearItems = async (database: IDBDatabase, tableName: string): Promise<voi
             resolve();
         };
         transaction.onabort = () => {
-            reject(getRequestError(request, "Clear items aborted") ?? transaction.error);
+            reject(getRequestError(request, "Failed to clear items: aborted"));
         };
         transaction.onerror = () => {
-            reject(getRequestError(request, "Clear items failed") ?? transaction.error);
+            reject(getRequestError(request, "Failed to clear items"));
         };
     });
 };
@@ -226,7 +226,7 @@ const iterator = <Schema extends KVSIndexedSchema, K extends StoreNames<Schema>,
                 });
             };
             request.onerror = () => {
-                reject(getRequestError(request, "Cursor iteration failed"));
+                reject(getRequestError(request, "Failed to iterate cursor"));
             };
         });
     };
