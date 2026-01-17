@@ -29,14 +29,16 @@ const openDB = ({
 }): Promise<IDBDatabase> => {
     return new Promise((resolve, reject) => {
         const openRequest = indexedDB.open(name, version);
+        let upgradeOldVersion: number | undefined;
+        let upgradeNewVersion: number | undefined;
         openRequest.onupgradeneeded = function (event) {
             // IndexedDB has oldVersion and newVersion is native properties
-            const oldVersion = event.oldVersion;
-            const newVersion = event.newVersion ?? version;
+            upgradeOldVersion = event.oldVersion;
+            upgradeNewVersion = event.newVersion ?? version;
             const database = openRequest.result;
             try {
                 // create table at first time
-                if (!newVersion || newVersion <= 1 || oldVersion === 0) {
+                if (!upgradeNewVersion || upgradeNewVersion <= 1 || upgradeOldVersion === 0) {
                     database.createObjectStore(tableName);
                 }
             } catch (e) {
@@ -48,29 +50,31 @@ const openDB = ({
             database.onversionchange = () => {
                 database.close();
             };
-            // @ts-expect-error: target should be existed
-            event.target.transaction.oncomplete = async () => {
-                try {
-                    await onUpgrade({
-                        oldVersion,
-                        newVersion,
-                        database
-                    });
-                    return resolve(database);
-                } catch (error) {
-                    return reject(error);
-                }
-            };
         };
         openRequest.onblocked = () => {
-            reject(openRequest.error);
+            // Don't access openRequest.error here as the request may not have finished
+            // This is required for WebKit compatibility
+            reject(new Error("Database is blocked"));
         };
         openRequest.onerror = function () {
             reject(openRequest.error);
         };
-        openRequest.onsuccess = function () {
-            const db = openRequest.result;
-            resolve(db);
+        openRequest.onsuccess = async function () {
+            const database = openRequest.result;
+            // Call onUpgrade only if there was an upgrade
+            if (upgradeOldVersion !== undefined && upgradeNewVersion !== undefined) {
+                try {
+                    await onUpgrade({
+                        oldVersion: upgradeOldVersion,
+                        newVersion: upgradeNewVersion,
+                        database
+                    });
+                } catch (error) {
+                    reject(error);
+                    return;
+                }
+            }
+            resolve(database);
         };
     });
 };
