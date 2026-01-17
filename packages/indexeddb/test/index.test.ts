@@ -47,6 +47,8 @@ const kvsTestCase = createKVSTestCase(
 );
 const deleteAllDB = async () => {
     const kvs = kvsTestCase.ref.current as KVSIndexedDB<any> | null;
+    // Reset the ref to prevent operating on stale instances
+    kvsTestCase.ref.current = null;
     if (!kvs) {
         return;
     }
@@ -54,7 +56,8 @@ const deleteAllDB = async () => {
         await kvs.clear();
         await kvs.dropInstance();
     } catch (error) {
-        console.error("deleteAllDB", error);
+        // Ignore cleanup errors - database may already be closed/deleted
+        // This is common in WebKit which is strict about database connection state
     }
 };
 
