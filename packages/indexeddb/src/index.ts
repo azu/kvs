@@ -88,7 +88,9 @@ const dropInstance = (database: IDBDatabase, databaseName: string): Promise<void
             resolve();
         };
         request.onblocked = () => {
-            reject(request.error);
+            // Don't access request.error here as the request may not have finished
+            // onblocked means the request is waiting for other connections to close
+            reject(new Error("Database deletion is blocked"));
         };
         request.onerror = function () {
             reject(request.error);

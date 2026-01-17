@@ -94,10 +94,10 @@ describe("@kvs/indexedDB", () => {
             key2: number;
         };
         // Delete the database if it exists to ensure a fresh start
-        await new Promise<void>((resolve, reject) => {
+        await new Promise<void>((resolve) => {
             const deleteRequest = indexedDB.deleteDatabase(testDbName);
             deleteRequest.onsuccess = () => resolve();
-            deleteRequest.onerror = () => reject(deleteRequest.error);
+            deleteRequest.onerror = () => resolve(); // Ignore errors - database may not exist
             deleteRequest.onblocked = () => resolve();
         });
         // Create a new database with version 4 (greater than 1)
