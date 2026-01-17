@@ -36,7 +36,7 @@ const openDB = ({
             const database = openRequest.result;
             try {
                 // create table at first time
-                if (!newVersion || newVersion <= 1) {
+                if (!newVersion || newVersion <= 1 || oldVersion === 0) {
                     database.createObjectStore(tableName);
                 }
             } catch (e) {
