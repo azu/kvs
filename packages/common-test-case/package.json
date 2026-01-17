@@ -1,6 +1,6 @@
 {
   "name": "@kvs/common-test-case",
-  "version": "2.1.4",
+  "version": "2.2.1",
   "description": "Common Test Case for KVS",
   "homepage": "https://github.com/azu/kvs/tree/master/packages/common-test-case/",
   "bugs": {
@@ -40,7 +40,7 @@
     "trailingComma": "none"
   },
   "dependencies": {
-    "@kvs/types": "^2.1.4"
+    "@kvs/types": "^2.2.1"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.1",

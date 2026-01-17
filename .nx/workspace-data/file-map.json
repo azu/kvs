@@ -1,0 +1,608 @@
+{
+  "version": "6.0",
+  "nxVersion": "22.3.3",
+  "pathMappings": {},
+  "nxJsonPlugins": [],
+  "fileMap": {
+    "projectFileMap": {
+      "@kvs/storage-sync": [
+        {
+          "file": "packages/storage-sync/.mocharc.json",
+          "hash": "2248943244691436913"
+        },
+        {
+          "file": "packages/storage-sync/CHANGELOG.md",
+          "hash": "1414870626420749082"
+        },
+        {
+          "file": "packages/storage-sync/LICENSE",
+          "hash": "15536698237300577004"
+        },
+        {
+          "file": "packages/storage-sync/README.md",
+          "hash": "16646548652323894079"
+        },
+        {
+          "file": "packages/storage-sync/package.json",
+          "hash": "18421873514251741313",
+          "deps": [
+            "@kvs/common-test-case",
+            "npm:@types/mocha",
+            "npm:@types/node",
+            "npm:mocha",
+            "npm:playwright-test",
+            "npm:prettier",
+            "npm:rimraf",
+            "npm:ts-loader",
+            "npm:typescript",
+            "@kvs/types"
+          ]
+        },
+        {
+          "file": "packages/storage-sync/src/JSONValue.ts",
+          "hash": "15952906245892804077"
+        },
+        {
+          "file": "packages/storage-sync/src/index.ts",
+          "hash": "11265943642948878764"
+        },
+        {
+          "file": "packages/storage-sync/src/storage.ts",
+          "hash": "4244556111259105413"
+        },
+        {
+          "file": "packages/storage-sync/test/index.test.ts",
+          "hash": "4443735534773106993"
+        },
+        {
+          "file": "packages/storage-sync/test/tsconfig.json",
+          "hash": "3076601259403068096"
+        },
+        {
+          "file": "packages/storage-sync/tsconfig.json",
+          "hash": "8393748648839061154"
+        },
+        {
+          "file": "packages/storage-sync/tsconfig.module.json",
+          "hash": "16097615852846224365"
+        }
+      ],
+      "@kvs/indexeddb": [
+        {
+          "file": "packages/indexeddb/CHANGELOG.md",
+          "hash": "5411839768114175371"
+        },
+        {
+          "file": "packages/indexeddb/LICENSE",
+          "hash": "15536698237300577004"
+        },
+        {
+          "file": "packages/indexeddb/README.md",
+          "hash": "3894280489011866794"
+        },
+        {
+          "file": "packages/indexeddb/package.json",
+          "hash": "5408730651285998335",
+          "deps": [
+            "@kvs/common-test-case",
+            "npm:@types/mocha",
+            "npm:@types/node",
+            "npm:mocha",
+            "npm:playwright-test",
+            "npm:prettier",
+            "npm:rimraf",
+            "npm:ts-loader",
+            "npm:typescript",
+            "@kvs/types"
+          ]
+        },
+        {
+          "file": "packages/indexeddb/src/index.ts",
+          "hash": "17672761148391974395"
+        },
+        {
+          "file": "packages/indexeddb/test/index.test.ts",
+          "hash": "17994175294641900958"
+        },
+        {
+          "file": "packages/indexeddb/tsconfig.json",
+          "hash": "8393748648839061154"
+        },
+        {
+          "file": "packages/indexeddb/tsconfig.module.json",
+          "hash": "15420861313805163337"
+        }
+      ],
+      "@kvs/storage": [
+        {
+          "file": "packages/storage/.mocharc.json",
+          "hash": "2248943244691436913"
+        },
+        {
+          "file": "packages/storage/CHANGELOG.md",
+          "hash": "10337740824233194728"
+        },
+        {
+          "file": "packages/storage/LICENSE",
+          "hash": "15536698237300577004"
+        },
+        {
+          "file": "packages/storage/README.md",
+          "hash": "13047368333695396785"
+        },
+        {
+          "file": "packages/storage/package.json",
+          "hash": "3500965139315253228",
+          "deps": [
+            "npm:@types/mocha",
+            "npm:@types/node",
+            "npm:mocha",
+            "npm:playwright-test",
+            "npm:prettier",
+            "npm:rimraf",
+            "npm:ts-loader",
+            "npm:typescript",
+            "@kvs/types"
+          ]
+        },
+        {
+          "file": "packages/storage/src/JSONValue.ts",
+          "hash": "15952906245892804077"
+        },
+        {
+          "file": "packages/storage/src/index.ts",
+          "hash": "310397931616272572"
+        },
+        {
+          "file": "packages/storage/src/storage.ts",
+          "hash": "16744143109184516221"
+        },
+        {
+          "file": "packages/storage/test/index.test.ts",
+          "hash": "4100216799448522360"
+        },
+        {
+          "file": "packages/storage/test/tsconfig.json",
+          "hash": "3076601259403068096"
+        },
+        {
+          "file": "packages/storage/tsconfig.json",
+          "hash": "8393748648839061154"
+        },
+        {
+          "file": "packages/storage/tsconfig.module.json",
+          "hash": "16097615852846224365"
+        }
+      ],
+      "@kvs/env": [
+        {
+          "file": "packages/env/.mocharc.json",
+          "hash": "2248943244691436913"
+        },
+        {
+          "file": "packages/env/CHANGELOG.md",
+          "hash": "10888662847474179479"
+        },
+        {
+          "file": "packages/env/LICENSE",
+          "hash": "15536698237300577004"
+        },
+        {
+          "file": "packages/env/README.md",
+          "hash": "16124935082649411767"
+        },
+        {
+          "file": "packages/env/package.json",
+          "hash": "5171529703378175702",
+          "deps": [
+            "npm:@types/mocha",
+            "npm:@types/node",
+            "npm:mocha",
+            "npm:prettier",
+            "npm:rimraf",
+            "npm:ts-loader",
+            "npm:typescript",
+            "@kvs/indexeddb",
+            "@kvs/node-localstorage"
+          ]
+        },
+        {
+          "file": "packages/env/src/browser.ts",
+          "hash": "3865209112900663105"
+        },
+        {
+          "file": "packages/env/src/node.ts",
+          "hash": "2701813235834519065"
+        },
+        {
+          "file": "packages/env/src/share.ts",
+          "hash": "7167997302496631530"
+        },
+        {
+          "file": "packages/env/test/node.test.ts",
+          "hash": "3475041910703180305"
+        },
+        {
+          "file": "packages/env/test/tsconfig.json",
+          "hash": "3076601259403068096"
+        },
+        {
+          "file": "packages/env/tsconfig.json",
+          "hash": "8393748648839061154"
+        },
+        {
+          "file": "packages/env/tsconfig.module.json",
+          "hash": "16097615852846224365"
+        }
+      ],
+      "kvs-example-basic": [
+        {
+          "file": "examples/basic/index.html",
+          "hash": "3533976626854894089"
+        },
+        {
+          "file": "examples/basic/index.ts",
+          "hash": "3714940336639301330"
+        },
+        {
+          "file": "examples/basic/package.json",
+          "hash": "2491866283505059573",
+          "deps": [
+            "npm:parcel",
+            "npm:typescript",
+            "@kvs/env"
+          ]
+        },
+        {
+          "file": "examples/basic/tsconfig.json",
+          "hash": "13461925615565800431"
+        }
+      ],
+      "@kvs/localstorage": [
+        {
+          "file": "packages/localstorage/.mocharc.json",
+          "hash": "2248943244691436913"
+        },
+        {
+          "file": "packages/localstorage/CHANGELOG.md",
+          "hash": "15066416141574365177"
+        },
+        {
+          "file": "packages/localstorage/LICENSE",
+          "hash": "15536698237300577004"
+        },
+        {
+          "file": "packages/localstorage/README.md",
+          "hash": "14473458650980447212"
+        },
+        {
+          "file": "packages/localstorage/package.json",
+          "hash": "288203272510961165",
+          "deps": [
+            "npm:@types/mocha",
+            "npm:@types/node",
+            "npm:mocha",
+            "npm:playwright-test",
+            "npm:prettier",
+            "npm:rimraf",
+            "npm:ts-loader",
+            "npm:typescript",
+            "@kvs/storage"
+          ]
+        },
+        {
+          "file": "packages/localstorage/src/index.ts",
+          "hash": "13357589969414698183"
+        },
+        {
+          "file": "packages/localstorage/test/index.test.ts",
+          "hash": "1157043451218563672"
+        },
+        {
+          "file": "packages/localstorage/test/tsconfig.json",
+          "hash": "3076601259403068096"
+        },
+        {
+          "file": "packages/localstorage/tsconfig.json",
+          "hash": "8393748648839061154"
+        },
+        {
+          "file": "packages/localstorage/tsconfig.module.json",
+          "hash": "16097615852846224365"
+        }
+      ],
+      "@kvs/common-test-case": [
+        {
+          "file": "packages/common-test-case/.mocharc.json",
+          "hash": "2248943244691436913"
+        },
+        {
+          "file": "packages/common-test-case/CHANGELOG.md",
+          "hash": "4656036567940159048"
+        },
+        {
+          "file": "packages/common-test-case/LICENSE",
+          "hash": "15536698237300577004"
+        },
+        {
+          "file": "packages/common-test-case/README.md",
+          "hash": "4625125020547460473"
+        },
+        {
+          "file": "packages/common-test-case/package.json",
+          "hash": "14910308753581326719",
+          "deps": [
+            "npm:@types/mocha",
+            "npm:@types/node",
+            "npm:mocha",
+            "npm:prettier",
+            "npm:rimraf",
+            "npm:ts-node",
+            "npm:ts-node-test-register",
+            "npm:typescript",
+            "@kvs/types"
+          ]
+        },
+        {
+          "file": "packages/common-test-case/src/common-test-case.ts",
+          "hash": "18156142567511228560"
+        },
+        {
+          "file": "packages/common-test-case/test/tsconfig.json",
+          "hash": "3076601259403068096"
+        },
+        {
+          "file": "packages/common-test-case/tsconfig.json",
+          "hash": "8393748648839061154"
+        },
+        {
+          "file": "packages/common-test-case/tsconfig.module.json",
+          "hash": "16097615852846224365"
+        }
+      ],
+      "@kvs/node-localstorage": [
+        {
+          "file": "packages/node-localstorage/.mocharc.json",
+          "hash": "2248943244691436913"
+        },
+        {
+          "file": "packages/node-localstorage/CHANGELOG.md",
+          "hash": "13998401278254973981"
+        },
+        {
+          "file": "packages/node-localstorage/LICENSE",
+          "hash": "15536698237300577004"
+        },
+        {
+          "file": "packages/node-localstorage/README.md",
+          "hash": "3831378013791948494"
+        },
+        {
+          "file": "packages/node-localstorage/package.json",
+          "hash": "10344927339370642357",
+          "deps": [
+            "@kvs/common-test-case",
+            "npm:@types/mocha",
+            "npm:@types/node",
+            "npm:mocha",
+            "npm:prettier",
+            "npm:rimraf",
+            "npm:ts-loader",
+            "npm:typescript",
+            "@kvs/storage",
+            "npm:app-root-path",
+            "npm:node-localstorage"
+          ]
+        },
+        {
+          "file": "packages/node-localstorage/src/index.ts",
+          "hash": "4916508426035568549"
+        },
+        {
+          "file": "packages/node-localstorage/test/index.test.ts",
+          "hash": "8504781668308348554"
+        },
+        {
+          "file": "packages/node-localstorage/test/tsconfig.json",
+          "hash": "3076601259403068096"
+        },
+        {
+          "file": "packages/node-localstorage/tsconfig.json",
+          "hash": "8393748648839061154"
+        },
+        {
+          "file": "packages/node-localstorage/tsconfig.module.json",
+          "hash": "16097615852846224365"
+        }
+      ],
+      "@kvs/types": [
+        {
+          "file": "packages/types/.mocharc.json",
+          "hash": "2248943244691436913"
+        },
+        {
+          "file": "packages/types/CHANGELOG.md",
+          "hash": "853542549655251610"
+        },
+        {
+          "file": "packages/types/LICENSE",
+          "hash": "15536698237300577004"
+        },
+        {
+          "file": "packages/types/README.md",
+          "hash": "14571061462730028185"
+        },
+        {
+          "file": "packages/types/package.json",
+          "hash": "7958523314742720254",
+          "deps": [
+            "npm:@types/node",
+            "npm:prettier",
+            "npm:rimraf",
+            "npm:tsd",
+            "npm:typescript"
+          ]
+        },
+        {
+          "file": "packages/types/src/index.ts",
+          "hash": "4076997528107869684"
+        },
+        {
+          "file": "packages/types/test/index.test-d.ts",
+          "hash": "14041257145880777534"
+        },
+        {
+          "file": "packages/types/test/tsconfig.json",
+          "hash": "13220930673109646876"
+        },
+        {
+          "file": "packages/types/tsconfig.json",
+          "hash": "8393748648839061154"
+        }
+      ],
+      "@kvs/memorystorage": [
+        {
+          "file": "packages/memorystorage/.mocharc.json",
+          "hash": "2248943244691436913"
+        },
+        {
+          "file": "packages/memorystorage/CHANGELOG.md",
+          "hash": "12611789274120833904"
+        },
+        {
+          "file": "packages/memorystorage/LICENSE",
+          "hash": "15536698237300577004"
+        },
+        {
+          "file": "packages/memorystorage/README.md",
+          "hash": "13460622014261502553"
+        },
+        {
+          "file": "packages/memorystorage/package.json",
+          "hash": "18287328017774692308",
+          "deps": [
+            "@kvs/common-test-case",
+            "npm:@types/mocha",
+            "npm:@types/node",
+            "npm:mocha",
+            "npm:prettier",
+            "npm:rimraf",
+            "npm:ts-loader",
+            "npm:typescript"
+          ]
+        },
+        {
+          "file": "packages/memorystorage/src/index.ts",
+          "hash": "8780136595319989759"
+        },
+        {
+          "file": "packages/memorystorage/src/localstorage-memory.ts",
+          "hash": "10661063896329925875"
+        },
+        {
+          "file": "packages/memorystorage/test/index.test.ts",
+          "hash": "14654461967135445931"
+        },
+        {
+          "file": "packages/memorystorage/test/tsconfig.json",
+          "hash": "3076601259403068096"
+        },
+        {
+          "file": "packages/memorystorage/tsconfig.json",
+          "hash": "8393748648839061154"
+        },
+        {
+          "file": "packages/memorystorage/tsconfig.module.json",
+          "hash": "16097615852846224365"
+        }
+      ]
+    },
+    "nonProjectFiles": [
+      {
+        "file": ".githooks/pre-commit",
+        "hash": "3330979106792140172"
+      },
+      {
+        "file": ".github/CODEOWNERS",
+        "hash": "17034302236285195558"
+      },
+      {
+        "file": ".github/release.yml",
+        "hash": "8613510115739673397"
+      },
+      {
+        "file": ".github/workflows/check-provenance.yml",
+        "hash": "5139755655908550932"
+      },
+      {
+        "file": ".github/workflows/create-release-pr.yml",
+        "hash": "3548865319149357882"
+      },
+      {
+        "file": ".github/workflows/release.yml",
+        "hash": "14157798694715727407"
+      },
+      {
+        "file": ".github/workflows/size-limit.yml",
+        "hash": "16193600805638066531"
+      },
+      {
+        "file": ".github/workflows/test.yml",
+        "hash": "17409595488559958"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "5397403275341057978"
+      },
+      {
+        "file": ".size-limit.json",
+        "hash": "15408347039352141524"
+      },
+      {
+        "file": ".yarn/releases/yarn-1.22.4.js",
+        "hash": "4362633166261265369"
+      },
+      {
+        "file": ".yarnrc",
+        "hash": "3777987136814494810"
+      },
+      {
+        "file": "CHANGELOG.md",
+        "hash": "7616006231132913531"
+      },
+      {
+        "file": "CODE_OF_CONDUCT.md",
+        "hash": "5664872733209281156"
+      },
+      {
+        "file": "LICENSE",
+        "hash": "15536698237300577004"
+      },
+      {
+        "file": "README.md",
+        "hash": "7464680163964711584"
+      },
+      {
+        "file": "lerna.json",
+        "hash": "17860777306714277434"
+      },
+      {
+        "file": "nx.json",
+        "hash": "5740877066091367073"
+      },
+      {
+        "file": "package.json",
+        "hash": "235461221089152871"
+      },
+      {
+        "file": "tsconfig.json",
+        "hash": "7296349844931853691"
+      },
+      {
+        "file": "yarn.lock",
+        "hash": "7158863040387765333"
+      }
+    ]
+  },
+  "externalNodesHash": "2704476292497931462"
+}
