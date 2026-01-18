@@ -76,6 +76,12 @@ importers:
       '@kvs/node-localstorage':
         specifier: workspace:^
         version: link:../node-localstorage
+      '@kvs/storage':
+        specifier: workspace:^
+        version: link:../storage
+      '@kvs/types':
+        specifier: workspace:^
+        version: link:../types
     devDependencies:
       '@types/mocha':
         specifier: ^10.0.1
@@ -101,6 +107,9 @@ importers:
 
   packages/indexeddb:
     dependencies:
+      '@kvs/storage':
+        specifier: workspace:^
+        version: link:../storage
       '@kvs/types':
         specifier: workspace:^
         version: link:../types
@@ -138,6 +147,9 @@ importers:
       '@kvs/storage':
         specifier: workspace:^
         version: link:../storage
+      '@kvs/types':
+        specifier: workspace:^
+        version: link:../types
     devDependencies:
       '@types/mocha':
         specifier: ^10.0.1
@@ -165,6 +177,13 @@ importers:
         version: 5.9.3
 
   packages/memorystorage:
+    dependencies:
+      '@kvs/storage':
+        specifier: workspace:^
+        version: link:../storage
+      '@kvs/types':
+        specifier: workspace:^
+        version: link:../types
     devDependencies:
       '@kvs/common-test-case':
         specifier: workspace:^

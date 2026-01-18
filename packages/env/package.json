@@ -47,7 +47,9 @@
     },
     "dependencies": {
         "@kvs/indexeddb": "workspace:^",
-        "@kvs/node-localstorage": "workspace:^"
+        "@kvs/node-localstorage": "workspace:^",
+        "@kvs/storage": "workspace:^",
+        "@kvs/types": "workspace:^"
     },
     "devDependencies": {
         "@types/mocha": "^10.0.1",

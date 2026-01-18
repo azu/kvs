@@ -49,6 +49,7 @@
     "trailingComma": "none"
   },
   "dependencies": {
+    "@kvs/storage": "workspace:^",
     "@kvs/types": "workspace:^"
   },
   "devDependencies": {
