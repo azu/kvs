@@ -1,6 +1,6 @@
 {
   "name": "@kvs/localstorage",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "localstorage for KVS.",
   "keywords": [
     "kvs",
