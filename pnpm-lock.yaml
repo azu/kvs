@@ -256,6 +256,9 @@ importers:
         specifier: workspace:^
         version: link:../types
     devDependencies:
+      '@kvs/common-test-case':
+        specifier: workspace:^
+        version: link:../common-test-case
       '@types/mocha':
         specifier: ^10.0.1
         version: 10.0.10
