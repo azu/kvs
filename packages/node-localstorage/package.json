@@ -45,12 +45,12 @@
         "trailingComma": "none"
     },
     "dependencies": {
-        "@kvs/storage": "^2.2.1",
+        "@kvs/storage": "workspace:^",
         "app-root-path": "^3.1.0",
         "node-localstorage": "^2.1.6"
     },
     "devDependencies": {
-        "@kvs/common-test-case": "^2.2.1",
+        "@kvs/common-test-case": "workspace:^",
         "@types/mocha": "^10.0.1",
         "@types/node": "^20.4.2",
         "mocha": "^10.2.0",

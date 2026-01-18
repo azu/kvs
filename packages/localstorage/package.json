@@ -49,7 +49,7 @@
     "trailingComma": "none"
   },
   "dependencies": {
-    "@kvs/storage": "^2.2.1"
+    "@kvs/storage": "workspace:^"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.1",
