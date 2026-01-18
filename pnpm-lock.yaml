@@ -215,6 +215,9 @@ importers:
       '@kvs/storage':
         specifier: workspace:^
         version: link:../storage
+      '@kvs/types':
+        specifier: workspace:^
+        version: link:../types
       app-root-path:
         specifier: ^3.1.0
         version: 3.1.0

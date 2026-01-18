@@ -46,6 +46,7 @@
     },
     "dependencies": {
         "@kvs/storage": "workspace:^",
+        "@kvs/types": "workspace:^",
         "app-root-path": "^3.1.0",
         "node-localstorage": "^2.1.6"
     },
