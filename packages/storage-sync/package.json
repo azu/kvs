@@ -1,6 +1,6 @@
 {
   "name": "@kvs/storage-sync",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "Storage(localStorage, sessionStorage) helper for KVS.",
   "keywords": [
     "kvs",
