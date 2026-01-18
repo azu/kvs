@@ -49,9 +49,10 @@
     "trailingComma": "none"
   },
   "dependencies": {
-    "@kvs/types": "^2.2.1"
+    "@kvs/types": "workspace:^"
   },
   "devDependencies": {
+    "@kvs/common-test-case": "workspace:^",
     "@types/mocha": "^10.0.1",
     "@types/node": "^20.4.2",
     "mocha": "^10.2.0",

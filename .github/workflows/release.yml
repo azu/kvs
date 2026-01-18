@@ -17,7 +17,7 @@ jobs:
     if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'release/')
     steps:
       - name: Checkout
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
 
@@ -51,12 +51,15 @@ jobs:
       id-token: write # Required for OIDC authentication
     steps:
       - name: Checkout
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4.1.0
+
       - name: Setup Node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
         with:
           # Release workflow should not use cache for avoiding cache poisoning
           # https://docs.zizmor.sh/audits/#cache-poisoning
@@ -79,13 +82,13 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Install
-        run: yarn install
+        run: pnpm install
 
       - name: Build
-        run: yarn run build
+        run: pnpm run build
 
       - name: Publish
-        run: yarn run ci:release
+        run: pnpm run ci:release
         env:
           # OIDC authentication for npm publishing
           # https://docs.npmjs.com/generating-provenance-statements
@@ -105,8 +108,7 @@ jobs:
         run: |
           RELEASE_URL=$(gh release create "v${PACKAGE_VERSION}" \
             --title "${GITHUB_EVENT_PULL_REQUEST_TITLE}" \
-            --notes "${GITHUB_EVENT_PULL_REQUEST_BODY}" \
-            --json url -q .url)
+            --notes "${GITHUB_EVENT_PULL_REQUEST_BODY}")
           echo "release-url=$RELEASE_URL" >> $GITHUB_OUTPUT
           echo "released=true" >> $GITHUB_OUTPUT
         env:

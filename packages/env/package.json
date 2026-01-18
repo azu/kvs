@@ -46,8 +46,10 @@
         "trailingComma": "none"
     },
     "dependencies": {
-        "@kvs/indexeddb": "^2.2.1",
-        "@kvs/node-localstorage": "^2.2.1"
+        "@kvs/indexeddb": "workspace:^",
+        "@kvs/node-localstorage": "workspace:^",
+        "@kvs/storage": "workspace:^",
+        "@kvs/types": "workspace:^"
     },
     "devDependencies": {
         "@types/mocha": "^10.0.1",

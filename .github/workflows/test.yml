@@ -8,77 +8,85 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [20, 22]
+        node-version: [ 22, 24 ]
         os: [ubuntu-latest]
     steps:
       - name: checkout
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
+      - name: Install pnpm
+        uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4.1.0
       - name: setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
         with:
-          cache: "yarn"
+          cache: "pnpm"
           node-version: ${{ matrix.node-version }}
       - name: Install
-        run: yarn install
+        run: pnpm install
       - name: Test
-        run: yarn test
+        run: pnpm test
 
   test-chrome:
     name: "Test Chromium browser"
     runs-on: ubuntu-latest
     steps:
       - name: checkout
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
+      - name: Install pnpm
+        uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4.1.0
       - name: setup Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
         with:
-          cache: "yarn"
-          node-version: 20
+          cache: "pnpm"
+          node-version: 22
       - name: Install
-        run: yarn install
+        run: pnpm install
       - name: Test
-        run: yarn run test:chrome
+        run: pnpm run test:chrome
 
   test-firefox:
     name: "Test Firefox browser"
     runs-on: ubuntu-latest
     steps:
       - name: checkout
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
+      - name: Install pnpm
+        uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4.1.0
       - name: setup Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
         with:
-          cache: "yarn"
-          node-version: 20
+          cache: "pnpm"
+          node-version: 22
       - name: Install
-        run: yarn install
+        run: pnpm install
       - name: Install Playwright Firefox with dependencies
         run: npx playwright install --with-deps firefox
       - name: Test
-        run: yarn run test:firefox
+        run: pnpm run test:firefox
 
   test-webkit:
     name: "Test WebKit browser"
     runs-on: macos-latest
     steps:
       - name: checkout
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
+      - name: Install pnpm
+        uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4.1.0
       - name: setup Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
         with:
-          cache: "yarn"
-          node-version: 20
+          cache: "pnpm"
+          node-version: 22
       - name: Install
-        run: yarn install
+        run: pnpm install
       - name: Install Playwright WebKit with dependencies
         run: npx playwright install --with-deps webkit
       - name: Test
-        run: yarn run test:webkit
+        run: pnpm run test:webkit
