@@ -55,6 +55,9 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4.1.0
+
       - name: Setup Node
         uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
         with:
@@ -79,7 +82,7 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Install
-        run: corepack enable pnpm && pnpm install
+        run: pnpm install
 
       - name: Build
         run: pnpm run build
