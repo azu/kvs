@@ -29,16 +29,16 @@ jobs:
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: "lts/*"
-          cache: 'yarn'
+          cache: 'pnpm'
 
       - name: Install
-        run: yarn install
+        run: corepack enable pnpm && pnpm install
 
       - name: Update Version
         run: |
           git config --global user.email "${GIT_AUTHOR_EMAIL}"
           git config --global user.name "${GIT_AUTHOR_NAME}"
-          yarn run ci:versionup:${SEMVER}
+          pnpm run ci:versionup:${SEMVER}
         env:
           SEMVER: ${{ github.event.inputs.semver }}
           GIT_AUTHOR_NAME: ${{ github.actor }}

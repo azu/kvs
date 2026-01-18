@@ -18,12 +18,12 @@ jobs:
       - name: setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
-          cache: "yarn"
+          cache: "pnpm"
           node-version: ${{ matrix.node-version }}
       - name: Install
-        run: yarn install
+        run: pnpm install
       - name: Test
-        run: yarn test
+        run: pnpm test
 
   test-chrome:
     name: "Test Chromium browser"
@@ -36,12 +36,12 @@ jobs:
       - name: setup Node.js
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
-          cache: "yarn"
+          cache: "pnpm"
           node-version: 20
       - name: Install
-        run: yarn install
+        run: pnpm install
       - name: Test
-        run: yarn run test:chrome
+        run: pnpm run test:chrome
 
   test-firefox:
     name: "Test Firefox browser"
@@ -54,14 +54,14 @@ jobs:
       - name: setup Node.js
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
-          cache: "yarn"
+          cache: "pnpm"
           node-version: 20
       - name: Install
-        run: yarn install
+        run: pnpm install
       - name: Install Playwright Firefox with dependencies
         run: npx playwright install --with-deps firefox
       - name: Test
-        run: yarn run test:firefox
+        run: pnpm run test:firefox
 
   test-webkit:
     name: "Test WebKit browser"
@@ -74,11 +74,11 @@ jobs:
       - name: setup Node.js
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
-          cache: "yarn"
+          cache: "pnpm"
           node-version: 20
       - name: Install
-        run: yarn install
+        run: pnpm install
       - name: Install Playwright WebKit with dependencies
         run: npx playwright install --with-deps webkit
       - name: Test
-        run: yarn run test:webkit
+        run: pnpm run test:webkit

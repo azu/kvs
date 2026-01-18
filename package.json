@@ -13,10 +13,10 @@
   "license": "MIT",
   "author": "azu",
   "scripts": {
-    "prepublishOnly": "npm run clean && npm run build",
+    "prepublishOnly": "pnpm run clean && pnpm run build",
     "build": "lerna run build",
     "clean": "lerna run clean",
-    "test": "lerna run test && npm run size",
+    "test": "lerna run test && pnpm run size",
     "test:browser": "lerna run test:browser",
     "test:chrome": "lerna run test:chrome",
     "test:firefox": "lerna run test:firefox",
@@ -54,5 +54,6 @@
     "lint-staged": "^13.2.3",
     "prettier": "^3.0.0",
     "size-limit": "^8.2.6"
-  }
+  },
+  "packageManager": "pnpm@10.28.0+sha512.05df71d1421f21399e053fde567cea34d446fa02c76571441bfc1c7956e98e363088982d940465fd34480d4d90a0668bc12362f8aa88000a64e83d0b0e47be48"
 }

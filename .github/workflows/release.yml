@@ -79,13 +79,13 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Install
-        run: yarn install
+        run: corepack enable pnpm && pnpm install
 
       - name: Build
-        run: yarn run build
+        run: pnpm run build
 
       - name: Publish
-        run: yarn run ci:release
+        run: pnpm run ci:release
         env:
           # OIDC authentication for npm publishing
           # https://docs.npmjs.com/generating-provenance-statements
